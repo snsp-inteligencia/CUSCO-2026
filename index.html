@@ -364,7 +364,19 @@ function normalizeForSheets(p){
 }
 function buildReview(){var p=payload();var sections={"Identificación":[["Nombre",p["Nombre"]],["Fecha",p["fecha"]],["ID",p["ID"]],["Aplicador",p["Nombre_aplicador"]],["Localidad",p["Localidad"]],["Municipio",p["Municipio"]],["Edad",p["Edad_años"]],["Sexo",p._texto_respaldo.Sexo_texto||p["Sexo"]]],"Datos generales":[["Estado civil",p._texto_respaldo.Estado_civil_texto||p["Estado_civil"]],["Grupos",p["Grupo_vulnerable"]],["Seguridad social",p["Seg_social"]],["Ocupación",p._texto_respaldo.Ocupacion_texto||p["Ocupación"]],["Años estudio",p["Años_estudio"]]],"Hábitos":[["P8",p._texto_respaldo.Alimentos_chatarra_texto||p["Alimentos_chatarra"]],["P9",p._texto_respaldo.Bebidas_azucaradas_texto||p["bebidas_azucaradas"]],["P10",p._texto_respaldo.Agua_simple_texto||p["agua_simple"]],["P11",p._texto_respaldo.Actividad_fisica_texto||p["actividad_física"]],["P12",p._texto_respaldo.Etiquetado_texto||p["etiquetado"]]],"Antropometría":[["Peso",p["peso"]],["Talla",p["talla"]],["IMC",(p["IMC"]||"")+" "+(v("clasificacion_imc")||"")],["Cintura",p["cintura"]],["Cadera",p["cadera"]],["ICC",(p["ICC"]||"")+" "+(v("clasificacion_icc")||"")]],"Salud Mental":[["PHQ-2",p["PHQ2_Total"]],["PHQ-9",p["PHQ9_Total"]? p["PHQ9_Total"]+" "+p["PHQ_Clasificacion"]:"No aplica"]]};var html='<div class="review-grid">';Object.keys(sections).forEach(function(k){html+='<div class="review-card"><h3>'+k+'</h3>';sections[k].forEach(function(row){html+='<div class="review-row"><span>'+row[0]+'</span><span>'+(row[1]||"—")+'</span></div>'});html+='</div>';});html+='</div>';document.getElementById("review-content").innerHTML=html;}
 function submitForm(){if(!validateStep(0))return;var p=payload();setLoading(true);if(!navigator.onLine){saveLocal(p);setLoading(false);showSuccess("Guardado localmente",false);return;}sendPayload(p).then(function(data){showSuccess(data.folio||"Sincronizado",true)}).catch(function(){saveLocal(p);showSuccess("Guardado localmente",false)}).finally(function(){setLoading(false);});}
-function sendPayload(p){p=normalizeForSheets(p);return fetch(APPS_SCRIPT_URL,{method:"POST",body:JSON.stringify(p)}).then(function(res){return res.json()}).then(function(data){if(data && (data.ok===true || data.status==="ok"))return data;if(data && data.folio)return data;throw new Error(data.error||"No confirmado");});}
+function sendPayload(p){
+  p = normalizeForSheets(p);
+  return fetch(APPS_SCRIPT_URL, {
+    method: "POST",
+    mode: "no-cors",
+    headers: {
+      "Content-Type": "text/plain;charset=utf-8"
+    },
+    body: JSON.stringify(p)
+  }).then(function(){
+    return {ok:true, status:"ok"};
+  });
+}
 function getPending(){try{return JSON.parse(localStorage.getItem(storageKey)||"[]")}catch(e){return []}}function setPending(arr){localStorage.setItem(storageKey,JSON.stringify(arr));updatePendingText();}
 function saveLocal(p){var arr=getPending();p._local_id="LOCAL-"+Date.now();p._pendiente=true;arr.push(p);setPending(arr);}
 function syncPending(silent){var arr=getPending();if(!arr.length){if(!silent)showToast("No hay registros pendientes");return;}if(!navigator.onLine){showToast("Sin internet. Los registros siguen guardados localmente.");return;}var done=[],fail=[];Promise.all(arr.map(function(item){return sendPayload(item).then(function(){done.push(item)}).catch(function(){fail.push(item)})})).then(function(){setPending(fail);showToast("Sincronizados: "+done.length+". Pendientes: "+fail.length);});}
