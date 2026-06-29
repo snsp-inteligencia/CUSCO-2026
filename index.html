@@ -93,6 +93,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
 <meta name="apple-mobile-web-app-title" content="CUSCO 2026">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
+<script src="catalogo_localidades.js"></script>
 </head>
 <body>
 <header class="site-header"><div class="header-brand"><div class="brand-box">SC</div><div><div class="brand-name">SierraConecta</div><div class="brand-sub">Sierra Gorda · Querétaro</div></div></div><div class="header-actions"><span class="header-badge">CUSCO 2026 · Offline</span><button type="button" class="btn-close-capture" onclick="cerrarCaptura()">Cerrar sesión</button></div></header>
@@ -394,27 +395,30 @@ function cerrarCaptura(){if(confirm("¿Cerrar sesión? Se borrarán los datos de
 function iniciarNuevaSesion(){location.reload();}
 function resetForm(){location.reload()}function showToast(msg){var t=document.getElementById("toast");t.textContent=msg;t.style.display="block";setTimeout(function(){t.style.display="none"},5000);}
 
-function cargarLocalidades(municipio){
+function cargarLocalidades(municipio) {
 
     var loc = document.getElementById("localidad");
 
-    if(!loc) return;
+    if (!loc) return;
 
     loc.innerHTML = "";
 
-    setv("cve_municipio","");
-    setv("cve_localidad","");
-    setv("latitud_localidad","");
-    setv("longitud_localidad","");
-    setv("altitud_localidad","");
+    setv("cve_municipio", "");
+    setv("cve_localidad", "");
+    setv("latitud_localidad", "");
+    setv("longitud_localidad", "");
+    setv("altitud_localidad", "");
 
-    setv("cvegeo","");
-    setv("jurisdiccion","");
+    setv("cvegeo", "");
+    setv("jurisdiccion", "");
 
-    if(!municipio || !LOCALIDADES_CUSCO[municipio]){
+    if (!municipio || !LOCALIDADES_CUSCO[municipio]) {
+
         loc.disabled = true;
+
         loc.innerHTML =
             '<option value="">— Primero selecciona municipio —</option>';
+
         return;
     }
 
@@ -423,12 +427,11 @@ function cargarLocalidades(municipio){
     loc.innerHTML =
         '<option value="">— Selecciona localidad —</option>';
 
-    LOCALIDADES_CUSCO[municipio].forEach(function(item){
+    LOCALIDADES_CUSCO[municipio].forEach(function(item) {
 
         var opt = document.createElement("option");
 
         opt.value = item.nombre;
-
         opt.textContent = item.nombre;
 
         opt.dataset.cvegeo =
@@ -438,39 +441,44 @@ function cargarLocalidades(municipio){
             item.jurisdiccion || "";
 
         loc.appendChild(opt);
+
     });
 }
 
 
-function onLocalidadChange(){
+
+function onLocalidadChange() {
 
     var loc =
         document.getElementById("localidad");
 
+    if (!loc) return;
+
     var opt =
-        loc && loc.options[loc.selectedIndex];
+        loc.options[loc.selectedIndex];
 
     setv(
         "cvegeo",
-        opt ? opt.dataset.cvegeo || "" : ""
+        opt ? (opt.dataset.cvegeo || "") : ""
     );
 
     setv(
         "jurisdiccion",
-        opt ? opt.dataset.jurisdiccion || "" : ""
+        opt ? (opt.dataset.jurisdiccion || "") : ""
+    );
+
+    console.log(
+        "Localidad:",
+        loc.value,
+        "CVEGEO:",
+        opt.dataset.cvegeo,
+        "Jurisdicción:",
+        opt.dataset.jurisdiccion
     );
 }
 
-</script>
 
-<script>
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', function() {
-    navigator.serviceWorker.register('./service-worker.js')
-      .then(function(reg) { console.log('CUSCO PWA activa:', reg.scope); })
-      .catch(function(err) { console.warn('No se pudo registrar Service Worker:', err); });
-  });
-}
+
 </script>
 </body>
 </html>

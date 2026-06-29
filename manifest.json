@@ -2,7 +2,7 @@
   "name": "CUSCO 2026 - Captura Comunitaria",
   "short_name": "CUSCO 2026",
   "description": "Formulario digital CUSCO 2026 con captura offline y sincronización posterior.",
-   "start_url": "./",
+  "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait-primary",
