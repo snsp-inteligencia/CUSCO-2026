@@ -165,7 +165,109 @@ var PHQ9_QUESTIONS=[
 document.addEventListener("DOMContentLoaded",function(){buildSteps();initDate();buildPHQ9();wireChoices();initLocalidades();updateNetStatus();updatePendingText();window.addEventListener("online",function(){updateNetStatus();syncPending(true)});window.addEventListener("offline",updateNetStatus);document.getElementById("no_registro").value="CUSCO-LOCAL-"+Date.now();});
 function buildSteps(){var labels=["Identificación","Salud física","Antropometría","Salud Mental","Revisión"];var html="";labels.forEach(function(l,i){html+='<div class="step-item '+(i===0?'active':'')+'" data-step="'+i+'"><div class="step-circle">'+(i+1)+'</div><div class="step-label">'+l+'</div></div>';if(i<labels.length-1)html+='<div class="step-connector" id="conn-'+i+'"></div>';});document.getElementById("steps-bar").innerHTML=html;}
 function initDate(){var h=new Date();document.getElementById("fecha").value=h.getFullYear()+"-"+String(h.getMonth()+1).padStart(2,"0")+"-"+String(h.getDate()).padStart(2,"0");}
-function wireChoices(){document.querySelectorAll(".choice-btn input").forEach(function(inp){inp.addEventListener("change",function(){if(this.type==="radio"){document.querySelectorAll("input[name='"+this.name+"']").forEach(function(x){x.closest(".choice-btn").classList.remove("selected")});this.closest(".choice-btn").classList.add("selected");}else{this.closest(".choice-btn").classList.toggle("selected",this.checked);}});});}function initLocalidades(){var mun=document.getElementById("municipio"),loc=document.getElementById("localidad");if(!mun||!loc)return;mun.addEventListener("change",function(){cargarLocalidades(this.value);});loc.addEventListener("change",onLocalidadChange);cargarLocalidades(mun.value);}function cargarLocalidades(municipio){var loc=document.getElementById("localidad");if(!loc)return;loc.innerHTML="";setv("cve_municipio","");setv("cve_localidad","");setv("latitud_localidad","");setv("longitud_localidad","");setv("altitud_localidad","");if(!municipio||!LOCALIDADES_CUSCO[municipio]){loc.disabled=true;loc.innerHTML='<option value="">— Primero selecciona municipio —</option>';return;}loc.disabled=false;loc.innerHTML='<option value="">— Selecciona localidad —</option>';LOCALIDADES_CUSCO[municipio].forEach(function(item){var opt=document.createElement("option");opt.value=item.nombre;opt.textContent=item.nombre;opt.dataset.cveMun=item.cve_mun;opt.dataset.cveLoc=item.cve_loc;opt.dataset.latitud=item.latitud||"";opt.dataset.longitud=item.longitud||"";opt.dataset.altitud=item.altitud||"";loc.appendChild(opt);});}function onLocalidadChange(){var loc=document.getElementById("localidad"),opt=loc&&loc.options[loc.selectedIndex];setv("cve_municipio",opt?opt.dataset.cveMun||"":"");setv("cve_localidad",opt?opt.dataset.cveLoc||"":"");setv("latitud_localidad",opt?opt.dataset.latitud||"":"");setv("longitud_localidad",opt?opt.dataset.longitud||"":"");setv("altitud_localidad",opt?opt.dataset.altitud||"":"");}
+function wireChoices(){document.querySelectorAll(".choice-btn input").forEach(function(inp){inp.addEventListener("change",function(){if(this.type==="radio"){document.querySelectorAll("input[name='"+this.name+"']").forEach(function(x){x.closest(".choice-btn").classList.remove("selected")});this.closest(".choice-btn").classList.add("selected");}else{this.closest(".choice-btn").classList.toggle("selected",this.checked);}});});}
+
+function initLocalidades() {
+
+    var mun = document.getElementById("municipio");
+    var loc = document.getElementById("localidad");
+
+    if (!mun || !loc) return;
+
+    mun.addEventListener("change", function () {
+        cargarLocalidades(this.value);
+    });
+
+    loc.addEventListener("change", onLocalidadChange);
+
+    cargarLocalidades(mun.value);
+}
+
+
+function cargarLocalidades(municipio) {
+
+    var loc = document.getElementById("localidad");
+
+    if (!loc) return;
+
+    loc.innerHTML = "";
+
+    setv("cve_municipio", "");
+    setv("cve_localidad", "");
+    setv("latitud_localidad", "");
+    setv("longitud_localidad", "");
+    setv("altitud_localidad", "");
+
+    setv("cvegeo", "");
+    setv("jurisdiccion", "");
+
+    if (!municipio || !LOCALIDADES_CUSCO[municipio]) {
+
+        loc.disabled = true;
+
+        loc.innerHTML =
+            '<option value="">— Primero selecciona municipio —</option>';
+
+        return;
+    }
+
+    loc.disabled = false;
+
+    loc.innerHTML =
+        '<option value="">— Selecciona localidad —</option>';
+
+    LOCALIDADES_CUSCO[municipio].forEach(function (item) {
+
+        var opt = document.createElement("option");
+
+        opt.value = item.nombre;
+        opt.textContent = item.nombre;
+
+        opt.dataset.cvegeo =
+            item.cvegeo || "";
+
+        opt.dataset.jurisdiccion =
+            item.jurisdiccion || "";
+
+        loc.appendChild(opt);
+
+    });
+
+}
+
+
+function onLocalidadChange() {
+
+    var loc =
+        document.getElementById("localidad");
+
+    if (!loc) return;
+
+    var opt =
+        loc.options[loc.selectedIndex];
+
+    setv(
+        "cvegeo",
+        opt ? (opt.dataset.cvegeo || "") : ""
+    );
+
+    setv(
+        "jurisdiccion",
+        opt ? (opt.dataset.jurisdiccion || "") : ""
+    );
+
+    console.log(
+        "Localidad:",
+        loc.value,
+        "CVEGEO:",
+        opt.dataset.cvegeo,
+        "Jurisdicción:",
+        opt.dataset.jurisdiccion
+    );
+
+}
+
+
 function buildPHQ9(){var c=document.getElementById("phq9-questions");PHQ9_QUESTIONS.forEach(function(q){var id="phq9_p"+q.n;c.innerHTML+='<div class="phq-row"><div class="phq-question"><strong>'+q.n+'.</strong> '+q.t+'</div><div class="scale-group" id="'+id+'-group"><div class="scale-btn" onclick="setScale(\''+id+'\',0,this)"><span class="scale-num">0</span>Nunca</div><div class="scale-btn" onclick="setScale(\''+id+'\',1,this)"><span class="scale-num">1</span>Varios días</div><div class="scale-btn" onclick="setScale(\''+id+'\',2,this)"><span class="scale-num">2</span>Más de la mitad de los días</div><div class="scale-btn" onclick="setScale(\''+id+'\',3,this)"><span class="scale-num">3</span>Casi todos los días</div></div><input type="hidden" id="'+id+'"></div>';});}
 function goStep(t){if(!validateStep(currentStep))return;document.getElementById("step-"+currentStep).classList.remove("active");currentStep=t;updateStepsBar(t);document.getElementById("step-"+currentStep).classList.add("active");if(currentStep===4)buildReview();window.scrollTo({top:0,behavior:"smooth"});}
 function updateStepsBar(t){for(var i=0;i<totalSteps;i++){var s=document.querySelector("[data-step='"+i+"']");s.classList.remove("active","done");if(i<t)s.classList.add("done");if(i===t)s.classList.add("active");var conn=document.getElementById("conn-"+i);if(conn)conn.classList.toggle("done",i<t);}}

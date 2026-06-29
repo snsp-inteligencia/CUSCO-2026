@@ -34,9 +34,7 @@ self.addEventListener('activate', event => {
 
 self.addEventListener('fetch', event => {
 
-  if (event.request.method !== 'GET') {
-    return;
-  }
+  if (event.request.method !== 'GET') return;
 
   event.respondWith(
 
@@ -47,9 +45,7 @@ self.addEventListener('fetch', event => {
         const copy = response.clone();
 
         caches.open(CACHE_NAME)
-          .then(cache => {
-            cache.put(event.request, copy);
-          });
+          .then(cache => cache.put(event.request, copy));
 
         return response;
 
@@ -61,9 +57,7 @@ self.addEventListener('fetch', event => {
 
           .then(cached => {
 
-            if (cached) {
-              return cached;
-            }
+            if (cached) return cached;
 
             if (event.request.mode === 'navigate') {
               return caches.match('./index.html');
