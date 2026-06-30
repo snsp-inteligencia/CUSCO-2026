@@ -183,7 +183,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
 <div class="form-card active" id="step-0"><div class="card-header"><div class="card-header-num">1</div><div><div class="card-header-title">Datos de Identificación</div><div class="card-header-sub">Información general del cuestionario</div></div></div><div class="card-body"><div class="field-grid">
 <div class="field"><label>No.</label><input type="text" id="no_registro" readonly></div>
 <div class="field"><label>Fecha <span class="req">*</span></label><input type="date" id="fecha" required></div>
-<div class="field"><label>CURP</label><input type="text" id="id_encuestado" placeholder="ID/CURP/identificador"></div>
+<div class="field"><label>ID</label><input type="text" id="id_encuestado" placeholder="ID/CURP/identificador"></div>
 <div class="field"><label>Nombre y clave del aplicador <span class="req">*</span></label><input type="text" id="aplicador" required></div>
 <div class="section-divider">Identificación nominal</div>
 <div class="field field-full"><label>Nombre(s) <span class="req">*</span></label><input type="text" id="nombres" required placeholder="Ej. Soraya Lizbeth"></div>
@@ -252,9 +252,27 @@ function guardarCatalogoCapturistas(){
   localStorage.setItem(CAPTURISTAS_ADMIN_KEY,JSON.stringify(CAPTURISTAS_CUSCO));
 }
 var CAPTURISTA_STORAGE_KEY="cusco_capturista_activo";
-function getCapturistaActivo(){try{return JSON.parse(sessionStorage.getItem(CAPTURISTA_STORAGE_KEY)||"null")||{};}catch(e){return {};}}
-function setCapturistaActivo(c){sessionStorage.setItem(CAPTURISTA_STORAGE_KEY,JSON.stringify({clave:c.clave,nombre:c.nombre,perfil:c.perfil,login_at:new Date().toISOString()}));}
-function clearCapturistaActivo(){sessionStorage.removeItem(CAPTURISTA_STORAGE_KEY);localStorage.removeItem(CAPTURISTA_STORAGE_KEY);}
+var CAPTURISTA_MEM=null;
+function getCapturistaActivo(){
+  if(CAPTURISTA_MEM&&CAPTURISTA_MEM.clave)return CAPTURISTA_MEM;
+  try{
+    var raw=sessionStorage.getItem(CAPTURISTA_STORAGE_KEY);
+    if(raw){
+      CAPTURISTA_MEM=JSON.parse(raw)||{};
+      return CAPTURISTA_MEM;
+    }
+  }catch(e){}
+  return {};
+}
+function setCapturistaActivo(c){
+  CAPTURISTA_MEM={clave:c.clave,nombre:c.nombre,perfil:c.perfil,login_at:new Date().toISOString()};
+  try{sessionStorage.setItem(CAPTURISTA_STORAGE_KEY,JSON.stringify(CAPTURISTA_MEM));}catch(e){}
+}
+function clearCapturistaActivo(){
+  CAPTURISTA_MEM=null;
+  try{sessionStorage.removeItem(CAPTURISTA_STORAGE_KEY);}catch(e){}
+  try{localStorage.removeItem(CAPTURISTA_STORAGE_KEY);}catch(e){}
+}
 function initCapturistas(){
   clearCapturistaActivo();
   var sel=document.getElementById("login_capturista_clave");
@@ -756,8 +774,79 @@ function updatePendingText(){document.getElementById("pending-text").textContent
 function setLoading(on){var b=document.getElementById("btn-submit");b.disabled=on;document.getElementById("btn-text").textContent=on?"Guardando...":"Guardar registro";document.getElementById("btn-spinner").style.display=on?"inline-block":"none";}
 function showSuccess(folio,online){document.getElementById("step-4").classList.remove("active");document.getElementById("steps-bar").style.display="none";document.getElementById("success-screen").style.display="block";document.getElementById("success-screen").classList.add("active");document.getElementById("success-folio").textContent=folio;document.getElementById("success-sub").textContent=online?"El registro fue enviado a Google Sheets.":"El registro quedó guardado en este equipo/celular. Revisa el aviso de sincronización para confirmar si llegó a Google Sheets.";updatePendingText();}
 function cerrarCaptura(){if(confirm("¿Cerrar sesión? Se borrarán los datos de la captura actual que no se hayan guardado.")){clearCapturistaActivo();try{document.querySelectorAll("input, textarea, select").forEach(function(el){if(el.type==="hidden"||el.id==="no_registro"||el.id==="fecha")return;if(el.type==="checkbox"||el.type==="radio"){el.checked=false;}else{el.value="";}});document.querySelectorAll(".choice-btn.selected,.scale-btn.selected").forEach(function(el){el.classList.remove("selected");});}catch(e){}document.body.classList.add("body-locked");var s=document.getElementById("session-closed");if(s)s.style.display="block";window.scrollTo(0,0);showToast("Sesión cerrada");}}
-function iniciarNuevaSesion(){location.reload();}
-function resetForm(){location.reload()}function showToast(msg){var t=document.getElementById("toast");t.textContent=msg;t.style.display="block";setTimeout(function(){t.style.display="none"},5000);}
+function limpiarFormularioParaNuevaCaptura(){
+  try{
+    currentStep=0;
+
+    var success=document.getElementById("success-screen");
+    if(success){
+      success.style.display="none";
+      success.classList.remove("active");
+    }
+
+    var steps=document.getElementById("steps-bar");
+    if(steps)steps.style.display="flex";
+
+    document.querySelectorAll(".form-card").forEach(function(card){
+      card.classList.remove("active");
+    });
+
+    var step0=document.getElementById("step-0");
+    if(step0)step0.classList.add("active");
+    updateStepsBar(0);
+
+    document.querySelectorAll("input, textarea, select").forEach(function(el){
+      if(!el.id)return;
+
+      if(el.id==="login_capturista_clave" || el.id==="login_capturista_pin")return;
+      if(el.id==="aplicador" || el.id==="fecha")return;
+      if(el.id.indexOf("admin_")===0)return;
+
+      if(el.id==="no_registro"){
+        el.value="CUSCO-LOCAL-"+Date.now();
+        return;
+      }
+
+      if(el.type==="checkbox" || el.type==="radio"){
+        el.checked=false;
+        return;
+      }
+
+      if(el.tagName==="SELECT"){
+        if(el.id==="localidad"){
+          el.innerHTML='<option value="">— Primero selecciona municipio —</option>';
+          el.disabled=true;
+        }else{
+          el.selectedIndex=0;
+        }
+        return;
+      }
+
+      el.value="";
+    });
+
+    document.querySelectorAll(".choice-btn.selected,.scale-btn.selected").forEach(function(el){
+      el.classList.remove("selected");
+    });
+
+    ["imc-display","imc-clasif-display","icc-display","icc-clasif-display","phq2-score-display","phq9-score-display","phq9-clasif-display"].forEach(function(id){
+      var e=document.getElementById(id);
+      if(e)e.innerHTML="—";
+    });
+
+    var phq9=document.getElementById("phq9-section");
+    if(phq9)phq9.classList.remove("show");
+
+    updatePendingText();
+    window.scrollTo(0,0);
+    showToast("Lista para nueva captura");
+  }catch(e){
+    alert("No se pudo preparar nueva captura: "+(e.message||e));
+  }
+}
+function iniciarNuevaSesion(){limpiarFormularioParaNuevaCaptura();}
+function resetForm(){limpiarFormularioParaNuevaCaptura();}
+function showToast(msg){var t=document.getElementById("toast");t.textContent=msg;t.style.display="block";setTimeout(function(){t.style.display="none"},5000);}
 
 </script>
 </body>
