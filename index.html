@@ -108,6 +108,18 @@ html, body { max-width: 100%; overflow-x: hidden; }
 @media(max-width:650px){.btn-admin-capturistas{display:none!important}.admin-card{margin:8px auto}.admin-table{font-size:11px}}
 /* ===== FIN LOGIN CAPTURISTA CUSCO ===== */
 
+
+/* Cambiar capturista debe quedar disponible también en móvil */
+@media(max-width:650px){
+  .btn-cambiar-capturista{display:none;font-size:11px;padding:7px 9px}
+}
+
+
+/* FIX botones operativos móviles */
+@media(max-width:650px){
+  #btn-cambiar-capturista[style*="inline-flex"]{display:inline-flex!important;}
+}
+
 </style>
 
 <link rel="manifest" href="manifest.json">
@@ -118,7 +130,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
 <link rel="apple-touch-icon" href="icons/icon-192.png">
 </head>
 <body class="body-login">
-<header class="site-header"><div class="header-brand"><div class="brand-box">SC</div><div><div class="brand-name">SierraConecta</div><div class="brand-sub">Sierra Gorda · Querétaro</div></div></div><div class="header-actions"><span class="header-badge">CUSCO 2026 · Offline</span><span id="capturista-activo" class="capturista-active"></span><button type="button" id="btn-admin-capturistas" class="btn-admin-capturistas" onclick="abrirAdminCapturistas()" style="display:none">Capturistas</button></div></header>
+<header class="site-header"><div class="header-brand"><div class="brand-box">SC</div><div><div class="brand-name">SierraConecta</div><div class="brand-sub">Sierra Gorda · Querétaro</div></div></div><div class="header-actions"><span class="header-badge">CUSCO 2026 · Offline</span><span id="capturista-activo" class="capturista-active"></span><button type="button" id="btn-admin-capturistas" class="btn-admin-capturistas" onclick="abrirAdminCapturistas()" style="display:none">Capturistas</button><button type="button" id="btn-cambiar-capturista" class="btn-admin-capturistas btn-cambiar-capturista" onclick="cambiarCapturista()" style="display:none">Cambiar capturista</button></div></header>
 
 <div id="login-capturista" class="login-screen">
   <div class="login-card">
@@ -249,7 +261,13 @@ function cargarCatalogoCapturistas(){
 }
 var CAPTURISTAS_CUSCO=cargarCatalogoCapturistas();
 function guardarCatalogoCapturistas(){
-  localStorage.setItem(CAPTURISTAS_ADMIN_KEY,JSON.stringify(CAPTURISTAS_CUSCO));
+  try{
+    localStorage.setItem(CAPTURISTAS_ADMIN_KEY,JSON.stringify(CAPTURISTAS_CUSCO));
+    return true;
+  }catch(e){
+    showToast("No se pudo guardar en este dispositivo. Revisa almacenamiento de Safari.");
+    return false;
+  }
 }
 var CAPTURISTA_STORAGE_KEY="cusco_capturista_activo";
 var CAPTURISTA_MEM=null;
@@ -273,6 +291,17 @@ function clearCapturistaActivo(){
   try{sessionStorage.removeItem(CAPTURISTA_STORAGE_KEY);}catch(e){}
   try{localStorage.removeItem(CAPTURISTA_STORAGE_KEY);}catch(e){}
 }
+
+function refrescarListasCapturistasSinCerrarSesion(){
+  var sel=document.getElementById("login_capturista_clave");
+  if(sel){
+    sel.innerHTML='<option value="">— Selecciona capturista —</option>'+CAPTURISTAS_CUSCO.map(function(c){
+      return '<option value="'+c.clave+'">'+c.clave+' · '+c.nombre+'</option>';
+    }).join("");
+  }
+  poblarSelectCambioPin();
+}
+
 function initCapturistas(){
   clearCapturistaActivo();
   var sel=document.getElementById("login_capturista_clave");
@@ -288,6 +317,8 @@ function aplicarCapturistaEnFormulario(){
   if(aplicador&&has){aplicador.value=cap.clave+" - "+cap.nombre;aplicador.readOnly=true;}
   var btnAdmin=document.getElementById("btn-admin-capturistas");
   if(btnAdmin)btnAdmin.style.display=(has&&cap.perfil==="Administrador")?"inline-flex":"none";
+  var btnCambiar=document.getElementById("btn-cambiar-capturista");
+  if(btnCambiar)btnCambiar.style.display=has?"inline-flex":"none";
 }
 function loginCapturista(){
   var clave=(document.getElementById("login_capturista_clave")||{}).value||"";
@@ -299,6 +330,44 @@ function loginCapturista(){
   showToast("Sesión iniciada: "+cap.nombre);
 }
 function initCapturistaSession(){initCapturistas();aplicarCapturistaEnFormulario();}
+
+
+function cambiarCapturista(){
+  try{
+    clearCapturistaActivo();
+
+    var pin=document.getElementById("login_capturista_pin");
+    if(pin)pin.value="";
+
+    var sel=document.getElementById("login_capturista_clave");
+    if(sel)sel.value="";
+
+    var aplicador=document.getElementById("aplicador");
+    if(aplicador){
+      aplicador.value="";
+      aplicador.readOnly=false;
+    }
+
+    var badge=document.getElementById("capturista-activo");
+    if(badge)badge.textContent="";
+
+    var btnAdmin=document.getElementById("btn-admin-capturistas");
+    if(btnAdmin)btnAdmin.style.display="none";
+
+    var btnCambiar=document.getElementById("btn-cambiar-capturista");
+    if(btnCambiar)btnCambiar.style.display="none";
+
+    document.body.classList.add("body-login");
+    document.body.classList.remove("body-locked");
+
+    initCapturistas();
+
+    window.scrollTo(0,0);
+    showToast("Selecciona capturista para continuar");
+  }catch(e){
+    alert("No se pudo cambiar capturista: "+(e.message||e));
+  }
+}
 
 function abrirAdminCapturistas(){
   var cap=getCapturistaActivo();
@@ -330,8 +399,8 @@ function guardarCapturistaAdmin(){
   var idx=CAPTURISTAS_CUSCO.findIndex(function(c){return c.clave===clave;});
   var item={clave:clave,nombre:nombre,pin:pin,perfil:perfil};
   if(idx>=0)CAPTURISTAS_CUSCO[idx]=item; else CAPTURISTAS_CUSCO.push(item);
-  guardarCatalogoCapturistas();
-  initCapturistas();
+  if(!guardarCatalogoCapturistas())return;
+  refrescarListasCapturistasSinCerrarSesion();
   renderCapturistasAdmin();
   limpiarFormCapturistaAdmin();
   showToast("Capturista guardado: "+clave);
@@ -344,8 +413,8 @@ function editarCapturistaAdmin(clave){
 function eliminarCapturistaAdmin(clave){
   if(!confirm("¿Eliminar "+clave+"?"))return;
   CAPTURISTAS_CUSCO=CAPTURISTAS_CUSCO.filter(function(c){return c.clave!==clave;});
-  guardarCatalogoCapturistas();
-  initCapturistas();renderCapturistasAdmin();showToast("Capturista eliminado");
+  if(!guardarCatalogoCapturistas())return;
+  refrescarListasCapturistasSinCerrarSesion();renderCapturistasAdmin();showToast("Capturista eliminado");
 }
 function poblarSelectCambioPin(){
   var sel=document.getElementById("admin_pin_clave");
@@ -360,8 +429,8 @@ function cambiarPinCapturistaAdmin(){
   var idx=CAPTURISTAS_CUSCO.findIndex(function(c){return c.clave===clave;});
   if(idx<0){showToast("No se encontró el capturista");return;}
   CAPTURISTAS_CUSCO[idx].pin=nuevo;
-  guardarCatalogoCapturistas();
-  initCapturistas();
+  if(!guardarCatalogoCapturistas())return;
+  refrescarListasCapturistasSinCerrarSesion();
   renderCapturistasAdmin();
   setv("admin_pin_clave",clave);
   setv("admin_pin_nuevo","");
