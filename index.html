@@ -118,7 +118,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
 <link rel="apple-touch-icon" href="icons/icon-192.png">
 </head>
 <body class="body-login">
-<header class="site-header"><div class="header-brand"><div class="brand-box">SC</div><div><div class="brand-name">SierraConecta</div><div class="brand-sub">Sierra Gorda · Querétaro</div></div></div><div class="header-actions"><span class="header-badge">CUSCO 2026 · Offline</span><span id="capturista-activo" class="capturista-active"></span><button type="button" id="btn-admin-capturistas" class="btn-admin-capturistas" onclick="abrirAdminCapturistas()" style="display:none">Capturistas</button><button type="button" class="btn-close-capture" onclick="cerrarCaptura()">Cerrar sesión</button></div></header>
+<header class="site-header"><div class="header-brand"><div class="brand-box">SC</div><div><div class="brand-name">SierraConecta</div><div class="brand-sub">Sierra Gorda · Querétaro</div></div></div><div class="header-actions"><span class="header-badge">CUSCO 2026 · Offline</span><span id="capturista-activo" class="capturista-active"></span><button type="button" id="btn-admin-capturistas" class="btn-admin-capturistas" onclick="abrirAdminCapturistas()" style="display:none">Capturistas</button></div></header>
 
 <div id="login-capturista" class="login-screen">
   <div class="login-card">
@@ -174,7 +174,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
   </div>
 </div>
 
-<div id="session-closed" class="session-closed"><div class="session-card"><div class="session-icon">✓</div><div class="session-title">Sesión cerrada</div><div class="session-text">La captura quedó cerrada en este dispositivo. Para iniciar una nueva captura, toca el botón de abajo.</div><button type="button" class="btn btn-submit" onclick="iniciarNuevaSesion()">Iniciar nueva captura</button></div></div>
+
 <div class="page-wrap">
 <div class="page-title"><h1>Cuestionario de Salud Comunitario (CUSCO) 2026</h1><p>Captura con o sin internet. Los registros pendientes se sincronizan cuando haya conexión.</p></div>
 <div class="status-panel"><div><span id="net-status" class="status-badge">Verificando conexión...</span> <span class="pending" id="pending-text">Pendientes: 0</span></div><button class="btn btn-sync btn-small" onclick="syncPending()">Sincronizar pendientes</button></div>
@@ -863,21 +863,7 @@ function mostrarPantallaLoginOffline(){
   showToast("Listo. Inicia sesión para nueva captura.");
 }
 
-function cerrarCaptura(){
-  if(confirm("¿Cerrar sesión? Se borrarán los datos de la captura actual que no se hayan guardado.")){
-    clearCapturistaActivo();
-    limpiarCapturaActual(false);
-
-    document.body.classList.remove("body-login");
-    document.body.classList.add("body-locked");
-
-    var s=document.getElementById("session-closed");
-    if(s)s.style.display="block";
-
-    window.scrollTo(0,0);
-    showToast("Sesión cerrada");
-  }
-}
+function cerrarCaptura(){showToast("Usa + Capturar nuevo registro para continuar capturando.");}
 
 function iniciarNuevaSesion(){
   mostrarPantallaLoginOffline();
