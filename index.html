@@ -773,8 +773,7 @@ function syncPending(silent){
 function updatePendingText(){document.getElementById("pending-text").textContent="Pendientes: "+getPending().length;}function updateNetStatus(){var s=document.getElementById("net-status");s.textContent=navigator.onLine?"Con internet":"Sin internet";s.className="status-badge "+(navigator.onLine?"online":"offline");}
 function setLoading(on){var b=document.getElementById("btn-submit");b.disabled=on;document.getElementById("btn-text").textContent=on?"Guardando...":"Guardar registro";document.getElementById("btn-spinner").style.display=on?"inline-block":"none";}
 function showSuccess(folio,online){document.getElementById("step-4").classList.remove("active");document.getElementById("steps-bar").style.display="none";document.getElementById("success-screen").style.display="block";document.getElementById("success-screen").classList.add("active");document.getElementById("success-folio").textContent=folio;document.getElementById("success-sub").textContent=online?"El registro fue enviado a Google Sheets.":"El registro quedó guardado en este equipo/celular. Revisa el aviso de sincronización para confirmar si llegó a Google Sheets.";updatePendingText();}
-function cerrarCaptura(){if(confirm("¿Cerrar sesión? Se borrarán los datos de la captura actual que no se hayan guardado.")){clearCapturistaActivo();try{document.querySelectorAll("input, textarea, select").forEach(function(el){if(el.type==="hidden"||el.id==="no_registro"||el.id==="fecha")return;if(el.type==="checkbox"||el.type==="radio"){el.checked=false;}else{el.value="";}});document.querySelectorAll(".choice-btn.selected,.scale-btn.selected").forEach(function(el){el.classList.remove("selected");});}catch(e){}document.body.classList.add("body-locked");var s=document.getElementById("session-closed");if(s)s.style.display="block";window.scrollTo(0,0);showToast("Sesión cerrada");}}
-function limpiarFormularioParaNuevaCaptura(){
+function limpiarCapturaActual(conservarAplicador){
   try{
     currentStep=0;
 
@@ -799,8 +798,9 @@ function limpiarFormularioParaNuevaCaptura(){
       if(!el.id)return;
 
       if(el.id==="login_capturista_clave" || el.id==="login_capturista_pin")return;
-      if(el.id==="aplicador" || el.id==="fecha")return;
       if(el.id.indexOf("admin_")===0)return;
+      if(conservarAplicador && (el.id==="aplicador" || el.id==="fecha"))return;
+      if(el.id==="fecha")return;
 
       if(el.id==="no_registro"){
         el.value="CUSCO-LOCAL-"+Date.now();
@@ -838,14 +838,70 @@ function limpiarFormularioParaNuevaCaptura(){
     if(phq9)phq9.classList.remove("show");
 
     updatePendingText();
+  }catch(e){}
+}
+
+function mostrarPantallaLoginOffline(){
+  clearCapturistaActivo();
+  limpiarCapturaActual(false);
+
+  var s=document.getElementById("session-closed");
+  if(s)s.style.display="none";
+
+  var login=document.getElementById("login-capturista");
+  if(login)login.style.display="block";
+
+  var pin=document.getElementById("login_capturista_pin");
+  if(pin)pin.value="";
+
+  document.body.classList.remove("body-locked");
+  document.body.classList.add("body-login");
+
+  initCapturistas();
+
+  window.scrollTo(0,0);
+  showToast("Listo. Inicia sesión para nueva captura.");
+}
+
+function cerrarCaptura(){
+  if(confirm("¿Cerrar sesión? Se borrarán los datos de la captura actual que no se hayan guardado.")){
+    clearCapturistaActivo();
+    limpiarCapturaActual(false);
+
+    document.body.classList.remove("body-login");
+    document.body.classList.add("body-locked");
+
+    var s=document.getElementById("session-closed");
+    if(s)s.style.display="block";
+
     window.scrollTo(0,0);
-    showToast("Lista para nueva captura");
-  }catch(e){
-    alert("No se pudo preparar nueva captura: "+(e.message||e));
+    showToast("Sesión cerrada");
   }
 }
-function iniciarNuevaSesion(){limpiarFormularioParaNuevaCaptura();}
-function resetForm(){limpiarFormularioParaNuevaCaptura();}
+
+function iniciarNuevaSesion(){
+  mostrarPantallaLoginOffline();
+}
+
+function limpiarFormularioParaNuevaCaptura(){
+  limpiarCapturaActual(true);
+  var cap=getCapturistaActivo();
+  if(cap && cap.clave){
+    var aplicador=document.getElementById("aplicador");
+    if(aplicador){
+      aplicador.value=cap.clave+" - "+cap.nombre;
+      aplicador.readOnly=true;
+    }
+  }
+  document.body.classList.remove("body-locked");
+  document.body.classList.remove("body-login");
+  window.scrollTo(0,0);
+  showToast("Lista para nueva captura");
+}
+
+function resetForm(){
+  limpiarFormularioParaNuevaCaptura();
+}
 function showToast(msg){var t=document.getElementById("toast");t.textContent=msg;t.style.display="block";setTimeout(function(){t.style.display="none"},5000);}
 
 </script>
