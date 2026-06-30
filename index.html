@@ -85,6 +85,29 @@ html, body { max-width: 100%; overflow-x: hidden; }
 }
 /* ===== FIN AJUSTE RESPONSIVE PC + MOVIL ===== */
 
+
+/* ===== LOGIN CAPTURISTA CUSCO ===== */
+.login-screen{display:none;max-width:560px;margin:42px auto;padding:0 16px}
+.login-card{background:white;border:1px solid #e0dbc8;border-radius:14px;box-shadow:var(--shadow);padding:28px 22px}
+.login-title{font-size:22px;color:var(--verde);font-weight:800;margin-bottom:6px;text-align:center}
+.login-text{font-size:13px;color:#666;line-height:1.45;text-align:center;margin-bottom:20px}
+.login-note{font-size:12px;color:#777;margin-top:12px;line-height:1.4;text-align:center}
+.body-login .page-wrap{display:none}
+.body-login #session-closed{display:none!important}
+.body-login .btn-close-capture{display:none}
+.body-login .login-screen{display:block}
+.capturista-active{background:rgba(230,209,148,.14);border:1px solid rgba(230,209,148,.35);color:var(--beige);font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;max-width:230px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media(max-width:650px){.capturista-active{display:none}.login-screen{margin:24px auto}.login-card{padding:22px 16px}}
+
+.btn-admin-capturistas{background:transparent;color:var(--beige);border:1px solid rgba(230,209,148,.45);border-radius:20px;padding:7px 13px;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit;white-space:nowrap}
+.btn-admin-capturistas:hover{background:rgba(230,209,148,.12)}
+.admin-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:1000;padding:18px;overflow:auto}
+.admin-card{max-width:760px;margin:34px auto;background:white;border-radius:14px;border:1px solid #e0dbc8;box-shadow:0 8px 28px rgba(0,0,0,.25);overflow:hidden}
+.admin-head{background:var(--verde);color:white;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.admin-title{font-weight:800;font-size:17px}.admin-body{padding:18px}.admin-table{width:100%;border-collapse:collapse;font-size:12px;margin-top:14px}.admin-table th,.admin-table td{border-bottom:1px solid #ece8d8;padding:7px;text-align:left}.admin-table th{color:var(--verde);font-size:11px;text-transform:uppercase}.btn-link{background:transparent;border:none;color:var(--vino);font-weight:800;cursor:pointer;font-size:12px}
+@media(max-width:650px){.btn-admin-capturistas{display:none!important}.admin-card{margin:8px auto}.admin-table{font-size:11px}}
+/* ===== FIN LOGIN CAPTURISTA CUSCO ===== */
+
 </style>
 
 <link rel="manifest" href="manifest.json">
@@ -93,10 +116,64 @@ html, body { max-width: 100%; overflow-x: hidden; }
 <meta name="apple-mobile-web-app-title" content="CUSCO 2026">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
-<script src="catalogo_localidades.js"></script>
 </head>
-<body>
-<header class="site-header"><div class="header-brand"><div class="brand-box">SC</div><div><div class="brand-name">SierraConecta</div><div class="brand-sub">Sierra Gorda · Querétaro</div></div></div><div class="header-actions"><span class="header-badge">CUSCO 2026 · Offline</span><button type="button" class="btn-close-capture" onclick="cerrarCaptura()">Cerrar sesión</button></div></header>
+<body class="body-login">
+<header class="site-header"><div class="header-brand"><div class="brand-box">SC</div><div><div class="brand-name">SierraConecta</div><div class="brand-sub">Sierra Gorda · Querétaro</div></div></div><div class="header-actions"><span class="header-badge">CUSCO 2026 · Offline</span><span id="capturista-activo" class="capturista-active"></span><button type="button" id="btn-admin-capturistas" class="btn-admin-capturistas" onclick="abrirAdminCapturistas()" style="display:none">Capturistas</button><button type="button" class="btn-close-capture" onclick="cerrarCaptura()">Cerrar sesión</button></div></header>
+
+<div id="login-capturista" class="login-screen">
+  <div class="login-card">
+    <div class="login-title">Ingreso de capturista</div>
+    <div class="login-text">Selecciona el capturista que realizará la captura. Este dato se guardará en cada registro para seguimiento y reportes.</div>
+    <div class="field-grid">
+      <div class="field field-full">
+        <label>Capturista <span class="req">*</span></label>
+        <select id="login_capturista_clave"></select>
+      </div>
+      <div class="field field-full">
+        <label>PIN <span class="req">*</span></label>
+        <input type="password" id="login_capturista_pin" inputmode="numeric" placeholder="Ingresa PIN">
+      </div>
+    </div>
+    <div class="nav-btns" style="border-top:none;margin-top:18px;padding-top:0">
+      <button type="button" class="btn btn-submit" onclick="loginCapturista()">Iniciar captura</button>
+    </div>
+    <div class="login-note">Cada vez que se abre CUSCO se solicita ingreso de capturista para evitar capturas con una sesión anterior.</div>
+  </div>
+</div>
+
+<div id="admin-capturistas-modal" class="admin-modal">
+  <div class="admin-card">
+    <div class="admin-head">
+      <div class="admin-title">Administrar capturistas</div>
+      <button type="button" class="btn-close-capture" onclick="cerrarAdminCapturistas()">Cerrar</button>
+    </div>
+    <div class="admin-body">
+      <div class="login-note" style="text-align:left;margin:0 0 14px">Las altas hechas aquí se guardan en este dispositivo. Para que aparezcan en todos los equipos, conviene integrarlas después al código o a una hoja central.</div>
+      <div class="field-grid">
+        <div class="field"><label>Clave</label><input type="text" id="admin_cap_clave" placeholder="CAP007"></div>
+        <div class="field"><label>PIN</label><input type="text" id="admin_cap_pin" inputmode="numeric" placeholder="4 dígitos"></div>
+        <div class="field field-full"><label>Nombre</label><input type="text" id="admin_cap_nombre" placeholder="Nombre completo"></div>
+        <div class="field"><label>Perfil</label><select id="admin_cap_perfil"><option>Capturista</option><option>Administrador</option></select></div>
+      </div>
+      <div class="nav-btns" style="margin-top:14px;padding-top:14px">
+        <button type="button" class="btn btn-submit" onclick="guardarCapturistaAdmin()">Guardar capturista</button>
+        <button type="button" class="btn btn-prev" onclick="limpiarFormCapturistaAdmin()">Limpiar</button>
+      </div>
+
+      <div class="section-divider" style="margin-top:18px">Cambio rápido de PIN</div>
+      <div class="field-grid">
+        <div class="field"><label>Capturista</label><select id="admin_pin_clave"></select></div>
+        <div class="field"><label>Nuevo PIN</label><input type="text" id="admin_pin_nuevo" inputmode="numeric" maxlength="4" placeholder="4 dígitos"></div>
+      </div>
+      <div class="nav-btns" style="margin-top:14px;padding-top:14px">
+        <button type="button" class="btn btn-submit" onclick="cambiarPinCapturistaAdmin()">Cambiar PIN</button>
+      </div>
+
+      <div id="admin-capturistas-lista"></div>
+    </div>
+  </div>
+</div>
+
 <div id="session-closed" class="session-closed"><div class="session-card"><div class="session-icon">✓</div><div class="session-title">Sesión cerrada</div><div class="session-text">La captura quedó cerrada en este dispositivo. Para iniciar una nueva captura, toca el botón de abajo.</div><button type="button" class="btn btn-submit" onclick="iniciarNuevaSesion()">Iniciar nueva captura</button></div></div>
 <div class="page-wrap">
 <div class="page-title"><h1>Cuestionario de Salud Comunitario (CUSCO) 2026</h1><p>Captura con o sin internet. Los registros pendientes se sincronizan cuando haya conexión.</p></div>
@@ -106,9 +183,12 @@ html, body { max-width: 100%; overflow-x: hidden; }
 <div class="form-card active" id="step-0"><div class="card-header"><div class="card-header-num">1</div><div><div class="card-header-title">Datos de Identificación</div><div class="card-header-sub">Información general del cuestionario</div></div></div><div class="card-body"><div class="field-grid">
 <div class="field"><label>No.</label><input type="text" id="no_registro" readonly></div>
 <div class="field"><label>Fecha <span class="req">*</span></label><input type="date" id="fecha" required></div>
-<div class="field"><label>ID</label><input type="text" id="id_encuestado" placeholder="ID/CURP/identificador"></div>
+<div class="field"><label>CURP</label><input type="text" id="id_encuestado" placeholder="ID/CURP/identificador"></div>
 <div class="field"><label>Nombre y clave del aplicador <span class="req">*</span></label><input type="text" id="aplicador" required></div>
-<div class="field field-full"><label>Nombre <span class="req">*</span></label><input type="text" id="nombre" required></div>
+<div class="section-divider">Identificación nominal</div>
+<div class="field field-full"><label>Nombre(s) <span class="req">*</span></label><input type="text" id="nombres" required placeholder="Ej. Soraya Lizbeth"></div>
+<div class="field"><label>Primer apellido <span class="req">*</span></label><input type="text" id="primer_apellido" required placeholder="Ej. Sanchez"></div>
+<div class="field"><label>Segundo apellido</label><input type="text" id="segundo_apellido" placeholder="Ej. Torres"></div>
 <div class="field"><label>Municipio <span class="req">*</span></label><select id="municipio" required><option value="">— Selecciona municipio —</option><option>Amealco de Bonfil</option><option>Arroyo Seco</option><option>Cadereyta de Montes</option><option>Colón</option><option>Corregidora</option><option>El Marqués</option><option>Ezequiel Montes</option><option>Huimilpan</option><option>Jalpan de Serra</option><option>Landa de Matamoros</option><option>Pedro Escobedo</option><option>Peñamiller</option><option>Pinal de Amoles</option><option>Querétaro</option><option>San Joaquín</option><option>San Juan del Río</option><option>Tequisquiapan</option><option>Tolimán</option></select></div>
 <div class="field"><label>Localidad <span class="req">*</span></label><select id="localidad" required disabled><option value="">— Primero selecciona municipio —</option></select><input type="hidden" id="cve_municipio"><input type="hidden" id="cve_localidad"><input type="hidden" id="latitud_localidad"><input type="hidden" id="longitud_localidad"><input type="hidden" id="altitud_localidad"><input type="hidden" id="cvegeo"><input type="hidden" id="jurisdiccion"></div>
 <div class="field"><label>Contacto (teléfono)</label><input type="tel" id="telefono" placeholder="10 dígitos"></div>
@@ -148,9 +228,140 @@ html, body { max-width: 100%; overflow-x: hidden; }
 <div id="success-screen" class="form-card"><div class="card-body"><div style="text-align:center;padding:40px 20px"><div class="success-icon">✓</div><div class="success-title">¡Registro guardado!</div><div class="success-folio" id="success-folio">—</div><div class="success-sub" id="success-sub">El registro fue guardado.</div><button class="btn btn-submit" onclick="resetForm()">+ Capturar nuevo registro</button></div></div></div>
 </div><div id="toast"></div>
 
-<script src="catalogo_localidades.js"></script>
+<script src="./catalogo_localidades.js?v=20260629"></script>
 <script>
 var APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyvLRYGnelN_x3AK_4RdbtjoUUVrGBXOg_KwggfRr0N7-Z7qogk6S3xhbEd6-YY5FVQ/exec";
+var DEFAULT_CAPTURISTAS_CUSCO=[
+  {clave:"CAP001",nombre:"Gabriel Lehmann Mendoza",pin:"4137",perfil:"Administrador"},
+  {clave:"CAP002",nombre:"Soraya Lizbeth Sanchez Torres",pin:"5824",perfil:"Administrador"},
+  {clave:"CAP003",nombre:"Osvaldo Bobadilla Mino",pin:"6918",perfil:"Administrador"},
+  {clave:"CAP004",nombre:"Araceli Gutierrez Martinez",pin:"2745",perfil:"Capturista"},
+  {clave:"CAP005",nombre:"Ramon Quiroz Razo",pin:"8361",perfil:"Capturista"},
+  {clave:"CAP006",nombre:"Luis Alberto Daza Servin",pin:"1593",perfil:"Capturista"}
+];
+var CAPTURISTAS_ADMIN_KEY="cusco_capturistas_admin";
+function cargarCatalogoCapturistas(){
+  try{
+    var guardados=JSON.parse(localStorage.getItem(CAPTURISTAS_ADMIN_KEY)||"[]");
+    if(Array.isArray(guardados)&&guardados.length)return guardados;
+  }catch(e){}
+  return DEFAULT_CAPTURISTAS_CUSCO.slice();
+}
+var CAPTURISTAS_CUSCO=cargarCatalogoCapturistas();
+function guardarCatalogoCapturistas(){
+  localStorage.setItem(CAPTURISTAS_ADMIN_KEY,JSON.stringify(CAPTURISTAS_CUSCO));
+}
+var CAPTURISTA_STORAGE_KEY="cusco_capturista_activo";
+function getCapturistaActivo(){try{return JSON.parse(sessionStorage.getItem(CAPTURISTA_STORAGE_KEY)||"null")||{};}catch(e){return {};}}
+function setCapturistaActivo(c){sessionStorage.setItem(CAPTURISTA_STORAGE_KEY,JSON.stringify({clave:c.clave,nombre:c.nombre,perfil:c.perfil,login_at:new Date().toISOString()}));}
+function clearCapturistaActivo(){sessionStorage.removeItem(CAPTURISTA_STORAGE_KEY);localStorage.removeItem(CAPTURISTA_STORAGE_KEY);}
+function initCapturistas(){
+  clearCapturistaActivo();
+  var sel=document.getElementById("login_capturista_clave");
+  if(sel){sel.innerHTML='<option value="">— Selecciona capturista —</option>'+CAPTURISTAS_CUSCO.map(function(c){return '<option value="'+c.clave+'">'+c.clave+' · '+c.nombre+'</option>';}).join("");}
+}
+function aplicarCapturistaEnFormulario(){
+  var cap=getCapturistaActivo();
+  var has=!!cap.clave;
+  document.body.classList.toggle("body-login",!has);
+  var badge=document.getElementById("capturista-activo");
+  if(badge)badge.textContent=has?(cap.clave+" · "+cap.nombre):"";
+  var aplicador=document.getElementById("aplicador");
+  if(aplicador&&has){aplicador.value=cap.clave+" - "+cap.nombre;aplicador.readOnly=true;}
+  var btnAdmin=document.getElementById("btn-admin-capturistas");
+  if(btnAdmin)btnAdmin.style.display=(has&&cap.perfil==="Administrador")?"inline-flex":"none";
+}
+function loginCapturista(){
+  var clave=(document.getElementById("login_capturista_clave")||{}).value||"";
+  var pin=(document.getElementById("login_capturista_pin")||{}).value||"";
+  var cap=CAPTURISTAS_CUSCO.find(function(c){return c.clave===clave&&c.pin===pin;});
+  if(!cap){showToast("Capturista o PIN incorrecto");return;}
+  setCapturistaActivo(cap);
+  aplicarCapturistaEnFormulario();
+  showToast("Sesión iniciada: "+cap.nombre);
+}
+function initCapturistaSession(){initCapturistas();aplicarCapturistaEnFormulario();}
+
+function abrirAdminCapturistas(){
+  var cap=getCapturistaActivo();
+  if(!cap || cap.perfil!=="Administrador"){showToast("Solo administradores pueden modificar capturistas");return;}
+  renderCapturistasAdmin();
+  var m=document.getElementById("admin-capturistas-modal");
+  if(m)m.style.display="block";
+}
+function cerrarAdminCapturistas(){
+  var m=document.getElementById("admin-capturistas-modal");
+  if(m)m.style.display="none";
+}
+function limpiarFormCapturistaAdmin(){
+  setv("admin_cap_clave","");setv("admin_cap_nombre","");setv("admin_cap_pin","");setv("admin_cap_perfil","Capturista");
+}
+function siguienteClaveCapturista(){
+  var max=0;
+  CAPTURISTAS_CUSCO.forEach(function(c){var n=parseInt(String(c.clave||"").replace(/\D/g,""),10);if(n>max)max=n;});
+  return "CAP"+String(max+1).padStart(3,"0");
+}
+function guardarCapturistaAdmin(){
+  var clave=(v("admin_cap_clave")||siguienteClaveCapturista()).trim().toUpperCase();
+  var nombre=v("admin_cap_nombre").trim();
+  var pin=v("admin_cap_pin").trim();
+  var perfil=v("admin_cap_perfil")||"Capturista";
+  if(!/^CAP\d{3}$/.test(clave)){showToast("La clave debe tener formato CAP007");return;}
+  if(!nombre){showToast("Captura el nombre del capturista");return;}
+  if(!/^\d{4}$/.test(pin)){showToast("El PIN debe ser de 4 dígitos");return;}
+  var idx=CAPTURISTAS_CUSCO.findIndex(function(c){return c.clave===clave;});
+  var item={clave:clave,nombre:nombre,pin:pin,perfil:perfil};
+  if(idx>=0)CAPTURISTAS_CUSCO[idx]=item; else CAPTURISTAS_CUSCO.push(item);
+  guardarCatalogoCapturistas();
+  initCapturistas();
+  renderCapturistasAdmin();
+  limpiarFormCapturistaAdmin();
+  showToast("Capturista guardado: "+clave);
+}
+function editarCapturistaAdmin(clave){
+  var c=CAPTURISTAS_CUSCO.find(function(x){return x.clave===clave;});
+  if(!c)return;
+  setv("admin_cap_clave",c.clave);setv("admin_cap_nombre",c.nombre);setv("admin_cap_pin",c.pin);setv("admin_cap_perfil",c.perfil||"Capturista");
+}
+function eliminarCapturistaAdmin(clave){
+  if(!confirm("¿Eliminar "+clave+"?"))return;
+  CAPTURISTAS_CUSCO=CAPTURISTAS_CUSCO.filter(function(c){return c.clave!==clave;});
+  guardarCatalogoCapturistas();
+  initCapturistas();renderCapturistasAdmin();showToast("Capturista eliminado");
+}
+function poblarSelectCambioPin(){
+  var sel=document.getElementById("admin_pin_clave");
+  if(!sel)return;
+  sel.innerHTML='<option value="">— Selecciona capturista —</option>'+CAPTURISTAS_CUSCO.map(function(c){return '<option value="'+c.clave+'">'+c.clave+' · '+c.nombre+'</option>';}).join("");
+}
+function cambiarPinCapturistaAdmin(){
+  var clave=(v("admin_pin_clave")||"").trim().toUpperCase();
+  var nuevo=(v("admin_pin_nuevo")||"").trim();
+  if(!clave){showToast("Selecciona capturista");return;}
+  if(!/^\d{4}$/.test(nuevo)){showToast("El nuevo PIN debe ser de 4 dígitos");return;}
+  var idx=CAPTURISTAS_CUSCO.findIndex(function(c){return c.clave===clave;});
+  if(idx<0){showToast("No se encontró el capturista");return;}
+  CAPTURISTAS_CUSCO[idx].pin=nuevo;
+  guardarCatalogoCapturistas();
+  initCapturistas();
+  renderCapturistasAdmin();
+  setv("admin_pin_clave",clave);
+  setv("admin_pin_nuevo","");
+  showToast("PIN actualizado para "+clave);
+}
+function renderCapturistasAdmin(){
+  poblarSelectCambioPin();
+  var c=document.getElementById("admin-capturistas-lista");
+  if(!c)return;
+  var html='<table class="admin-table"><thead><tr><th>Clave</th><th>Nombre</th><th>PIN</th><th>Perfil</th><th></th></tr></thead><tbody>';
+  CAPTURISTAS_CUSCO.forEach(function(x){
+    html+='<tr><td>'+x.clave+'</td><td>'+x.nombre+'</td><td>'+x.pin+'</td><td>'+x.perfil+'</td><td><button class="btn-link" onclick="editarCapturistaAdmin(\''+x.clave+'\')">Editar</button> · <button class="btn-link" onclick="eliminarCapturistaAdmin(\''+x.clave+'\')">Eliminar</button></td></tr>';
+  });
+  html+='</tbody></table>';
+  c.innerHTML=html;
+}
+
+
 
 var currentStep=0,totalSteps=5,storageKey="CUSCO_2026_PENDIENTES";
 var PHQ9_QUESTIONS=[
@@ -162,116 +373,106 @@ var PHQ9_QUESTIONS=[
 {n:24,t:"Moverse o hablar tan despacio que otras personas pueden haberlo notado. O lo contrario, sentirse tan nervioso o inquieto que ha estado moviéndose más de lo usual."},
 {n:25,t:"Pensamientos de que estaría mejor muerto o de lastimarse usted mismo de alguna manera."}
 ];
-document.addEventListener("DOMContentLoaded",function(){buildSteps();initDate();buildPHQ9();wireChoices();initLocalidades();updateNetStatus();updatePendingText();window.addEventListener("online",function(){updateNetStatus();syncPending(true)});window.addEventListener("offline",updateNetStatus);document.getElementById("no_registro").value="CUSCO-LOCAL-"+Date.now();});
+document.addEventListener("DOMContentLoaded",function(){buildSteps();initDate();buildPHQ9();wireChoices();initLocalidades();initCapturistaSession();updateNetStatus();updatePendingText();window.addEventListener("online",function(){updateNetStatus();syncPending(true)});window.addEventListener("offline",updateNetStatus);document.getElementById("no_registro").value="CUSCO-LOCAL-"+Date.now();});
 function buildSteps(){var labels=["Identificación","Salud física","Antropometría","Salud Mental","Revisión"];var html="";labels.forEach(function(l,i){html+='<div class="step-item '+(i===0?'active':'')+'" data-step="'+i+'"><div class="step-circle">'+(i+1)+'</div><div class="step-label">'+l+'</div></div>';if(i<labels.length-1)html+='<div class="step-connector" id="conn-'+i+'"></div>';});document.getElementById("steps-bar").innerHTML=html;}
 function initDate(){var h=new Date();document.getElementById("fecha").value=h.getFullYear()+"-"+String(h.getMonth()+1).padStart(2,"0")+"-"+String(h.getDate()).padStart(2,"0");}
 function wireChoices(){document.querySelectorAll(".choice-btn input").forEach(function(inp){inp.addEventListener("change",function(){if(this.type==="radio"){document.querySelectorAll("input[name='"+this.name+"']").forEach(function(x){x.closest(".choice-btn").classList.remove("selected")});this.closest(".choice-btn").classList.add("selected");}else{this.closest(".choice-btn").classList.toggle("selected",this.checked);}});});}
 
-function initLocalidades() {
 
-    var mun = document.getElementById("municipio");
-    var loc = document.getElementById("localidad");
-
-    if (!mun || !loc) return;
-
-    mun.addEventListener("change", function () {
-        cargarLocalidades(this.value);
-    });
-
-    loc.addEventListener("change", onLocalidadChange);
-
-    cargarLocalidades(mun.value);
+function normalizarLlaveMunicipio(txt){
+  return (txt || "").toString().trim()
+    .normalize("NFD").replace(/[\u0300-\u036f]/g,"")
+    .toLowerCase();
 }
 
+function buscarLlaveMunicipio(municipio){
+  if (typeof LOCALIDADES_CUSCO === "undefined" || !municipio) return "";
+  if (LOCALIDADES_CUSCO[municipio]) return municipio;
+  var objetivo = normalizarLlaveMunicipio(municipio);
+  var keys = Object.keys(LOCALIDADES_CUSCO);
+  for (var i=0; i<keys.length; i++){
+    if (normalizarLlaveMunicipio(keys[i]) === objetivo) return keys[i];
+  }
+  return "";
+}
+
+function initLocalidades() {
+  var mun = document.getElementById("municipio");
+  var loc = document.getElementById("localidad");
+  if (!mun || !loc) return;
+
+  if (typeof LOCALIDADES_CUSCO === "undefined") {
+    loc.disabled = true;
+    loc.innerHTML = '<option value="">No cargó catalogo_localidades.js</option>';
+    showToast("No cargó el catálogo de localidades. Verifica que catalogo_localidades.js esté en la misma carpeta del index.");
+    return;
+  }
+
+  mun.addEventListener("change", function () {
+    cargarLocalidades(this.value);
+  });
+
+  loc.addEventListener("change", onLocalidadChange);
+  cargarLocalidades(mun.value);
+}
 
 function cargarLocalidades(municipio) {
+  var loc = document.getElementById("localidad");
+  if (!loc) return;
 
-    var loc = document.getElementById("localidad");
+  loc.innerHTML = "";
+  setv("cve_municipio", "");
+  setv("cve_localidad", "");
+  setv("latitud_localidad", "");
+  setv("longitud_localidad", "");
+  setv("altitud_localidad", "");
+  setv("cvegeo", "");
+  setv("jurisdiccion", "");
 
-    if (!loc) return;
+  var llave = buscarLlaveMunicipio(municipio);
 
-    loc.innerHTML = "";
+  if (!llave) {
+    loc.disabled = true;
+    loc.innerHTML = '<option value="">— Primero selecciona municipio —</option>';
+    return;
+  }
 
-    setv("cve_municipio", "");
-    setv("cve_localidad", "");
-    setv("latitud_localidad", "");
-    setv("longitud_localidad", "");
-    setv("altitud_localidad", "");
+  loc.disabled = false;
+  loc.innerHTML = '<option value="">— Selecciona localidad —</option>';
 
-    setv("cvegeo", "");
-    setv("jurisdiccion", "");
+  LOCALIDADES_CUSCO[llave].forEach(function (item) {
+    var opt = document.createElement("option");
+    var cvegeo = item.cvegeo || "";
 
-    if (!municipio || !LOCALIDADES_CUSCO[municipio]) {
+    opt.value = item.nombre || "";
+    opt.textContent = (item.nombre || "") + (cvegeo ? " · " + cvegeo : "");
+    opt.dataset.nombre = item.nombre || "";
+    opt.dataset.cvegeo = cvegeo;
+    opt.dataset.cveMunicipio = cvegeo.length >= 5 ? cvegeo.substring(2,5) : "";
+    opt.dataset.cveLocalidad = cvegeo.length >= 9 ? cvegeo.substring(5,9) : "";
+    opt.dataset.jurisdiccion = item.jurisdiccion || "";
 
-        loc.disabled = true;
-
-        loc.innerHTML =
-            '<option value="">— Primero selecciona municipio —</option>';
-
-        return;
-    }
-
-    loc.disabled = false;
-
-    loc.innerHTML =
-        '<option value="">— Selecciona localidad —</option>';
-
-    LOCALIDADES_CUSCO[municipio].forEach(function (item) {
-
-        var opt = document.createElement("option");
-
-        opt.value = item.nombre;
-        opt.textContent = item.nombre;
-
-        opt.dataset.cvegeo =
-            item.cvegeo || "";
-
-        opt.dataset.jurisdiccion =
-            item.jurisdiccion || "";
-
-        loc.appendChild(opt);
-
-    });
-
+    loc.appendChild(opt);
+  });
 }
-
 
 function onLocalidadChange() {
+  var loc = document.getElementById("localidad");
+  if (!loc) return;
 
-    var loc =
-        document.getElementById("localidad");
+  var opt = loc.options[loc.selectedIndex];
+  var cvegeo = opt ? (opt.dataset.cvegeo || "") : "";
 
-    if (!loc) return;
-
-    var opt =
-        loc.options[loc.selectedIndex];
-
-    setv(
-        "cvegeo",
-        opt ? (opt.dataset.cvegeo || "") : ""
-    );
-
-    setv(
-        "jurisdiccion",
-        opt ? (opt.dataset.jurisdiccion || "") : ""
-    );
-
-    console.log(
-        "Localidad:",
-        loc.value,
-        "CVEGEO:",
-        opt.dataset.cvegeo,
-        "Jurisdicción:",
-        opt.dataset.jurisdiccion
-    );
-
+  setv("cvegeo", cvegeo);
+  setv("cve_municipio", opt ? (opt.dataset.cveMunicipio || "") : "");
+  setv("cve_localidad", opt ? (opt.dataset.cveLocalidad || "") : "");
+  setv("jurisdiccion", opt ? (opt.dataset.jurisdiccion || "") : "");
 }
-
 
 function buildPHQ9(){var c=document.getElementById("phq9-questions");PHQ9_QUESTIONS.forEach(function(q){var id="phq9_p"+q.n;c.innerHTML+='<div class="phq-row"><div class="phq-question"><strong>'+q.n+'.</strong> '+q.t+'</div><div class="scale-group" id="'+id+'-group"><div class="scale-btn" onclick="setScale(\''+id+'\',0,this)"><span class="scale-num">0</span>Nunca</div><div class="scale-btn" onclick="setScale(\''+id+'\',1,this)"><span class="scale-num">1</span>Varios días</div><div class="scale-btn" onclick="setScale(\''+id+'\',2,this)"><span class="scale-num">2</span>Más de la mitad de los días</div><div class="scale-btn" onclick="setScale(\''+id+'\',3,this)"><span class="scale-num">3</span>Casi todos los días</div></div><input type="hidden" id="'+id+'"></div>';});}
 function goStep(t){if(!validateStep(currentStep))return;document.getElementById("step-"+currentStep).classList.remove("active");currentStep=t;updateStepsBar(t);document.getElementById("step-"+currentStep).classList.add("active");if(currentStep===4)buildReview();window.scrollTo({top:0,behavior:"smooth"});}
 function updateStepsBar(t){for(var i=0;i<totalSteps;i++){var s=document.querySelector("[data-step='"+i+"']");s.classList.remove("active","done");if(i<t)s.classList.add("done");if(i===t)s.classList.add("active");var conn=document.getElementById("conn-"+i);if(conn)conn.classList.toggle("done",i<t);}}
-function validateStep(step){if(step===0){if(!v("fecha")||!v("aplicador")||!v("nombre")||!v("localidad")||!v("municipio")||!v("edad")||!r("sexo")){showToast("Completa los campos obligatorios de identificación");return false;}}return true;}
+function validateStep(step){if(step===0){if(!v("fecha")||!v("aplicador")||!v("nombres")||!v("primer_apellido")||!v("localidad")||!v("municipio")||!v("edad")||!r("sexo")){showToast("Completa los campos obligatorios de identificación");return false;}}return true;}
 function tallaMetros(){var raw=parseFloat(v("talla"));if(!raw||raw<=0)return null;return raw>3?raw/100:raw;}
 function tallaNormalizadaTexto(){var t=tallaMetros();return t?String(Number(t.toFixed(2))):"";}
 function normalizarTalla(){var t=tallaMetros();if(!t)return;setv("talla",String(Number(t.toFixed(2))));calcIMC();}
@@ -281,6 +482,8 @@ function setScale(id,val,el){document.querySelectorAll("#"+id+"-group .scale-btn
 function calcPHQ2(){if(v("phq2_p17")===""||v("phq2_p18")==="")return;var score=parseInt(v("phq2_p17"))+parseInt(v("phq2_p18"));setv("puntaje_phq2",score);document.getElementById("phq2-score-display").textContent=score;document.getElementById("phq9-section").classList.toggle("show",score>=3);}
 function calcPHQ9(){var total=0,all=true;PHQ9_QUESTIONS.forEach(function(q){var val=v("phq9_p"+q.n);if(val==="")all=false;else total+=parseInt(val);});if(!all)return;setv("puntaje_phq9",total);document.getElementById("phq9-score-display").textContent=total;var c="";if(total<=4)c="Ninguno";else if(total<=9)c="Depresión leve";else if(total<=14)c="Depresión moderada";else if(total<=19)c="Depresión moderadamente grave";else c="Depresión grave";setv("clasificacion_phq9",c);document.getElementById("phq9-clasif-display").textContent="— "+c;if(parseInt(v("phq9_p25")||0)>0)showToast("Atención: respuesta positiva en pregunta 25. Requiere referencia o valoración inmediata según protocolo.");}
 function v(id){var e=document.getElementById(id);return e?(e.value||""):""}function setv(id,val){var e=document.getElementById(id);if(e)e.value=val}function r(name){var e=document.querySelector("input[name='"+name+"']:checked");return e?e.value:""}function checks(name,otherId){var vals=[];document.querySelectorAll("input[name='"+name+"']:checked").forEach(function(e){vals.push(e.value)});var o=otherId?v(otherId).trim():"";if(o)vals.push("Otro: "+o);return vals.join(", ");}
+function limpiarTextoNombre(txt){return (txt||"").toString().trim().replace(/\s+/g," ");}
+function nombreCompletoCapturado(){return [limpiarTextoNombre(v("nombres")),limpiarTextoNombre(v("primer_apellido")),limpiarTextoNombre(v("segundo_apellido"))].filter(Boolean).join(" ");}
 function normText(x){return (x||"").toString().trim();}
 function normLower(x){return normText(x).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");}
 function codeFromMap(value,map){var k=normLower(value);return map.hasOwnProperty(k)?map[k]:"";}
@@ -351,6 +554,7 @@ function normalizaSegSocialCodigo(texto){
 }
 function normalizaTallaDato(valor){var raw=parseFloat(valor);if(!raw||raw<=0)return "";var t=raw>3?raw/100:raw;return String(Number(t.toFixed(2)));}
 function payload(){
+  var cap=getCapturistaActivo();
   var grupos=checks("grupo","grupo_otro");
   var seg=checks("seguridad_social","seguridad_social_otro");
   var estado=r("estado_civil");
@@ -370,7 +574,10 @@ function payload(){
     "Jurisdicción":v("jurisdiccion"),
     "Localidad":v("localidad"),
     "Municipio":v("municipio"),
-    "Nombre":v("nombre"),
+    "Nombre(s)":v("nombres"),
+    "Primer_apellido":v("primer_apellido"),
+    "Segundo_apellido":v("segundo_apellido"),
+    "Nombre":nombreCompletoCapturado(),
     "Dirección":v("direccion"),
     "Teléfono":v("telefono"),
     "Edad_años":v("edad"),
@@ -407,6 +614,10 @@ function payload(){
     "PHQ9_Total":v("puntaje_phq9"),
     "PHQ_Clasificacion":v("clasificacion_phq9"),
     "Observaciones_generales":v("observaciones"),
+    "capturista_clave":cap.clave||"",
+    "capturista_nombre":cap.nombre||"",
+    "capturista_perfil":cap.perfil||"",
+    "capturado_fecha_hora":new Date().toLocaleString("es-MX"),
     "_texto_respaldo": {
       "Sexo_texto": sexo,
       "Estado_civil_texto": estado,
@@ -420,166 +631,133 @@ function payload(){
   };
 }
 function normalizeForSheets(p){
-  // Permite sincronizar capturas viejas que quedaron pendientes con nombres anteriores.
-  if(p && p["No."]!==undefined)return p;
-  var grupos=p.p4_grupos||"";
-  var seg=p.p5_seguridad_social||"";
+  // Envío limpio a Google Sheets: solo manda campos planos que coinciden con encabezados.
+  // Esto evita que Apps Script falle por objetos internos (_texto_respaldo, _local_id, etc.).
+  p = p || {};
+  var nombreCompleto = p["Nombre"] || p.nombre || [p["Nombre(s)"], p["Primer_apellido"], p["Segundo_apellido"]].filter(Boolean).join(" ");
+  var grupos = p["Grupo_vulnerable"] || p.p4_grupos || "";
+  var seg = p["Seg_social"] || p.p5_seguridad_social || "";
   return {
-    "No.":p.no_registro||"",
-    "ID":p.id||"",
-    "fecha":p.fecha||"",
-    "Nombre_aplicador":p.aplicador||"",
-    "Consecutivo_localidad":p.cvegeo || p.Consecutivo_localidad ||"",
-    "Jurisdicción":p.jurisdiccion ||p["Jurisdicción"] ||"",
-    "Localidad":p.localidad||"",
-    "Municipio":p.municipio||"",
-    "Nombre":p.nombre||"",
-    "Dirección":p.direccion||"",
-    "Teléfono":p.contacto_telefono||"",
-    "Edad_años":p.p1_edad||"",
-    "Estado_salud_actual":p.estado_salud_actual||p.Estado_salud_actual||"",
-    "Sexo":normalizaSexo(p.p2_sexo||""),
-    "Estado_civil":normalizaEstadoCivil(p.p3_estado_civil||""),
+    "No.":p["No."]||p.no_registro||"",
+    "ID":p["ID"]||p.id||"",
+    "fecha":p["fecha"]||"",
+    "Nombre_aplicador":p["Nombre_aplicador"]||p.aplicador||"",
+    "Consecutivo_localidad":p["Consecutivo_localidad"]||p.cvegeo||"",
+    "Jurisdicción":p["Jurisdicción"]||p.jurisdiccion||"",
+    "Localidad":p["Localidad"]||p.localidad||"",
+    "Municipio":p["Municipio"]||p.municipio||"",
+    "Nombre":nombreCompleto,
+    "Dirección":p["Dirección"]||p.direccion||"",
+    "Teléfono":p["Teléfono"]||p.contacto_telefono||p.telefono||"",
+    "Edad_años":p["Edad_años"]||p.p1_edad||"",
+    "Estado_salud_actual":p["Estado_salud_actual"]||p.estado_salud_actual||"",
+    "Sexo":p["Sexo"]!==undefined?p["Sexo"]:normalizaSexo(p.p2_sexo||""),
+    "Estado_civil":p["Estado_civil"]!==undefined?p["Estado_civil"]:normalizaEstadoCivil(p.p3_estado_civil||""),
     "Grupo_vulnerable":grupos,
-    "Grupo_vulnerable_codigo":normalizaGrupoCodigo(grupos),
+    "Grupo_vulnerable_codigo":p["Grupo_vulnerable_codigo"]||normalizaGrupoCodigo(grupos),
     "Seg_social":seg,
-    "Seg_social_codigo":normalizaSegSocialCodigo(seg),
-    "Ocupación":normalizaOcupacion(p.p6_ocupacion||""),
-    "Años_estudio":p.p7_anios_estudio||"",
-    "Alimentos_chatarra":normalizaFrecuencia(p.p8_alimentos_no_caseros||""),
-    "bebidas_azucaradas":normalizaFrecuencia(p.p9_bebidas_azucaradas||""),
-    "agua_simple":normalizaFrecuencia(p.p10_agua||""),
-    "actividad_física":normalizaFrecuencia(p.p11_actividad_fisica||""),
-    "etiquetado":normalizaEtiquetado(p.p12_etiquetado||""),
-    "peso":p.p13_peso||"",
-    "talla":normalizaTallaDato(p.p14_talla||""),
-    "IMC":p.imc||"",
-    "cintura":p.p15_cintura||"",
-    "cadera":p.p16_cadera||"",
-    "ICC":p.icc||"",
-    "PHQ_interes":p.p17_phq2||"",
-    "PHQ_triste":p.p18_phq2||"",
-    "PHQ2_Total":p.puntaje_phq2||"",
-    "PHQ_dormir":p.p19_phq9||"",
-    "PHQ_cansancio":p.p20_phq9||"",
-    "PHQ_apetito":p.p21_phq9||"",
-    "PHQ_sentirse_mal":p.p22_phq9||"",
-    "PHQ_concentrarse":p.p23_phq9||"",
-    "PHQ_movimiento_inquietud":p.p24_phq9||"",
-    "PHQ_pensamientos_lastimarse":p.p25_phq9||"",
-    "PHQ9_Total":p.puntaje_phq9||"",
-    "PHQ_Clasificacion":p.clasificacion_phq9||"",
-    "Observaciones_generales":p.observaciones||p.Observaciones_generales||""
+    "Seg_social_codigo":p["Seg_social_codigo"]||normalizaSegSocialCodigo(seg),
+    "Ocupación":p["Ocupación"]!==undefined?p["Ocupación"]:normalizaOcupacion(p.p6_ocupacion||""),
+    "Años_estudio":p["Años_estudio"]||p.p7_anios_estudio||"",
+    "Alimentos_chatarra":p["Alimentos_chatarra"]!==undefined?p["Alimentos_chatarra"]:normalizaFrecuencia(p.p8_alimentos_no_caseros||""),
+    "bebidas_azucaradas":p["bebidas_azucaradas"]!==undefined?p["bebidas_azucaradas"]:normalizaFrecuencia(p.p9_bebidas_azucaradas||""),
+    "agua_simple":p["agua_simple"]!==undefined?p["agua_simple"]:normalizaFrecuencia(p.p10_agua||""),
+    "actividad_física":p["actividad_física"]!==undefined?p["actividad_física"]:normalizaFrecuencia(p.p11_actividad_fisica||""),
+    "etiquetado":p["etiquetado"]!==undefined?p["etiquetado"]:normalizaEtiquetado(p.p12_etiquetado||""),
+    "peso":p["peso"]||p.p13_peso||"",
+    "talla":p["talla"]||normalizaTallaDato(p.p14_talla||""),
+    "IMC":p["IMC"]||p.imc||"",
+    "cintura":p["cintura"]||p.p15_cintura||"",
+    "cadera":p["cadera"]||p.p16_cadera||"",
+    "ICC":p["ICC"]||p.icc||"",
+    "PHQ_interes":p["PHQ_interes"]||p.p17_phq2||"",
+    "PHQ_triste":p["PHQ_triste"]||p.p18_phq2||"",
+    "PHQ2_Total":p["PHQ2_Total"]||p.puntaje_phq2||"",
+    "PHQ_dormir":p["PHQ_dormir"]||p.p19_phq9||"",
+    "PHQ_cansancio":p["PHQ_cansancio"]||p.p20_phq9||"",
+    "PHQ_apetito":p["PHQ_apetito"]||p.p21_phq9||"",
+    "PHQ_sentirse_mal":p["PHQ_sentirse_mal"]||p.p22_phq9||"",
+    "PHQ_concentrarse":p["PHQ_concentrarse"]||p.p23_phq9||"",
+    "PHQ_movimiento_inquietud":p["PHQ_movimiento_inquietud"]||p.p24_phq9||"",
+    "PHQ_pensamientos_lastimarse":p["PHQ_pensamientos_lastimarse"]||p.p25_phq9||"",
+    "PHQ9_Total":p["PHQ9_Total"]||p.puntaje_phq9||"",
+    "PHQ_Clasificacion":p["PHQ_Clasificacion"]||p.clasificacion_phq9||"",
+    "Observaciones_generales":p["Observaciones_generales"]||p.observaciones||"",
+    "capturista_clave":p["capturista_clave"]||"",
+    "capturista_nombre":p["capturista_nombre"]||"",
+    "capturista_perfil":p["capturista_perfil"]||"",
+    "capturado_fecha_hora":p["capturado_fecha_hora"]||new Date().toLocaleString("es-MX")
   };
 }
-function buildReview(){var p=payload();var sections={"Identificación":[["Nombre",p["Nombre"]],["Fecha",p["fecha"]],["ID",p["ID"]],["Aplicador",p["Nombre_aplicador"]],["Localidad",p["Localidad"]],["Municipio",p["Municipio"]],["Edad",p["Edad_años"]],["Estado de salud",p["Estado_salud_actual"]],["Sexo",p._texto_respaldo.Sexo_texto||p["Sexo"]]],"Datos generales":[["Estado civil",p._texto_respaldo.Estado_civil_texto||p["Estado_civil"]],["Grupos",p["Grupo_vulnerable"]],["Seguridad social",p["Seg_social"]],["Ocupación",p._texto_respaldo.Ocupacion_texto||p["Ocupación"]],["Años estudio",p["Años_estudio"]]],"Hábitos":[["P8",p._texto_respaldo.Alimentos_chatarra_texto||p["Alimentos_chatarra"]],["P9",p._texto_respaldo.Bebidas_azucaradas_texto||p["bebidas_azucaradas"]],["P10",p._texto_respaldo.Agua_simple_texto||p["agua_simple"]],["P11",p._texto_respaldo.Actividad_fisica_texto||p["actividad_física"]],["P12",p._texto_respaldo.Etiquetado_texto||p["etiquetado"]]],"Antropometría":[["Peso",p["peso"]],["Talla",p["talla"]],["IMC",(p["IMC"]||"")+" "+(v("clasificacion_imc")||"")],["Cintura",p["cintura"]],["Cadera",p["cadera"]],["ICC",(p["ICC"]||"")+" "+(v("clasificacion_icc")||"")]],"Salud Mental":[["PHQ-2",p["PHQ2_Total"]],["PHQ-9",p["PHQ9_Total"]? p["PHQ9_Total"]+" "+p["PHQ_Clasificacion"]:"No aplica"]]};var html='<div class="review-grid">';Object.keys(sections).forEach(function(k){html+='<div class="review-card"><h3>'+k+'</h3>';sections[k].forEach(function(row){html+='<div class="review-row"><span>'+row[0]+'</span><span>'+(row[1]||"—")+'</span></div>'});html+='</div>';});html+='</div>';document.getElementById("review-content").innerHTML=html;}
-function submitForm(){if(!validateStep(0))return;var p=payload();setLoading(true);if(!navigator.onLine){saveLocal(p);setLoading(false);showSuccess("Guardado localmente",false);return;}sendPayload(p).then(function(data){showSuccess(data.folio||"Sincronizado",true)}).catch(function(){saveLocal(p);showSuccess("Guardado localmente",false)}).finally(function(){setLoading(false);});}
+function buildReview(){var p=payload();var sections={"Identificación":[["Nombre(s)",p["Nombre(s)"]],["Primer apellido",p["Primer_apellido"]],["Segundo apellido",p["Segundo_apellido"]],["Nombre completo",p["Nombre"]],["Fecha",p["fecha"]],["ID",p["ID"]],["Aplicador",p["Nombre_aplicador"]],["Localidad",p["Localidad"]],["Municipio",p["Municipio"]],["Edad",p["Edad_años"]],["Estado de salud",p["Estado_salud_actual"]],["Sexo",p._texto_respaldo.Sexo_texto||p["Sexo"]]],"Datos generales":[["Estado civil",p._texto_respaldo.Estado_civil_texto||p["Estado_civil"]],["Grupos",p["Grupo_vulnerable"]],["Seguridad social",p["Seg_social"]],["Ocupación",p._texto_respaldo.Ocupacion_texto||p["Ocupación"]],["Años estudio",p["Años_estudio"]]],"Hábitos":[["P8",p._texto_respaldo.Alimentos_chatarra_texto||p["Alimentos_chatarra"]],["P9",p._texto_respaldo.Bebidas_azucaradas_texto||p["bebidas_azucaradas"]],["P10",p._texto_respaldo.Agua_simple_texto||p["agua_simple"]],["P11",p._texto_respaldo.Actividad_fisica_texto||p["actividad_física"]],["P12",p._texto_respaldo.Etiquetado_texto||p["etiquetado"]]],"Antropometría":[["Peso",p["peso"]],["Talla",p["talla"]],["IMC",(p["IMC"]||"")+" "+(v("clasificacion_imc")||"")],["Cintura",p["cintura"]],["Cadera",p["cadera"]],["ICC",(p["ICC"]||"")+" "+(v("clasificacion_icc")||"")]],"Salud Mental":[["PHQ-2",p["PHQ2_Total"]],["PHQ-9",p["PHQ9_Total"]? p["PHQ9_Total"]+" "+p["PHQ_Clasificacion"]:"No aplica"]]};var html='<div class="review-grid">';Object.keys(sections).forEach(function(k){html+='<div class="review-card"><h3>'+k+'</h3>';sections[k].forEach(function(row){html+='<div class="review-row"><span>'+row[0]+'</span><span>'+(row[1]||"—")+'</span></div>'});html+='</div>';});html+='</div>';document.getElementById("review-content").innerHTML=html;}
+function submitForm(){
+  if(!validateStep(0))return;
+  var p=payload();
+  setLoading(true);
+
+  // Con internet: intenta enviar directo a Google Sheets primero.
+  // Sin internet o si falla el envío: guarda local como pendiente.
+  if(navigator.onLine){
+    showToast("Enviando registro a Google Sheets...");
+    sendPayload(p).then(function(){
+      setLoading(false);
+      showSuccess("Enviado a Google Sheets", true);
+    }).catch(function(){
+      saveLocal(p);
+      setLoading(false);
+      showSuccess("Guardado como pendiente", false);
+      showToast("No se pudo enviar. Quedó pendiente para sincronizar.");
+    });
+  }else{
+    saveLocal(p);
+    setLoading(false);
+    showSuccess("Guardado como pendiente", false);
+    showToast("Sin internet. El registro quedó pendiente de sincronización.");
+  }
+}
 function sendPayload(p){
-  p = normalizeForSheets(p);
+  var limpio = normalizeForSheets(p);
+
+  // Envío simple para Apps Script. No se agregan headers especiales para evitar bloqueo CORS/preflight.
   return fetch(APPS_SCRIPT_URL, {
     method: "POST",
     mode: "no-cors",
-    headers: {
-      "Content-Type": "text/plain;charset=utf-8"
-    },
-    body: JSON.stringify(p)
+    body: JSON.stringify(limpio)
   }).then(function(){
-    return {ok:true, status:"ok"};
+    return {ok:true, status:"sent"};
   });
 }
-function getPending(){try{return JSON.parse(localStorage.getItem(storageKey)||"[]")}catch(e){return []}}function setPending(arr){localStorage.setItem(storageKey,JSON.stringify(arr));updatePendingText();}
-function saveLocal(p){var arr=getPending();p._local_id="LOCAL-"+Date.now();p._pendiente=true;arr.push(p);setPending(arr);}
-function syncPending(silent){var arr=getPending();if(!arr.length){if(!silent)showToast("No hay registros pendientes");return;}if(!navigator.onLine){showToast("Sin internet. Los registros siguen guardados localmente.");return;}var done=[],fail=[];Promise.all(arr.map(function(item){return sendPayload(item).then(function(){done.push(item)}).catch(function(){fail.push(item)})})).then(function(){setPending(fail);showToast("Sincronizados: "+done.length+". Pendientes: "+fail.length);});}
+function getPending(){try{return JSON.parse(localStorage.getItem(storageKey)||"[]")}catch(e){return []}}
+function setPending(arr){localStorage.setItem(storageKey,JSON.stringify(arr));updatePendingText();}
+function saveLocal(p){
+  var arr=getPending();
+  if(!p._local_id)p._local_id="LOCAL-"+Date.now()+"-"+Math.floor(Math.random()*100000);
+  p._pendiente=true;
+
+  // Evita duplicar si el mismo objeto ya existe en pendientes.
+  var existe=arr.some(function(x){return x._local_id===p._local_id;});
+  if(!existe)arr.push(p);
+  setPending(arr);
+}
+function syncPending(silent){
+  var arr=getPending();
+  if(!arr.length){if(!silent)showToast("No hay registros pendientes");return;}
+  if(!navigator.onLine){showToast("Sin internet. Los registros siguen guardados localmente.");return;}
+
+  var done=[],fail=[];
+  Promise.all(arr.map(function(item){
+    return sendPayload(item).then(function(){done.push(item)}).catch(function(){fail.push(item)});
+  })).then(function(){
+    setPending(fail);
+    if(!silent || done.length>0)showToast("Sincronizados: "+done.length+". Pendientes: "+fail.length);
+  });
+}
 function updatePendingText(){document.getElementById("pending-text").textContent="Pendientes: "+getPending().length;}function updateNetStatus(){var s=document.getElementById("net-status");s.textContent=navigator.onLine?"Con internet":"Sin internet";s.className="status-badge "+(navigator.onLine?"online":"offline");}
 function setLoading(on){var b=document.getElementById("btn-submit");b.disabled=on;document.getElementById("btn-text").textContent=on?"Guardando...":"Guardar registro";document.getElementById("btn-spinner").style.display=on?"inline-block":"none";}
-function showSuccess(folio,online){document.getElementById("step-4").classList.remove("active");document.getElementById("steps-bar").style.display="none";document.getElementById("success-screen").style.display="block";document.getElementById("success-screen").classList.add("active");document.getElementById("success-folio").textContent=folio;document.getElementById("success-sub").textContent=online?"El registro fue enviado a Google Sheets.":"El registro quedó guardado en este equipo/celular y se sincronizará cuando haya internet.";updatePendingText();}
-function cerrarCaptura(){if(confirm("¿Cerrar sesión? Se borrarán los datos de la captura actual que no se hayan guardado.")){try{document.querySelectorAll("input, textarea, select").forEach(function(el){if(el.type==="hidden"||el.id==="no_registro"||el.id==="fecha")return;if(el.type==="checkbox"||el.type==="radio"){el.checked=false;}else{el.value="";}});document.querySelectorAll(".choice-btn.selected,.scale-btn.selected").forEach(function(el){el.classList.remove("selected");});}catch(e){}document.body.classList.add("body-locked");var s=document.getElementById("session-closed");if(s)s.style.display="block";window.scrollTo(0,0);showToast("Sesión cerrada");}}
+function showSuccess(folio,online){document.getElementById("step-4").classList.remove("active");document.getElementById("steps-bar").style.display="none";document.getElementById("success-screen").style.display="block";document.getElementById("success-screen").classList.add("active");document.getElementById("success-folio").textContent=folio;document.getElementById("success-sub").textContent=online?"El registro fue enviado a Google Sheets.":"El registro quedó guardado en este equipo/celular. Revisa el aviso de sincronización para confirmar si llegó a Google Sheets.";updatePendingText();}
+function cerrarCaptura(){if(confirm("¿Cerrar sesión? Se borrarán los datos de la captura actual que no se hayan guardado.")){clearCapturistaActivo();try{document.querySelectorAll("input, textarea, select").forEach(function(el){if(el.type==="hidden"||el.id==="no_registro"||el.id==="fecha")return;if(el.type==="checkbox"||el.type==="radio"){el.checked=false;}else{el.value="";}});document.querySelectorAll(".choice-btn.selected,.scale-btn.selected").forEach(function(el){el.classList.remove("selected");});}catch(e){}document.body.classList.add("body-locked");var s=document.getElementById("session-closed");if(s)s.style.display="block";window.scrollTo(0,0);showToast("Sesión cerrada");}}
 function iniciarNuevaSesion(){location.reload();}
 function resetForm(){location.reload()}function showToast(msg){var t=document.getElementById("toast");t.textContent=msg;t.style.display="block";setTimeout(function(){t.style.display="none"},5000);}
-
-function cargarLocalidades(municipio) {
-
-    var loc = document.getElementById("localidad");
-
-    if (!loc) return;
-
-    loc.innerHTML = "";
-
-    setv("cve_municipio", "");
-    setv("cve_localidad", "");
-    setv("latitud_localidad", "");
-    setv("longitud_localidad", "");
-    setv("altitud_localidad", "");
-
-    setv("cvegeo", "");
-    setv("jurisdiccion", "");
-
-    if (!municipio || !LOCALIDADES_CUSCO[municipio]) {
-
-        loc.disabled = true;
-
-        loc.innerHTML =
-            '<option value="">— Primero selecciona municipio —</option>';
-
-        return;
-    }
-
-    loc.disabled = false;
-
-    loc.innerHTML =
-        '<option value="">— Selecciona localidad —</option>';
-
-    LOCALIDADES_CUSCO[municipio].forEach(function(item) {
-
-        var opt = document.createElement("option");
-
-        opt.value = item.nombre;
-        opt.textContent = item.nombre;
-
-        opt.dataset.cvegeo =
-            item.cvegeo || "";
-
-        opt.dataset.jurisdiccion =
-            item.jurisdiccion || "";
-
-        loc.appendChild(opt);
-
-    });
-}
-
-
-
-function onLocalidadChange() {
-
-    var loc =
-        document.getElementById("localidad");
-
-    if (!loc) return;
-
-    var opt =
-        loc.options[loc.selectedIndex];
-
-    setv(
-        "cvegeo",
-        opt ? (opt.dataset.cvegeo || "") : ""
-    );
-
-    setv(
-        "jurisdiccion",
-        opt ? (opt.dataset.jurisdiccion || "") : ""
-    );
-
-    console.log(
-        "Localidad:",
-        loc.value,
-        "CVEGEO:",
-        opt.dataset.cvegeo,
-        "Jurisdicción:",
-        opt.dataset.jurisdiccion
-    );
-}
-
-
 
 </script>
 </body>
