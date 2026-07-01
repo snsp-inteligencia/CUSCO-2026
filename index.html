@@ -15,6 +15,16 @@ html, body { max-width: 100%; overflow-x: hidden; }
 .form-card, .card-body, .field-grid, .field, .field-full, .question-block { max-width: 100%; }
 .field input, .field select, .field textarea { max-width: 100%; }
 .question-title, .field label, .choice-btn { white-space: normal; overflow-wrap: anywhere; word-break: normal; }
+.piscis-logo-capture-wrap{
+    display:flex;
+    justify-content:center;
+    margin-bottom:15px;
+}
+
+.piscis-logo-capture{
+    width:140px;
+    height:auto;
+}
 
 /* Escritorio: conservar ancho original centrado */
 @media (min-width: 651px) {
@@ -219,9 +229,9 @@ html, body { max-width: 100%; overflow-x: hidden; }
 
 
 <div class="page-wrap">
+<div class="piscis-logo-capture-wrap"><img src="logo_piscis.png" alt="PISCIS" class="piscis-logo-capture"></div>
 <div class="page-title"><h1>Cuestionario de Salud Comunitario (CUSCO) 2026</h1><p>Captura con o sin internet. Los registros pendientes se sincronizan cuando haya conexión.</p></div>
 <div class="status-panel"><div><span id="net-status" class="status-badge">Verificando conexión...</span> <span class="pending" id="pending-text">Pendientes: 0</span></div><button class="btn btn-sync btn-small" onclick="syncPending()">Sincronizar pendientes</button></div>
-<div class="piscis-logo-capture-wrap"><img src="logo_piscis.png" alt="PISCIS" class="piscis-logo-capture"></div>
 <div class="steps-bar" id="steps-bar"></div>
 
 <div class="form-card active" id="step-0"><div class="card-header"><div class="card-header-num">1</div><div><div class="card-header-title">Datos de Identificación</div><div class="card-header-sub">Información general del cuestionario</div></div></div><div class="card-body"><div class="field-grid">
