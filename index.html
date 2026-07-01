@@ -120,6 +120,39 @@ html, body { max-width: 100%; overflow-x: hidden; }
   #btn-cambiar-capturista[style*="inline-flex"]{display:inline-flex!important;}
 }
 
+
+
+/* ===== LOGO PISCIS EN ZONA DE CAPTURA ===== */
+.piscis-logo-capture-wrap{
+  max-width:900px;
+  margin:8px auto 10px;
+  padding:0 16px;
+  display:flex;
+  justify-content:flex-start;
+  align-items:center;
+}
+.piscis-logo-capture{
+  width:82px;
+  height:82px;
+  object-fit:contain;
+  background:transparent;
+  border-radius:50%;
+  box-shadow:none;
+  padding:0;
+}
+@media(max-width:650px){
+  .piscis-logo-capture-wrap{
+    justify-content:center;
+    margin:6px auto 10px;
+  }
+  .piscis-logo-capture{
+    width:70px;
+    height:70px;
+  }
+}
+/* ===== FIN LOGO PISCIS EN ZONA DE CAPTURA ===== */
+
+
 </style>
 
 <link rel="manifest" href="manifest.json">
