@@ -108,18 +108,6 @@ html, body { max-width: 100%; overflow-x: hidden; }
 @media(max-width:650px){.btn-admin-capturistas{display:none!important}.admin-card{margin:8px auto}.admin-table{font-size:11px}}
 /* ===== FIN LOGIN CAPTURISTA CUSCO ===== */
 
-
-/* Cambiar capturista debe quedar disponible también en móvil */
-@media(max-width:650px){
-  .btn-cambiar-capturista{display:none;font-size:11px;padding:7px 9px}
-}
-
-
-/* FIX botones operativos móviles */
-@media(max-width:650px){
-  #btn-cambiar-capturista[style*="inline-flex"]{display:inline-flex!important;}
-}
-
 </style>
 
 <link rel="manifest" href="manifest.json">
@@ -130,7 +118,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
 <link rel="apple-touch-icon" href="icons/icon-192.png">
 </head>
 <body class="body-login">
-<header class="site-header"><div class="header-brand"><div class="brand-box">SC</div><div><div class="brand-name">SierraConecta</div><div class="brand-sub">Sierra Gorda · Querétaro</div></div></div><div class="header-actions"><span class="header-badge">CUSCO 2026 · Offline</span><span id="capturista-activo" class="capturista-active"></span><button type="button" id="btn-admin-capturistas" class="btn-admin-capturistas" onclick="abrirAdminCapturistas()" style="display:none">Capturistas</button><button type="button" id="btn-cambiar-capturista" class="btn-admin-capturistas btn-cambiar-capturista" onclick="cambiarCapturista()" style="display:none">Cambiar capturista</button></div></header>
+<header class="site-header"><div class="header-brand"><div class="brand-box">SC</div><div><div class="brand-name">SierraConecta</div><div class="brand-sub">Sierra Gorda · Querétaro</div></div></div><div class="header-actions"><span class="header-badge">CUSCO 2026 · Offline</span><span id="capturista-activo" class="capturista-active"></span><button type="button" id="btn-admin-capturistas" class="btn-admin-capturistas" onclick="abrirAdminCapturistas()" style="display:none">Capturistas</button><button type="button" class="btn-close-capture" onclick="cerrarCaptura()">Cerrar sesión</button></div></header>
 
 <div id="login-capturista" class="login-screen">
   <div class="login-card">
@@ -186,7 +174,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
   </div>
 </div>
 
-
+<div id="session-closed" class="session-closed"><div class="session-card"><div class="session-icon">✓</div><div class="session-title">Sesión cerrada</div><div class="session-text">La captura quedó cerrada en este dispositivo. Para iniciar una nueva captura, toca el botón de abajo.</div><button type="button" class="btn btn-submit" onclick="iniciarNuevaSesion()">Iniciar nueva captura</button></div></div>
 <div class="page-wrap">
 <div class="page-title"><h1>Cuestionario de Salud Comunitario (CUSCO) 2026</h1><p>Captura con o sin internet. Los registros pendientes se sincronizan cuando haya conexión.</p></div>
 <div class="status-panel"><div><span id="net-status" class="status-badge">Verificando conexión...</span> <span class="pending" id="pending-text">Pendientes: 0</span></div><button class="btn btn-sync btn-small" onclick="syncPending()">Sincronizar pendientes</button></div>
@@ -195,7 +183,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
 <div class="form-card active" id="step-0"><div class="card-header"><div class="card-header-num">1</div><div><div class="card-header-title">Datos de Identificación</div><div class="card-header-sub">Información general del cuestionario</div></div></div><div class="card-body"><div class="field-grid">
 <div class="field"><label>No.</label><input type="text" id="no_registro" readonly></div>
 <div class="field"><label>Fecha <span class="req">*</span></label><input type="date" id="fecha" required></div>
-<div class="field"><label>CURP / Identificador único de población</label><input type="text" id="id_encuestado" placeholder="Ej. CURP o folio identificador"></div>
+<div class="field"><label>ID</label><input type="text" id="id_encuestado" placeholder="ID/CURP/identificador"></div>
 <div class="field"><label>Nombre y clave del aplicador <span class="req">*</span></label><input type="text" id="aplicador" required></div>
 <div class="section-divider">Identificación nominal</div>
 <div class="field field-full"><label>Nombre(s) <span class="req">*</span></label><input type="text" id="nombres" required placeholder="Ej. Soraya Lizbeth"></div>
@@ -261,47 +249,12 @@ function cargarCatalogoCapturistas(){
 }
 var CAPTURISTAS_CUSCO=cargarCatalogoCapturistas();
 function guardarCatalogoCapturistas(){
-  try{
-    localStorage.setItem(CAPTURISTAS_ADMIN_KEY,JSON.stringify(CAPTURISTAS_CUSCO));
-    return true;
-  }catch(e){
-    showToast("No se pudo guardar en este dispositivo. Revisa almacenamiento de Safari.");
-    return false;
-  }
+  localStorage.setItem(CAPTURISTAS_ADMIN_KEY,JSON.stringify(CAPTURISTAS_CUSCO));
 }
 var CAPTURISTA_STORAGE_KEY="cusco_capturista_activo";
-var CAPTURISTA_MEM=null;
-function getCapturistaActivo(){
-  if(CAPTURISTA_MEM&&CAPTURISTA_MEM.clave)return CAPTURISTA_MEM;
-  try{
-    var raw=sessionStorage.getItem(CAPTURISTA_STORAGE_KEY);
-    if(raw){
-      CAPTURISTA_MEM=JSON.parse(raw)||{};
-      return CAPTURISTA_MEM;
-    }
-  }catch(e){}
-  return {};
-}
-function setCapturistaActivo(c){
-  CAPTURISTA_MEM={clave:c.clave,nombre:c.nombre,perfil:c.perfil,login_at:new Date().toISOString()};
-  try{sessionStorage.setItem(CAPTURISTA_STORAGE_KEY,JSON.stringify(CAPTURISTA_MEM));}catch(e){}
-}
-function clearCapturistaActivo(){
-  CAPTURISTA_MEM=null;
-  try{sessionStorage.removeItem(CAPTURISTA_STORAGE_KEY);}catch(e){}
-  try{localStorage.removeItem(CAPTURISTA_STORAGE_KEY);}catch(e){}
-}
-
-function refrescarListasCapturistasSinCerrarSesion(){
-  var sel=document.getElementById("login_capturista_clave");
-  if(sel){
-    sel.innerHTML='<option value="">— Selecciona capturista —</option>'+CAPTURISTAS_CUSCO.map(function(c){
-      return '<option value="'+c.clave+'">'+c.clave+' · '+c.nombre+'</option>';
-    }).join("");
-  }
-  poblarSelectCambioPin();
-}
-
+function getCapturistaActivo(){try{return JSON.parse(sessionStorage.getItem(CAPTURISTA_STORAGE_KEY)||"null")||{};}catch(e){return {};}}
+function setCapturistaActivo(c){sessionStorage.setItem(CAPTURISTA_STORAGE_KEY,JSON.stringify({clave:c.clave,nombre:c.nombre,perfil:c.perfil,login_at:new Date().toISOString()}));}
+function clearCapturistaActivo(){sessionStorage.removeItem(CAPTURISTA_STORAGE_KEY);localStorage.removeItem(CAPTURISTA_STORAGE_KEY);}
 function initCapturistas(){
   clearCapturistaActivo();
   var sel=document.getElementById("login_capturista_clave");
@@ -317,8 +270,6 @@ function aplicarCapturistaEnFormulario(){
   if(aplicador&&has){aplicador.value=cap.clave+" - "+cap.nombre;aplicador.readOnly=true;}
   var btnAdmin=document.getElementById("btn-admin-capturistas");
   if(btnAdmin)btnAdmin.style.display=(has&&cap.perfil==="Administrador")?"inline-flex":"none";
-  var btnCambiar=document.getElementById("btn-cambiar-capturista");
-  if(btnCambiar)btnCambiar.style.display=has?"inline-flex":"none";
 }
 function loginCapturista(){
   var clave=(document.getElementById("login_capturista_clave")||{}).value||"";
@@ -330,44 +281,6 @@ function loginCapturista(){
   showToast("Sesión iniciada: "+cap.nombre);
 }
 function initCapturistaSession(){initCapturistas();aplicarCapturistaEnFormulario();}
-
-
-function cambiarCapturista(){
-  try{
-    clearCapturistaActivo();
-
-    var pin=document.getElementById("login_capturista_pin");
-    if(pin)pin.value="";
-
-    var sel=document.getElementById("login_capturista_clave");
-    if(sel)sel.value="";
-
-    var aplicador=document.getElementById("aplicador");
-    if(aplicador){
-      aplicador.value="";
-      aplicador.readOnly=false;
-    }
-
-    var badge=document.getElementById("capturista-activo");
-    if(badge)badge.textContent="";
-
-    var btnAdmin=document.getElementById("btn-admin-capturistas");
-    if(btnAdmin)btnAdmin.style.display="none";
-
-    var btnCambiar=document.getElementById("btn-cambiar-capturista");
-    if(btnCambiar)btnCambiar.style.display="none";
-
-    document.body.classList.add("body-login");
-    document.body.classList.remove("body-locked");
-
-    initCapturistas();
-
-    window.scrollTo(0,0);
-    showToast("Selecciona capturista para continuar");
-  }catch(e){
-    alert("No se pudo cambiar capturista: "+(e.message||e));
-  }
-}
 
 function abrirAdminCapturistas(){
   var cap=getCapturistaActivo();
@@ -399,8 +312,8 @@ function guardarCapturistaAdmin(){
   var idx=CAPTURISTAS_CUSCO.findIndex(function(c){return c.clave===clave;});
   var item={clave:clave,nombre:nombre,pin:pin,perfil:perfil};
   if(idx>=0)CAPTURISTAS_CUSCO[idx]=item; else CAPTURISTAS_CUSCO.push(item);
-  if(!guardarCatalogoCapturistas())return;
-  refrescarListasCapturistasSinCerrarSesion();
+  guardarCatalogoCapturistas();
+  initCapturistas();
   renderCapturistasAdmin();
   limpiarFormCapturistaAdmin();
   showToast("Capturista guardado: "+clave);
@@ -413,8 +326,8 @@ function editarCapturistaAdmin(clave){
 function eliminarCapturistaAdmin(clave){
   if(!confirm("¿Eliminar "+clave+"?"))return;
   CAPTURISTAS_CUSCO=CAPTURISTAS_CUSCO.filter(function(c){return c.clave!==clave;});
-  if(!guardarCatalogoCapturistas())return;
-  refrescarListasCapturistasSinCerrarSesion();renderCapturistasAdmin();showToast("Capturista eliminado");
+  guardarCatalogoCapturistas();
+  initCapturistas();renderCapturistasAdmin();showToast("Capturista eliminado");
 }
 function poblarSelectCambioPin(){
   var sel=document.getElementById("admin_pin_clave");
@@ -429,8 +342,8 @@ function cambiarPinCapturistaAdmin(){
   var idx=CAPTURISTAS_CUSCO.findIndex(function(c){return c.clave===clave;});
   if(idx<0){showToast("No se encontró el capturista");return;}
   CAPTURISTAS_CUSCO[idx].pin=nuevo;
-  if(!guardarCatalogoCapturistas())return;
-  refrescarListasCapturistasSinCerrarSesion();
+  guardarCatalogoCapturistas();
+  initCapturistas();
   renderCapturistasAdmin();
   setv("admin_pin_clave",clave);
   setv("admin_pin_nuevo","");
@@ -842,122 +755,9 @@ function syncPending(silent){
 function updatePendingText(){document.getElementById("pending-text").textContent="Pendientes: "+getPending().length;}function updateNetStatus(){var s=document.getElementById("net-status");s.textContent=navigator.onLine?"Con internet":"Sin internet";s.className="status-badge "+(navigator.onLine?"online":"offline");}
 function setLoading(on){var b=document.getElementById("btn-submit");b.disabled=on;document.getElementById("btn-text").textContent=on?"Guardando...":"Guardar registro";document.getElementById("btn-spinner").style.display=on?"inline-block":"none";}
 function showSuccess(folio,online){document.getElementById("step-4").classList.remove("active");document.getElementById("steps-bar").style.display="none";document.getElementById("success-screen").style.display="block";document.getElementById("success-screen").classList.add("active");document.getElementById("success-folio").textContent=folio;document.getElementById("success-sub").textContent=online?"El registro fue enviado a Google Sheets.":"El registro quedó guardado en este equipo/celular. Revisa el aviso de sincronización para confirmar si llegó a Google Sheets.";updatePendingText();}
-function limpiarCapturaActual(conservarAplicador){
-  try{
-    currentStep=0;
-
-    var success=document.getElementById("success-screen");
-    if(success){
-      success.style.display="none";
-      success.classList.remove("active");
-    }
-
-    var steps=document.getElementById("steps-bar");
-    if(steps)steps.style.display="flex";
-
-    document.querySelectorAll(".form-card").forEach(function(card){
-      card.classList.remove("active");
-    });
-
-    var step0=document.getElementById("step-0");
-    if(step0)step0.classList.add("active");
-    updateStepsBar(0);
-
-    document.querySelectorAll("input, textarea, select").forEach(function(el){
-      if(!el.id)return;
-
-      if(el.id==="login_capturista_clave" || el.id==="login_capturista_pin")return;
-      if(el.id.indexOf("admin_")===0)return;
-      if(conservarAplicador && (el.id==="aplicador" || el.id==="fecha"))return;
-      if(el.id==="fecha")return;
-
-      if(el.id==="no_registro"){
-        el.value="CUSCO-LOCAL-"+Date.now();
-        return;
-      }
-
-      if(el.type==="checkbox" || el.type==="radio"){
-        el.checked=false;
-        return;
-      }
-
-      if(el.tagName==="SELECT"){
-        if(el.id==="localidad"){
-          el.innerHTML='<option value="">— Primero selecciona municipio —</option>';
-          el.disabled=true;
-        }else{
-          el.selectedIndex=0;
-        }
-        return;
-      }
-
-      el.value="";
-    });
-
-    document.querySelectorAll(".choice-btn.selected,.scale-btn.selected").forEach(function(el){
-      el.classList.remove("selected");
-    });
-
-    ["imc-display","imc-clasif-display","icc-display","icc-clasif-display","phq2-score-display","phq9-score-display","phq9-clasif-display"].forEach(function(id){
-      var e=document.getElementById(id);
-      if(e)e.innerHTML="—";
-    });
-
-    var phq9=document.getElementById("phq9-section");
-    if(phq9)phq9.classList.remove("show");
-
-    updatePendingText();
-  }catch(e){}
-}
-
-function mostrarPantallaLoginOffline(){
-  clearCapturistaActivo();
-  limpiarCapturaActual(false);
-
-  var s=document.getElementById("session-closed");
-  if(s)s.style.display="none";
-
-  var login=document.getElementById("login-capturista");
-  if(login)login.style.display="block";
-
-  var pin=document.getElementById("login_capturista_pin");
-  if(pin)pin.value="";
-
-  document.body.classList.remove("body-locked");
-  document.body.classList.add("body-login");
-
-  initCapturistas();
-
-  window.scrollTo(0,0);
-  showToast("Listo. Inicia sesión para nueva captura.");
-}
-
-function cerrarCaptura(){showToast("Usa + Capturar nuevo registro para continuar capturando.");}
-
-function iniciarNuevaSesion(){
-  mostrarPantallaLoginOffline();
-}
-
-function limpiarFormularioParaNuevaCaptura(){
-  limpiarCapturaActual(true);
-  var cap=getCapturistaActivo();
-  if(cap && cap.clave){
-    var aplicador=document.getElementById("aplicador");
-    if(aplicador){
-      aplicador.value=cap.clave+" - "+cap.nombre;
-      aplicador.readOnly=true;
-    }
-  }
-  document.body.classList.remove("body-locked");
-  document.body.classList.remove("body-login");
-  window.scrollTo(0,0);
-  showToast("Lista para nueva captura");
-}
-
-function resetForm(){
-  limpiarFormularioParaNuevaCaptura();
-}
-function showToast(msg){var t=document.getElementById("toast");t.textContent=msg;t.style.display="block";setTimeout(function(){t.style.display="none"},5000);}
+function cerrarCaptura(){if(confirm("¿Cerrar sesión? Se borrarán los datos de la captura actual que no se hayan guardado.")){clearCapturistaActivo();try{document.querySelectorAll("input, textarea, select").forEach(function(el){if(el.type==="hidden"||el.id==="no_registro"||el.id==="fecha")return;if(el.type==="checkbox"||el.type==="radio"){el.checked=false;}else{el.value="";}});document.querySelectorAll(".choice-btn.selected,.scale-btn.selected").forEach(function(el){el.classList.remove("selected");});}catch(e){}document.body.classList.add("body-locked");var s=document.getElementById("session-closed");if(s)s.style.display="block";window.scrollTo(0,0);showToast("Sesión cerrada");}}
+function iniciarNuevaSesion(){location.reload();}
+function resetForm(){location.reload()}function showToast(msg){var t=document.getElementById("toast");t.textContent=msg;t.style.display="block";setTimeout(function(){t.style.display="none"},5000);}
 
 </script>
 </body>
