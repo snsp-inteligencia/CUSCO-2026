@@ -108,6 +108,18 @@ html, body { max-width: 100%; overflow-x: hidden; }
 @media(max-width:650px){.btn-admin-capturistas{display:none!important}.admin-card{margin:8px auto}.admin-table{font-size:11px}}
 /* ===== FIN LOGIN CAPTURISTA CUSCO ===== */
 
+
+/* Cambiar capturista debe quedar disponible también en móvil */
+@media(max-width:650px){
+  .btn-cambiar-capturista{display:none;font-size:11px;padding:7px 9px}
+}
+
+
+/* FIX botones operativos móviles */
+@media(max-width:650px){
+  #btn-cambiar-capturista[style*="inline-flex"]{display:inline-flex!important;}
+}
+
 </style>
 
 <link rel="manifest" href="manifest.json">
@@ -118,7 +130,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
 <link rel="apple-touch-icon" href="icons/icon-192.png">
 </head>
 <body class="body-login">
-<header class="site-header"><div class="header-brand"><div class="brand-box">SC</div><div><div class="brand-name">SierraConecta</div><div class="brand-sub">Sierra Gorda · Querétaro</div></div></div><div class="header-actions"><span class="header-badge">CUSCO 2026 · Offline</span><span id="capturista-activo" class="capturista-active"></span><button type="button" id="btn-admin-capturistas" class="btn-admin-capturistas" onclick="abrirAdminCapturistas()" style="display:none">Capturistas</button><button type="button" class="btn-close-capture" onclick="cerrarCaptura()">Cerrar sesión</button></div></header>
+<header class="site-header"><div class="header-brand"><div class="brand-box">SC</div><div><div class="brand-name">SierraConecta</div><div class="brand-sub">Sierra Gorda · Querétaro</div></div></div><div class="header-actions"><span class="header-badge">CUSCO 2026 · Offline</span><span id="capturista-activo" class="capturista-active"></span><button type="button" id="btn-admin-capturistas" class="btn-admin-capturistas" onclick="abrirAdminCapturistas()" style="display:none">Capturistas</button><button type="button" id="btn-cambiar-capturista" class="btn-admin-capturistas btn-cambiar-capturista" onclick="cambiarCapturista()" style="display:none">Cambiar capturista</button></div></header>
 
 <div id="login-capturista" class="login-screen">
   <div class="login-card">
@@ -174,7 +186,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
   </div>
 </div>
 
-<div id="session-closed" class="session-closed"><div class="session-card"><div class="session-icon">✓</div><div class="session-title">Sesión cerrada</div><div class="session-text">La captura quedó cerrada en este dispositivo. Para iniciar una nueva captura, toca el botón de abajo.</div><button type="button" class="btn btn-submit" onclick="iniciarNuevaSesion()">Iniciar nueva captura</button></div></div>
+
 <div class="page-wrap">
 <div class="page-title"><h1>Cuestionario de Salud Comunitario (CUSCO) 2026</h1><p>Captura con o sin internet. Los registros pendientes se sincronizan cuando haya conexión.</p></div>
 <div class="status-panel"><div><span id="net-status" class="status-badge">Verificando conexión...</span> <span class="pending" id="pending-text">Pendientes: 0</span></div><button class="btn btn-sync btn-small" onclick="syncPending()">Sincronizar pendientes</button></div>
@@ -183,7 +195,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
 <div class="form-card active" id="step-0"><div class="card-header"><div class="card-header-num">1</div><div><div class="card-header-title">Datos de Identificación</div><div class="card-header-sub">Información general del cuestionario</div></div></div><div class="card-body"><div class="field-grid">
 <div class="field"><label>No.</label><input type="text" id="no_registro" readonly></div>
 <div class="field"><label>Fecha <span class="req">*</span></label><input type="date" id="fecha" required></div>
-<div class="field"><label>ID</label><input type="text" id="id_encuestado" placeholder="ID/CURP/identificador"></div>
+<div class="field"><label>CURP / Identificador único de población</label><input type="text" id="id_encuestado" placeholder="Ej. CURP o folio identificador"></div>
 <div class="field"><label>Nombre y clave del aplicador <span class="req">*</span></label><input type="text" id="aplicador" required></div>
 <div class="section-divider">Identificación nominal</div>
 <div class="field field-full"><label>Nombre(s) <span class="req">*</span></label><input type="text" id="nombres" required placeholder="Ej. Soraya Lizbeth"></div>
@@ -192,7 +204,12 @@ html, body { max-width: 100%; overflow-x: hidden; }
 <div class="field"><label>Municipio <span class="req">*</span></label><select id="municipio" required><option value="">— Selecciona municipio —</option><option>Amealco de Bonfil</option><option>Arroyo Seco</option><option>Cadereyta de Montes</option><option>Colón</option><option>Corregidora</option><option>El Marqués</option><option>Ezequiel Montes</option><option>Huimilpan</option><option>Jalpan de Serra</option><option>Landa de Matamoros</option><option>Pedro Escobedo</option><option>Peñamiller</option><option>Pinal de Amoles</option><option>Querétaro</option><option>San Joaquín</option><option>San Juan del Río</option><option>Tequisquiapan</option><option>Tolimán</option></select></div>
 <div class="field"><label>Localidad <span class="req">*</span></label><select id="localidad" required disabled><option value="">— Primero selecciona municipio —</option></select><input type="hidden" id="cve_municipio"><input type="hidden" id="cve_localidad"><input type="hidden" id="latitud_localidad"><input type="hidden" id="longitud_localidad"><input type="hidden" id="altitud_localidad"><input type="hidden" id="cvegeo"><input type="hidden" id="jurisdiccion"></div>
 <div class="field"><label>Contacto (teléfono)</label><input type="tel" id="telefono" placeholder="10 dígitos"></div>
-<div class="field"><label>Dirección</label><input type="text" id="direccion"></div>
+<div class="section-divider">Domicilio</div>
+<div class="field"><label>Calle</label><input type="text" id="domicilio_calle" placeholder="Ej. Av. Principal"></div>
+<div class="field"><label>Número exterior</label><input type="text" id="domicilio_numero_exterior" placeholder="Ej. 123, S/N"></div>
+<div class="field"><label>C.P.</label><input type="text" id="domicilio_cp" inputmode="numeric" maxlength="5" placeholder="Ej. 76000"></div>
+<div class="field"><label>Colonia</label><input type="text" id="domicilio_colonia" placeholder="Ej. Centro"></div>
+<input type="hidden" id="direccion">
 <div class="section-divider">Datos personales</div>
 <div class="field"><label>1. Edad <span class="req">*</span></label><input type="number" id="edad" min="0" max="120" required></div>
 <div class="field field-full"><label>2. Sexo <span class="req">*</span></label><div class="radio-group" data-name="sexo"><label class="choice-btn"><input type="radio" name="sexo" value="Hombre">Hombre</label><label class="choice-btn"><input type="radio" name="sexo" value="Mujer">Mujer</label><label class="choice-btn"><input type="radio" name="sexo" value="Intersexual">Intersexual</label></div></div>
@@ -249,12 +266,47 @@ function cargarCatalogoCapturistas(){
 }
 var CAPTURISTAS_CUSCO=cargarCatalogoCapturistas();
 function guardarCatalogoCapturistas(){
-  localStorage.setItem(CAPTURISTAS_ADMIN_KEY,JSON.stringify(CAPTURISTAS_CUSCO));
+  try{
+    localStorage.setItem(CAPTURISTAS_ADMIN_KEY,JSON.stringify(CAPTURISTAS_CUSCO));
+    return true;
+  }catch(e){
+    showToast("No se pudo guardar en este dispositivo. Revisa almacenamiento de Safari.");
+    return false;
+  }
 }
 var CAPTURISTA_STORAGE_KEY="cusco_capturista_activo";
-function getCapturistaActivo(){try{return JSON.parse(sessionStorage.getItem(CAPTURISTA_STORAGE_KEY)||"null")||{};}catch(e){return {};}}
-function setCapturistaActivo(c){sessionStorage.setItem(CAPTURISTA_STORAGE_KEY,JSON.stringify({clave:c.clave,nombre:c.nombre,perfil:c.perfil,login_at:new Date().toISOString()}));}
-function clearCapturistaActivo(){sessionStorage.removeItem(CAPTURISTA_STORAGE_KEY);localStorage.removeItem(CAPTURISTA_STORAGE_KEY);}
+var CAPTURISTA_MEM=null;
+function getCapturistaActivo(){
+  if(CAPTURISTA_MEM&&CAPTURISTA_MEM.clave)return CAPTURISTA_MEM;
+  try{
+    var raw=sessionStorage.getItem(CAPTURISTA_STORAGE_KEY);
+    if(raw){
+      CAPTURISTA_MEM=JSON.parse(raw)||{};
+      return CAPTURISTA_MEM;
+    }
+  }catch(e){}
+  return {};
+}
+function setCapturistaActivo(c){
+  CAPTURISTA_MEM={clave:c.clave,nombre:c.nombre,perfil:c.perfil,login_at:new Date().toISOString()};
+  try{sessionStorage.setItem(CAPTURISTA_STORAGE_KEY,JSON.stringify(CAPTURISTA_MEM));}catch(e){}
+}
+function clearCapturistaActivo(){
+  CAPTURISTA_MEM=null;
+  try{sessionStorage.removeItem(CAPTURISTA_STORAGE_KEY);}catch(e){}
+  try{localStorage.removeItem(CAPTURISTA_STORAGE_KEY);}catch(e){}
+}
+
+function refrescarListasCapturistasSinCerrarSesion(){
+  var sel=document.getElementById("login_capturista_clave");
+  if(sel){
+    sel.innerHTML='<option value="">— Selecciona capturista —</option>'+CAPTURISTAS_CUSCO.map(function(c){
+      return '<option value="'+c.clave+'">'+c.clave+' · '+c.nombre+'</option>';
+    }).join("");
+  }
+  poblarSelectCambioPin();
+}
+
 function initCapturistas(){
   clearCapturistaActivo();
   var sel=document.getElementById("login_capturista_clave");
@@ -270,6 +322,8 @@ function aplicarCapturistaEnFormulario(){
   if(aplicador&&has){aplicador.value=cap.clave+" - "+cap.nombre;aplicador.readOnly=true;}
   var btnAdmin=document.getElementById("btn-admin-capturistas");
   if(btnAdmin)btnAdmin.style.display=(has&&cap.perfil==="Administrador")?"inline-flex":"none";
+  var btnCambiar=document.getElementById("btn-cambiar-capturista");
+  if(btnCambiar)btnCambiar.style.display=has?"inline-flex":"none";
 }
 function loginCapturista(){
   var clave=(document.getElementById("login_capturista_clave")||{}).value||"";
@@ -281,6 +335,44 @@ function loginCapturista(){
   showToast("Sesión iniciada: "+cap.nombre);
 }
 function initCapturistaSession(){initCapturistas();aplicarCapturistaEnFormulario();}
+
+
+function cambiarCapturista(){
+  try{
+    clearCapturistaActivo();
+
+    var pin=document.getElementById("login_capturista_pin");
+    if(pin)pin.value="";
+
+    var sel=document.getElementById("login_capturista_clave");
+    if(sel)sel.value="";
+
+    var aplicador=document.getElementById("aplicador");
+    if(aplicador){
+      aplicador.value="";
+      aplicador.readOnly=false;
+    }
+
+    var badge=document.getElementById("capturista-activo");
+    if(badge)badge.textContent="";
+
+    var btnAdmin=document.getElementById("btn-admin-capturistas");
+    if(btnAdmin)btnAdmin.style.display="none";
+
+    var btnCambiar=document.getElementById("btn-cambiar-capturista");
+    if(btnCambiar)btnCambiar.style.display="none";
+
+    document.body.classList.add("body-login");
+    document.body.classList.remove("body-locked");
+
+    initCapturistas();
+
+    window.scrollTo(0,0);
+    showToast("Selecciona capturista para continuar");
+  }catch(e){
+    alert("No se pudo cambiar capturista: "+(e.message||e));
+  }
+}
 
 function abrirAdminCapturistas(){
   var cap=getCapturistaActivo();
@@ -312,8 +404,8 @@ function guardarCapturistaAdmin(){
   var idx=CAPTURISTAS_CUSCO.findIndex(function(c){return c.clave===clave;});
   var item={clave:clave,nombre:nombre,pin:pin,perfil:perfil};
   if(idx>=0)CAPTURISTAS_CUSCO[idx]=item; else CAPTURISTAS_CUSCO.push(item);
-  guardarCatalogoCapturistas();
-  initCapturistas();
+  if(!guardarCatalogoCapturistas())return;
+  refrescarListasCapturistasSinCerrarSesion();
   renderCapturistasAdmin();
   limpiarFormCapturistaAdmin();
   showToast("Capturista guardado: "+clave);
@@ -326,8 +418,8 @@ function editarCapturistaAdmin(clave){
 function eliminarCapturistaAdmin(clave){
   if(!confirm("¿Eliminar "+clave+"?"))return;
   CAPTURISTAS_CUSCO=CAPTURISTAS_CUSCO.filter(function(c){return c.clave!==clave;});
-  guardarCatalogoCapturistas();
-  initCapturistas();renderCapturistasAdmin();showToast("Capturista eliminado");
+  if(!guardarCatalogoCapturistas())return;
+  refrescarListasCapturistasSinCerrarSesion();renderCapturistasAdmin();showToast("Capturista eliminado");
 }
 function poblarSelectCambioPin(){
   var sel=document.getElementById("admin_pin_clave");
@@ -342,8 +434,8 @@ function cambiarPinCapturistaAdmin(){
   var idx=CAPTURISTAS_CUSCO.findIndex(function(c){return c.clave===clave;});
   if(idx<0){showToast("No se encontró el capturista");return;}
   CAPTURISTAS_CUSCO[idx].pin=nuevo;
-  guardarCatalogoCapturistas();
-  initCapturistas();
+  if(!guardarCatalogoCapturistas())return;
+  refrescarListasCapturistasSinCerrarSesion();
   renderCapturistasAdmin();
   setv("admin_pin_clave",clave);
   setv("admin_pin_nuevo","");
@@ -373,7 +465,12 @@ var PHQ9_QUESTIONS=[
 {n:24,t:"Moverse o hablar tan despacio que otras personas pueden haberlo notado. O lo contrario, sentirse tan nervioso o inquieto que ha estado moviéndose más de lo usual."},
 {n:25,t:"Pensamientos de que estaría mejor muerto o de lastimarse usted mismo de alguna manera."}
 ];
-document.addEventListener("DOMContentLoaded",function(){buildSteps();initDate();buildPHQ9();wireChoices();initLocalidades();initCapturistaSession();updateNetStatus();updatePendingText();window.addEventListener("online",function(){updateNetStatus();syncPending(true)});window.addEventListener("offline",updateNetStatus);document.getElementById("no_registro").value="CUSCO-LOCAL-"+Date.now();});
+document.addEventListener("DOMContentLoaded",function(){buildSteps();initDate();buildPHQ9();wireChoices();initLocalidades();initCapturistaSession();updateNetStatus();updatePendingText();window.addEventListener("online",function(){updateNetStatus();syncPending(true)});window.addEventListener("offline",updateNetStatus);document.getElementById("no_registro").value="CUSCO-LOCAL-"+Date.now();
+["domicilio_calle","domicilio_numero_exterior","domicilio_cp","domicilio_colonia"].forEach(function(id){
+  var el=document.getElementById(id);
+  if(el)el.addEventListener("input",actualizarDireccionCompleta);
+});
+});
 function buildSteps(){var labels=["Identificación","Salud física","Antropometría","Salud Mental","Revisión"];var html="";labels.forEach(function(l,i){html+='<div class="step-item '+(i===0?'active':'')+'" data-step="'+i+'"><div class="step-circle">'+(i+1)+'</div><div class="step-label">'+l+'</div></div>';if(i<labels.length-1)html+='<div class="step-connector" id="conn-'+i+'"></div>';});document.getElementById("steps-bar").innerHTML=html;}
 function initDate(){var h=new Date();document.getElementById("fecha").value=h.getFullYear()+"-"+String(h.getMonth()+1).padStart(2,"0")+"-"+String(h.getDate()).padStart(2,"0");}
 function wireChoices(){document.querySelectorAll(".choice-btn input").forEach(function(inp){inp.addEventListener("change",function(){if(this.type==="radio"){document.querySelectorAll("input[name='"+this.name+"']").forEach(function(x){x.closest(".choice-btn").classList.remove("selected")});this.closest(".choice-btn").classList.add("selected");}else{this.closest(".choice-btn").classList.toggle("selected",this.checked);}});});}
@@ -481,6 +578,21 @@ function calcICC(){var cintura=parseFloat(v("cintura")),cadera=parseFloat(v("cad
 function setScale(id,val,el){document.querySelectorAll("#"+id+"-group .scale-btn").forEach(function(b){b.classList.remove("selected")});el.classList.add("selected");setv(id,val);if(id==="phq2_p17"||id==="phq2_p18")calcPHQ2();if(id.indexOf("phq9_")===0)calcPHQ9();}
 function calcPHQ2(){if(v("phq2_p17")===""||v("phq2_p18")==="")return;var score=parseInt(v("phq2_p17"))+parseInt(v("phq2_p18"));setv("puntaje_phq2",score);document.getElementById("phq2-score-display").textContent=score;document.getElementById("phq9-section").classList.toggle("show",score>=3);}
 function calcPHQ9(){var total=0,all=true;PHQ9_QUESTIONS.forEach(function(q){var val=v("phq9_p"+q.n);if(val==="")all=false;else total+=parseInt(val);});if(!all)return;setv("puntaje_phq9",total);document.getElementById("phq9-score-display").textContent=total;var c="";if(total<=4)c="Ninguno";else if(total<=9)c="Depresión leve";else if(total<=14)c="Depresión moderada";else if(total<=19)c="Depresión moderadamente grave";else c="Depresión grave";setv("clasificacion_phq9",c);document.getElementById("phq9-clasif-display").textContent="— "+c;if(parseInt(v("phq9_p25")||0)>0)showToast("Atención: respuesta positiva en pregunta 25. Requiere referencia o valoración inmediata según protocolo.");}
+
+function actualizarDireccionCompleta(){
+  var calle=(document.getElementById("domicilio_calle")||{}).value||"";
+  var numero=(document.getElementById("domicilio_numero_exterior")||{}).value||"";
+  var cp=(document.getElementById("domicilio_cp")||{}).value||"";
+  var colonia=(document.getElementById("domicilio_colonia")||{}).value||"";
+  var partes=[];
+  if(calle.trim())partes.push("Calle: "+calle.trim());
+  if(numero.trim())partes.push("Número exterior: "+numero.trim());
+  if(cp.trim())partes.push("C.P.: "+cp.trim());
+  if(colonia.trim())partes.push("Colonia: "+colonia.trim());
+  var dir=document.getElementById("direccion");
+  if(dir)dir.value=partes.join(" | ");
+}
+
 function v(id){var e=document.getElementById(id);return e?(e.value||""):""}function setv(id,val){var e=document.getElementById(id);if(e)e.value=val}function r(name){var e=document.querySelector("input[name='"+name+"']:checked");return e?e.value:""}function checks(name,otherId){var vals=[];document.querySelectorAll("input[name='"+name+"']:checked").forEach(function(e){vals.push(e.value)});var o=otherId?v(otherId).trim():"";if(o)vals.push("Otro: "+o);return vals.join(", ");}
 function limpiarTextoNombre(txt){return (txt||"").toString().trim().replace(/\s+/g," ");}
 function nombreCompletoCapturado(){return [limpiarTextoNombre(v("nombres")),limpiarTextoNombre(v("primer_apellido")),limpiarTextoNombre(v("segundo_apellido"))].filter(Boolean).join(" ");}
@@ -689,7 +801,7 @@ function normalizeForSheets(p){
     "capturado_fecha_hora":p["capturado_fecha_hora"]||new Date().toLocaleString("es-MX")
   };
 }
-function buildReview(){var p=payload();var sections={"Identificación":[["Nombre(s)",p["Nombre(s)"]],["Primer apellido",p["Primer_apellido"]],["Segundo apellido",p["Segundo_apellido"]],["Nombre completo",p["Nombre"]],["Fecha",p["fecha"]],["ID",p["ID"]],["Aplicador",p["Nombre_aplicador"]],["Localidad",p["Localidad"]],["Municipio",p["Municipio"]],["Edad",p["Edad_años"]],["Estado de salud",p["Estado_salud_actual"]],["Sexo",p._texto_respaldo.Sexo_texto||p["Sexo"]]],"Datos generales":[["Estado civil",p._texto_respaldo.Estado_civil_texto||p["Estado_civil"]],["Grupos",p["Grupo_vulnerable"]],["Seguridad social",p["Seg_social"]],["Ocupación",p._texto_respaldo.Ocupacion_texto||p["Ocupación"]],["Años estudio",p["Años_estudio"]]],"Hábitos":[["P8",p._texto_respaldo.Alimentos_chatarra_texto||p["Alimentos_chatarra"]],["P9",p._texto_respaldo.Bebidas_azucaradas_texto||p["bebidas_azucaradas"]],["P10",p._texto_respaldo.Agua_simple_texto||p["agua_simple"]],["P11",p._texto_respaldo.Actividad_fisica_texto||p["actividad_física"]],["P12",p._texto_respaldo.Etiquetado_texto||p["etiquetado"]]],"Antropometría":[["Peso",p["peso"]],["Talla",p["talla"]],["IMC",(p["IMC"]||"")+" "+(v("clasificacion_imc")||"")],["Cintura",p["cintura"]],["Cadera",p["cadera"]],["ICC",(p["ICC"]||"")+" "+(v("clasificacion_icc")||"")]],"Salud Mental":[["PHQ-2",p["PHQ2_Total"]],["PHQ-9",p["PHQ9_Total"]? p["PHQ9_Total"]+" "+p["PHQ_Clasificacion"]:"No aplica"]]};var html='<div class="review-grid">';Object.keys(sections).forEach(function(k){html+='<div class="review-card"><h3>'+k+'</h3>';sections[k].forEach(function(row){html+='<div class="review-row"><span>'+row[0]+'</span><span>'+(row[1]||"—")+'</span></div>'});html+='</div>';});html+='</div>';document.getElementById("review-content").innerHTML=html;}
+function buildReview(){actualizarDireccionCompleta();var p=payload();var sections={"Identificación":[["Nombre(s)",p["Nombre(s)"]],["Primer apellido",p["Primer_apellido"]],["Segundo apellido",p["Segundo_apellido"]],["Nombre completo",p["Nombre"]],["Fecha",p["fecha"]],["ID",p["ID"]],["Aplicador",p["Nombre_aplicador"]],["Localidad",p["Localidad"]],["Municipio",p["Municipio"]],["Edad",p["Edad_años"]],["Estado de salud",p["Estado_salud_actual"]],["Sexo",p._texto_respaldo.Sexo_texto||p["Sexo"]]],"Datos generales":[["Estado civil",p._texto_respaldo.Estado_civil_texto||p["Estado_civil"]],["Grupos",p["Grupo_vulnerable"]],["Seguridad social",p["Seg_social"]],["Ocupación",p._texto_respaldo.Ocupacion_texto||p["Ocupación"]],["Años estudio",p["Años_estudio"]]],"Hábitos":[["P8",p._texto_respaldo.Alimentos_chatarra_texto||p["Alimentos_chatarra"]],["P9",p._texto_respaldo.Bebidas_azucaradas_texto||p["bebidas_azucaradas"]],["P10",p._texto_respaldo.Agua_simple_texto||p["agua_simple"]],["P11",p._texto_respaldo.Actividad_fisica_texto||p["actividad_física"]],["P12",p._texto_respaldo.Etiquetado_texto||p["etiquetado"]]],"Antropometría":[["Peso",p["peso"]],["Talla",p["talla"]],["IMC",(p["IMC"]||"")+" "+(v("clasificacion_imc")||"")],["Cintura",p["cintura"]],["Cadera",p["cadera"]],["ICC",(p["ICC"]||"")+" "+(v("clasificacion_icc")||"")]],"Salud Mental":[["PHQ-2",p["PHQ2_Total"]],["PHQ-9",p["PHQ9_Total"]? p["PHQ9_Total"]+" "+p["PHQ_Clasificacion"]:"No aplica"]]};var html='<div class="review-grid">';Object.keys(sections).forEach(function(k){html+='<div class="review-card"><h3>'+k+'</h3>';sections[k].forEach(function(row){html+='<div class="review-row"><span>'+row[0]+'</span><span>'+(row[1]||"—")+'</span></div>'});html+='</div>';});html+='</div>';document.getElementById("review-content").innerHTML=html;}
 function submitForm(){
   if(!validateStep(0))return;
   var p=payload();
@@ -755,9 +867,122 @@ function syncPending(silent){
 function updatePendingText(){document.getElementById("pending-text").textContent="Pendientes: "+getPending().length;}function updateNetStatus(){var s=document.getElementById("net-status");s.textContent=navigator.onLine?"Con internet":"Sin internet";s.className="status-badge "+(navigator.onLine?"online":"offline");}
 function setLoading(on){var b=document.getElementById("btn-submit");b.disabled=on;document.getElementById("btn-text").textContent=on?"Guardando...":"Guardar registro";document.getElementById("btn-spinner").style.display=on?"inline-block":"none";}
 function showSuccess(folio,online){document.getElementById("step-4").classList.remove("active");document.getElementById("steps-bar").style.display="none";document.getElementById("success-screen").style.display="block";document.getElementById("success-screen").classList.add("active");document.getElementById("success-folio").textContent=folio;document.getElementById("success-sub").textContent=online?"El registro fue enviado a Google Sheets.":"El registro quedó guardado en este equipo/celular. Revisa el aviso de sincronización para confirmar si llegó a Google Sheets.";updatePendingText();}
-function cerrarCaptura(){if(confirm("¿Cerrar sesión? Se borrarán los datos de la captura actual que no se hayan guardado.")){clearCapturistaActivo();try{document.querySelectorAll("input, textarea, select").forEach(function(el){if(el.type==="hidden"||el.id==="no_registro"||el.id==="fecha")return;if(el.type==="checkbox"||el.type==="radio"){el.checked=false;}else{el.value="";}});document.querySelectorAll(".choice-btn.selected,.scale-btn.selected").forEach(function(el){el.classList.remove("selected");});}catch(e){}document.body.classList.add("body-locked");var s=document.getElementById("session-closed");if(s)s.style.display="block";window.scrollTo(0,0);showToast("Sesión cerrada");}}
-function iniciarNuevaSesion(){location.reload();}
-function resetForm(){location.reload()}function showToast(msg){var t=document.getElementById("toast");t.textContent=msg;t.style.display="block";setTimeout(function(){t.style.display="none"},5000);}
+function limpiarCapturaActual(conservarAplicador){
+  try{
+    currentStep=0;
+
+    var success=document.getElementById("success-screen");
+    if(success){
+      success.style.display="none";
+      success.classList.remove("active");
+    }
+
+    var steps=document.getElementById("steps-bar");
+    if(steps)steps.style.display="flex";
+
+    document.querySelectorAll(".form-card").forEach(function(card){
+      card.classList.remove("active");
+    });
+
+    var step0=document.getElementById("step-0");
+    if(step0)step0.classList.add("active");
+    updateStepsBar(0);
+
+    document.querySelectorAll("input, textarea, select").forEach(function(el){
+      if(!el.id)return;
+
+      if(el.id==="login_capturista_clave" || el.id==="login_capturista_pin")return;
+      if(el.id.indexOf("admin_")===0)return;
+      if(conservarAplicador && (el.id==="aplicador" || el.id==="fecha"))return;
+      if(el.id==="fecha")return;
+
+      if(el.id==="no_registro"){
+        el.value="CUSCO-LOCAL-"+Date.now();
+        return;
+      }
+
+      if(el.type==="checkbox" || el.type==="radio"){
+        el.checked=false;
+        return;
+      }
+
+      if(el.tagName==="SELECT"){
+        if(el.id==="localidad"){
+          el.innerHTML='<option value="">— Primero selecciona municipio —</option>';
+          el.disabled=true;
+        }else{
+          el.selectedIndex=0;
+        }
+        return;
+      }
+
+      el.value="";
+    });
+
+    document.querySelectorAll(".choice-btn.selected,.scale-btn.selected").forEach(function(el){
+      el.classList.remove("selected");
+    });
+
+    ["imc-display","imc-clasif-display","icc-display","icc-clasif-display","phq2-score-display","phq9-score-display","phq9-clasif-display"].forEach(function(id){
+      var e=document.getElementById(id);
+      if(e)e.innerHTML="—";
+    });
+
+    var phq9=document.getElementById("phq9-section");
+    if(phq9)phq9.classList.remove("show");
+
+    updatePendingText();
+  }catch(e){}
+}
+
+function mostrarPantallaLoginOffline(){
+  clearCapturistaActivo();
+  limpiarCapturaActual(false);
+
+  var s=document.getElementById("session-closed");
+  if(s)s.style.display="none";
+
+  var login=document.getElementById("login-capturista");
+  if(login)login.style.display="block";
+
+  var pin=document.getElementById("login_capturista_pin");
+  if(pin)pin.value="";
+
+  document.body.classList.remove("body-locked");
+  document.body.classList.add("body-login");
+
+  initCapturistas();
+
+  window.scrollTo(0,0);
+  showToast("Listo. Inicia sesión para nueva captura.");
+}
+
+function cerrarCaptura(){showToast("Usa + Capturar nuevo registro para continuar capturando.");}
+
+function iniciarNuevaSesion(){
+  mostrarPantallaLoginOffline();
+}
+
+function limpiarFormularioParaNuevaCaptura(){
+  limpiarCapturaActual(true);
+  var cap=getCapturistaActivo();
+  if(cap && cap.clave){
+    var aplicador=document.getElementById("aplicador");
+    if(aplicador){
+      aplicador.value=cap.clave+" - "+cap.nombre;
+      aplicador.readOnly=true;
+    }
+  }
+  document.body.classList.remove("body-locked");
+  document.body.classList.remove("body-login");
+  window.scrollTo(0,0);
+  showToast("Lista para nueva captura");
+}
+
+function resetForm(){
+  limpiarFormularioParaNuevaCaptura();
+}
+function showToast(msg){var t=document.getElementById("toast");t.textContent=msg;t.style.display="block";setTimeout(function(){t.style.display="none"},5000);}
 
 </script>
 </body>
