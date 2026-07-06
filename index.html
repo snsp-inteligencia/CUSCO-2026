@@ -3,9 +3,195 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CUSCO 2026 — Captura Offline</title>
-<link rel="stylesheet" href="./css/estilos.css">
+<title>CUSCO 2026 v1.0 — Captura Offline</title>
+<style>
+:root{--vino:#611232;--vino-dark:#4a0d25;--verde:#002f2a;--verde-med:#004a42;--dorado:#a57f2c;--beige:#e6d194;--beige-light:#f8f5ec;--gris:#4d4d4d;--gris-light:#f0ece0;--border:#d8d4c4;--white:#fff;--radius:8px;--shadow:0 2px 12px rgba(0,47,42,.10)}
+*{box-sizing:border-box;margin:0;padding:0}body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--beige-light);color:var(--gris);min-height:100vh}.site-header{background:var(--verde);padding:0 24px;min-height:62px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 8px rgba(0,0,0,.2);position:sticky;top:0;z-index:100;gap:12px}.header-brand{display:flex;align-items:center;gap:12px}.brand-box{width:38px;height:38px;background:var(--vino);border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;color:var(--beige)}.brand-name{color:var(--beige);font-size:16px;font-weight:700}.brand-sub{color:var(--dorado);font-size:10px;letter-spacing:2px;text-transform:uppercase}.header-badge{background:rgba(165,127,44,.15);border:1px solid rgba(165,127,44,.4);color:var(--beige);font-size:11px;font-weight:600;padding:4px 12px;border-radius:20px}.header-actions{display:flex;align-items:center;gap:8px}.btn-close-capture{background:var(--vino);color:white;border:1px solid rgba(230,209,148,.45);border-radius:20px;padding:7px 13px;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit;white-space:nowrap}.btn-close-capture:hover{background:var(--vino-dark)}.session-closed{display:none;max-width:560px;margin:64px auto;padding:0 16px}.session-card{background:white;border:1px solid #e0dbc8;border-radius:14px;box-shadow:var(--shadow);padding:34px 24px;text-align:center}.session-icon{width:64px;height:64px;border-radius:50%;background:var(--verde);color:white;display:flex;align-items:center;justify-content:center;margin:0 auto 18px;font-size:30px;font-weight:800}.session-title{font-size:24px;color:var(--verde);font-weight:800;margin-bottom:8px}.session-text{font-size:14px;color:#666;line-height:1.5;margin-bottom:22px}.body-locked .page-wrap{display:none}.body-locked .btn-close-capture{display:none}.page-wrap{max-width:900px;margin:24px auto;padding:0 16px 60px}.page-title{text-align:center;margin-bottom:20px}.page-title h1{font-size:24px;color:var(--verde);font-weight:800;margin-bottom:6px}.page-title p{font-size:14px;color:#777}.status-panel{background:#fff;border:1px solid #e0dbc8;border-radius:10px;box-shadow:var(--shadow);padding:12px 16px;margin-bottom:18px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.status-badge{font-size:12px;font-weight:800;padding:5px 10px;border-radius:20px}.online{background:#d4edda;color:#155724}.offline{background:#fff3cd;color:#856404}.pending{font-size:13px;color:#666}.steps-bar{display:flex;align-items:center;justify-content:center;margin-bottom:24px;gap:0;overflow-x:auto;padding:4px 0}.step-item{display:flex;flex-direction:column;align-items:center;gap:6px;flex-shrink:0}.step-circle{width:34px;height:34px;border-radius:50%;border:2px solid var(--border);background:white;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#aaa}.step-label{font-size:10px;color:#aaa;white-space:nowrap;font-weight:500}.step-item.active .step-circle{background:var(--vino);border-color:var(--vino);color:white}.step-item.active .step-label{color:var(--vino)}.step-item.done .step-circle{background:var(--verde);border-color:var(--verde);color:white}.step-item.done .step-label{color:var(--verde)}.step-connector{width:34px;height:2px;background:var(--border);flex-shrink:0;margin-bottom:22px}.step-connector.done{background:var(--verde)}.form-card{background:white;border-radius:12px;border:1px solid #e0dbc8;box-shadow:var(--shadow);overflow:hidden;display:none}.form-card.active{display:block}.card-header{background:var(--verde);padding:16px 24px;display:flex;align-items:center;gap:14px}.card-header-num{width:30px;height:30px;border-radius:50%;background:var(--vino);color:white;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex-shrink:0}.card-header-title{color:white;font-size:15px;font-weight:700}.card-header-sub{color:var(--beige);font-size:12px;opacity:.9}.card-body{padding:24px}.field-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.field-full{grid-column:1/-1}.field{display:flex;flex-direction:column;gap:5px}.field label{font-size:12px;font-weight:700;color:var(--verde);text-transform:uppercase;letter-spacing:.4px;line-height:1.4}.req{color:var(--vino)}.field input,.field select,.field textarea{padding:10px 13px;border:1.5px solid var(--border);border-radius:var(--radius);font-size:14px;color:var(--gris);background:white;font-family:inherit;outline:none}.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--vino);box-shadow:0 0 0 3px rgba(97,18,50,.08)}.field input[readonly]{background:var(--beige-light);color:var(--verde);font-weight:700}.field textarea{resize:vertical;min-height:80px}.section-divider{grid-column:1/-1;font-size:11px;font-weight:800;color:var(--dorado);text-transform:uppercase;letter-spacing:1px;padding:14px 0 6px;border-bottom:1.5px solid var(--beige);margin-bottom:4px}.radio-group,.check-group{display:flex;flex-wrap:wrap;gap:8px;margin-top:2px}.choice-btn{display:flex;align-items:center;gap:6px;padding:8px 12px;border:1.5px solid var(--border);border-radius:6px;cursor:pointer;font-size:13px;transition:.15s;user-select:none;line-height:1.35}.choice-btn input{display:none}.choice-btn:hover{border-color:var(--vino);background:#fdf8f9}.choice-btn.selected{border-color:var(--vino);background:var(--vino);color:white}.question-block{grid-column:1/-1;padding:16px;border:1px solid #ece8d8;background:#fffdf8;border-radius:10px}.question-title{font-size:14px;line-height:1.45;color:var(--gris);margin-bottom:10px}.question-num{font-weight:800;color:var(--vino)}.calc-result{padding:10px 13px;background:var(--beige-light);border:1.5px solid var(--beige);border-radius:var(--radius);font-size:14px;font-weight:700;color:var(--verde);min-height:40px}.calc-badge{display:inline-block;padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-left:8px}.badge-normal{background:#d4edda;color:#155724}.badge-sobrepeso,.badge-riesgo{background:#fff3cd;color:#856404}.badge-obesidad,.badge-alto{background:#f8d7da;color:#721c24}.badge-bajo{background:#cce5ff;color:#004085}.scale-group{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:4px}.scale-btn{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 6px;border:1.5px solid var(--border);border-radius:6px;cursor:pointer;font-size:11px;text-align:center;transition:.15s;line-height:1.3}.scale-btn:hover{border-color:var(--vino)}.scale-btn.selected{border-color:var(--vino);background:var(--vino);color:white}.scale-num{font-size:16px;font-weight:800}.phq9-section{display:none;margin-top:20px;padding:18px;background:#fff8f0;border:1.5px solid #ffd5a0;border-radius:10px}.phq9-section.show{display:block}.phq9-alert{padding:10px 14px;background:#fff3cd;border-radius:6px;font-size:13px;font-weight:600;color:#856404;margin-bottom:16px}.phq-row{margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid #f0ece0}.phq-question{font-size:13px;color:var(--gris);margin-bottom:8px;line-height:1.4}.nav-btns{display:flex;justify-content:space-between;align-items:center;margin-top:28px;padding-top:20px;border-top:1px solid var(--gris-light);gap:10px}.btn{display:inline-flex;align-items:center;gap:7px;padding:11px 20px;border-radius:var(--radius);font-size:14px;font-weight:700;cursor:pointer;border:none;transition:.15s;font-family:inherit;text-decoration:none}.btn-prev{background:transparent;border:1.5px solid var(--border);color:var(--gris)}.btn-next{background:var(--verde);color:white}.btn-submit,.btn-sync{background:var(--vino);color:white}.btn-small{padding:8px 12px;font-size:12px}.btn:disabled{opacity:.6;cursor:not-allowed}#success-screen{display:none;text-align:center}.success-icon{width:70px;height:70px;background:var(--verde);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:34px;color:white}.success-title{font-size:23px;font-weight:800;color:var(--verde);margin-bottom:8px}.success-folio{display:inline-block;padding:8px 20px;background:var(--beige-light);border:1.5px solid var(--beige);border-radius:6px;font-size:16px;font-weight:800;color:var(--vino);margin:14px 0}.success-sub{font-size:14px;color:#777;margin-bottom:24px}#toast{position:fixed;bottom:24px;right:24px;background:var(--vino);color:white;padding:12px 20px;border-radius:8px;font-size:14px;font-weight:600;box-shadow:0 4px 16px rgba(0,0,0,.2);display:none;z-index:999;max-width:360px}.review-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.review-card{background:var(--beige-light);border-radius:8px;padding:14px;border:1px solid #e0dbc8}.review-card h3{font-size:11px;font-weight:800;color:var(--dorado);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}.review-row{display:flex;justify-content:space-between;gap:8px;padding:4px 0;border-bottom:1px solid #ece8d8;font-size:12px}.review-row span:first-child{color:#888}.review-row span:last-child{font-weight:600;text-align:right}.spinner{width:18px;height:18px;border:2px solid rgba(255,255,255,.4);border-top-color:white;border-radius:50%;animation:spin .7s linear infinite;display:none}@keyframes spin{to{transform:rotate(360deg)}}@media(max-width:650px){.field-grid,.review-grid{grid-template-columns:1fr}.field-full{grid-column:1}.scale-group{grid-template-columns:repeat(2,1fr)}.card-body{padding:18px}.steps-bar{justify-content:flex-start}.site-header{padding:8px 14px}.header-badge{display:none}.nav-btns{flex-direction:column}.btn{width:100%;justify-content:center}}
 
+
+/* ===== AJUSTE RESPONSIVE PC + MOVIL CUSCO - 22 JUN 2026 ===== */
+/* Reglas seguras para textos largos sin alterar el ancho de escritorio */
+html, body { max-width: 100%; overflow-x: hidden; }
+.form-card, .card-body, .field-grid, .field, .field-full, .question-block { max-width: 100%; }
+.field input, .field select, .field textarea { max-width: 100%; }
+.question-title, .field label, .choice-btn { white-space: normal; overflow-wrap: anywhere; word-break: normal; }
+
+/* Escritorio: conservar ancho original centrado */
+@media (min-width: 651px) {
+  .page-wrap { max-width: 900px; margin: 24px auto; padding: 0 16px 60px; }
+  .steps-bar { justify-content: center; overflow-x: visible; }
+  .step-label { display: block; }
+}
+
+/* Móvil: evitar cortes laterales sin afectar PC */
+@media (max-width: 650px) {
+  .page-wrap { width: 100%; max-width: 100%; margin: 16px auto; padding: 0 12px 72px; overflow-x: hidden; }
+  .page-title { margin-bottom: 14px; }
+  .page-title h1 { font-size: 20px; line-height: 1.18; }
+  .page-title p { font-size: 12px; line-height: 1.35; }
+  .site-header { padding: 8px 14px; min-height: 56px; gap: 8px; }
+  .header-brand { min-width: 0; }
+  .brand-box { width: 34px; height: 34px; font-size: 12px; flex-shrink: 0; }
+  .brand-name { font-size: 14px; line-height: 1.1; }
+  .brand-sub { font-size: 9px; letter-spacing: 1.2px; white-space: normal; }
+  .header-badge { display: none; }
+  .header-actions{margin-left:auto}.btn-close-capture{padding:7px 10px;font-size:11px}
+  .status-panel { padding: 10px 12px; margin-left: 0; margin-right: 0; gap: 8px; }
+  .status-panel > div { min-width: 0; }
+  .status-badge, .pending { font-size: 11px; }
+  .btn-small { width: 100%; justify-content: center; }
+
+  /* Stepper compacto: solo números */
+  .steps-bar { width: 100%; justify-content: center; overflow-x: visible; gap: 0; padding: 2px 0 8px; margin-bottom: 16px; }
+  .step-item { gap: 0; }
+  .step-label { display: none !important; }
+  .step-circle { width: 28px; height: 28px; font-size: 11px; }
+  .step-connector { width: 22px; margin-bottom: 0; }
+
+  .field-grid, .review-grid { grid-template-columns: 1fr; gap: 14px; }
+  .field-full { grid-column: 1; }
+  .form-card, .card-body, .question-block, .field-grid, .field, .field-full { width: 100%; max-width: 100%; min-width: 0; overflow-x: hidden; }
+  .card-header { padding: 14px 16px; gap: 10px; }
+  .card-header-title { font-size: 14px; line-height: 1.25; white-space: normal; }
+  .card-header-sub { font-size: 11px; line-height: 1.25; }
+  .card-body { padding: 16px; }
+
+  .field label { font-size: 12px; line-height: 1.35; white-space: normal !important; overflow-wrap: anywhere; word-break: normal; }
+  .question-title { font-size: 13.5px; line-height: 1.4; white-space: normal !important; overflow-wrap: anywhere; word-break: normal; }
+  .phq-question { white-space: normal; overflow-wrap: anywhere; }
+
+  .radio-group, .check-group { display: flex; flex-wrap: wrap; gap: 7px; min-width: 0; max-width: 100%; }
+  .choice-btn { max-width: 100%; white-space: normal; overflow-wrap: anywhere; word-break: normal; font-size: 12.5px; line-height: 1.25; padding: 8px 10px; }
+  .scale-group { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; }
+  .scale-btn { font-size: 10.5px; line-height: 1.25; padding: 9px 6px; white-space: normal; overflow-wrap: anywhere; }
+
+  .field input, .field select, .field textarea { width: 100%; max-width: 100%; min-width: 0; font-size: 14px; }
+  .section-divider { font-size: 10px; line-height: 1.35; }
+  .nav-btns { flex-direction: column; padding-bottom: 12px; margin-top: 22px; }
+  .nav-btns span { display: none; }
+  .btn { width: 100%; justify-content: center; }
+  .review-row { display: block; }
+  .review-row span { display: block; text-align: left !important; }
+  #toast { left: 12px; right: 12px; bottom: 16px; max-width: none; }
+}
+
+@media (max-width: 390px) {
+  .page-wrap { padding-left: 10px; padding-right: 10px; }
+  .page-title h1 { font-size: 19px; }
+  .step-circle { width: 26px; height: 26px; }
+  .step-connector { width: 16px; }
+  .choice-btn { font-size: 11.5px; padding: 7px 9px; }
+  .field label, .question-title { font-size: 12px; }
+}
+/* ===== FIN AJUSTE RESPONSIVE PC + MOVIL ===== */
+
+
+/* ===== LOGIN CAPTURISTA CUSCO ===== */
+.login-screen{display:none;max-width:560px;margin:42px auto;padding:0 16px}
+.login-card{background:white;border:1px solid #e0dbc8;border-radius:14px;box-shadow:var(--shadow);padding:28px 22px}
+.login-title{font-size:22px;color:var(--verde);font-weight:800;margin-bottom:6px;text-align:center}
+.login-text{font-size:13px;color:#666;line-height:1.45;text-align:center;margin-bottom:20px}
+.login-note{font-size:12px;color:#777;margin-top:12px;line-height:1.4;text-align:center}
+.body-login .page-wrap{display:none}
+.body-login #session-closed{display:none!important}
+.body-login .btn-close-capture{display:none}
+.body-login .login-screen{display:block}
+.capturista-active{background:rgba(230,209,148,.14);border:1px solid rgba(230,209,148,.35);color:var(--beige);font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;max-width:230px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media(max-width:650px){.capturista-active{display:none}.login-screen{margin:24px auto}.login-card{padding:22px 16px}}
+
+.btn-admin-capturistas{background:transparent;color:var(--beige);border:1px solid rgba(230,209,148,.45);border-radius:20px;padding:7px 13px;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit;white-space:nowrap}
+.btn-admin-capturistas:hover{background:rgba(230,209,148,.12)}
+.admin-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:1000;padding:18px;overflow:auto}
+.admin-card{max-width:760px;margin:34px auto;background:white;border-radius:14px;border:1px solid #e0dbc8;box-shadow:0 8px 28px rgba(0,0,0,.25);overflow:hidden}
+.admin-head{background:var(--verde);color:white;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.admin-title{font-weight:800;font-size:17px}.admin-body{padding:18px}.admin-table{width:100%;border-collapse:collapse;font-size:12px;margin-top:14px}.admin-table th,.admin-table td{border-bottom:1px solid #ece8d8;padding:7px;text-align:left}.admin-table th{color:var(--verde);font-size:11px;text-transform:uppercase}.btn-link{background:transparent;border:none;color:var(--vino);font-weight:800;cursor:pointer;font-size:12px}
+@media(max-width:650px){.btn-admin-capturistas{display:none!important}.admin-card{margin:8px auto}.admin-table{font-size:11px}}
+/* ===== FIN LOGIN CAPTURISTA CUSCO ===== */
+
+
+/* Cambiar capturista debe quedar disponible también en móvil */
+@media(max-width:650px){
+  .btn-inicio{display:none;font-size:11px;padding:7px 9px}
+}
+
+
+/* FIX botones operativos móviles */
+@media(max-width:650px){
+  #btn-inicio[style*="inline-flex"], #btn-inicio[style*="block"]{display:inline-flex!important;}
+}
+
+
+/* ===== LOGO PISCIS EN ZONA DE CAPTURA ===== */
+.piscis-logo-capture-wrap{
+  max-width:900px;
+  margin:8px auto 10px;
+  padding:0 16px;
+  display:flex;
+  justify-content:flex-start;
+  align-items:center;
+}
+.piscis-logo-capture{
+  width:82px;
+  height:82px;
+  object-fit:contain;
+  background:transparent;
+  border-radius:50%;
+  box-shadow:none;
+  padding:0;
+}
+@media(max-width:650px){
+  .piscis-logo-capture-wrap{
+    justify-content:center;
+    margin:6px auto 10px;
+  }
+  .piscis-logo-capture{
+    width:70px;
+    height:70px;
+  }
+}
+/* ===== FIN LOGO PISCIS EN ZONA DE CAPTURA ===== */
+
+
+/* ===== BOTÓN INICIO EN LADO IZQUIERDO ===== */
+.header-left{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  min-width:0;
+}
+.btn-header-inicio{
+  background:rgba(230,209,148,.10);
+  color:var(--beige);
+  border:1px solid rgba(230,209,148,.42);
+  border-radius:20px;
+  padding:7px 13px;
+  font-size:12px;
+  font-weight:800;
+  cursor:pointer;
+  font-family:inherit;
+  white-space:nowrap;
+}
+.btn-header-inicio:hover{
+  background:rgba(230,209,148,.18);
+}
+@media(max-width:650px){
+  .header-left{
+    gap:8px;
+  }
+  .btn-header-inicio{
+    padding:7px 10px;
+    font-size:11px;
+  }
+}
+@media(max-width:390px){
+  .btn-header-inicio{
+    padding:6px 8px;
+    font-size:10.5px;
+  }
+}
+/* ===== FIN BOTÓN INICIO EN LADO IZQUIERDO ===== */
+
+</style>
 
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#002f2a">
@@ -133,11 +319,827 @@
 
 <script src="./catalogo_localidades.js?v=20260629"></script>
 <script src="./capturistas.js?v=20260702"></script>
-<script src="./catalogo_localidades.js?v=20260629"></script>
-<script src="./capturistas.js?v=20260702"></script>
-<script src="./js/utils.js?v=20260702f1"></script>
-<script src="./js/localidades.js?v=20260702f1"></script>
-<script src="./js/admin.js?v=20260702f1"></script>
-<script src="./js/app.js?v=20260702f1"></script>
+<script>
+var CUSCO_VERSION="1.0.0";
+var APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyvLRYGnelN_x3AK_4RdbtjoUUVrGBXOg_KwggfRr0N7-Z7qogk6S3xhbEd6-YY5FVQ/exec";
+var CAPTURISTAS_ADMIN_KEY="cusco_capturistas_admin";
+function cargarCatalogoCapturistas(){
+  try{
+    var guardados=JSON.parse(localStorage.getItem(CAPTURISTAS_ADMIN_KEY)||"[]");
+    if(Array.isArray(guardados)&&guardados.length)return guardados;
+  }catch(e){}
+  if(typeof DEFAULT_CAPTURISTAS_CUSCO!=="undefined" && Array.isArray(DEFAULT_CAPTURISTAS_CUSCO)){
+    return DEFAULT_CAPTURISTAS_CUSCO.slice();
+  }
+  return [];
+}
+var CAPTURISTAS_CUSCO=cargarCatalogoCapturistas();
+function guardarCatalogoCapturistas(){
+  try{
+    localStorage.setItem(CAPTURISTAS_ADMIN_KEY,JSON.stringify(CAPTURISTAS_CUSCO));
+    return true;
+  }catch(e){
+    showToast("No se pudo guardar en este dispositivo. Revisa almacenamiento de Safari.");
+    return false;
+  }
+}
+var CAPTURISTA_STORAGE_KEY="cusco_capturista_activo";
+var CAPTURISTA_MEM=null;
+function getCapturistaActivo(){
+  if(CAPTURISTA_MEM&&CAPTURISTA_MEM.clave)return CAPTURISTA_MEM;
+  try{
+    var raw=sessionStorage.getItem(CAPTURISTA_STORAGE_KEY);
+    if(raw){
+      CAPTURISTA_MEM=JSON.parse(raw)||{};
+      return CAPTURISTA_MEM;
+    }
+  }catch(e){}
+  return {};
+}
+function setCapturistaActivo(c){
+  CAPTURISTA_MEM={clave:c.clave,nombre:c.nombre,perfil:c.perfil,login_at:new Date().toISOString()};
+  try{sessionStorage.setItem(CAPTURISTA_STORAGE_KEY,JSON.stringify(CAPTURISTA_MEM));}catch(e){}
+}
+function clearCapturistaActivo(){
+  CAPTURISTA_MEM=null;
+  try{sessionStorage.removeItem(CAPTURISTA_STORAGE_KEY);}catch(e){}
+  try{localStorage.removeItem(CAPTURISTA_STORAGE_KEY);}catch(e){}
+}
+
+function refrescarListasCapturistasSinCerrarSesion(){
+  var sel=document.getElementById("login_capturista_clave");
+  if(sel){
+    sel.innerHTML='<option value="">— Selecciona capturista —</option>'+CAPTURISTAS_CUSCO.map(function(c){
+      return '<option value="'+c.clave+'">'+c.clave+' · '+c.nombre+'</option>';
+    }).join("");
+  }
+  poblarSelectCambioPin();
+}
+
+function initCapturistas(){
+  clearCapturistaActivo();
+  var sel=document.getElementById("login_capturista_clave");
+  if(sel){
+    if(!Array.isArray(CAPTURISTAS_CUSCO) || !CAPTURISTAS_CUSCO.length){
+      sel.innerHTML='<option value="">No cargó capturistas.js</option>';
+      showToast("No cargó capturistas.js. Verifica que esté en la misma carpeta del index.");
+      return;
+    }
+    sel.innerHTML='<option value="">— Selecciona capturista —</option>'+CAPTURISTAS_CUSCO.map(function(c){
+      return '<option value="'+c.clave+'">'+c.clave+' · '+c.nombre+'</option>';
+    }).join("");
+  }
+}
+function aplicarCapturistaEnFormulario(){
+  var cap=getCapturistaActivo();
+  var has=!!cap.clave;
+  document.body.classList.toggle("body-login",!has);
+  var badge=document.getElementById("capturista-activo");
+  if(badge)badge.textContent=has?(cap.clave+" · "+cap.nombre):"";
+  var aplicador=document.getElementById("aplicador");
+  if(aplicador&&has){aplicador.value=cap.clave+" - "+cap.nombre;aplicador.readOnly=true;}
+  var btnAdmin=document.getElementById("btn-admin-capturistas");
+  if(btnAdmin)btnAdmin.style.display=(has&&cap.perfil==="Administrador")?"inline-flex":"none";
+  var btnInicio=document.getElementById("btn-inicio");
+  if(btnInicio)btnInicio.style.display=has?"inline-flex":"none";
+}
+function loginCapturista(){
+  var clave=(document.getElementById("login_capturista_clave")||{}).value||"";
+  var pin=(document.getElementById("login_capturista_pin")||{}).value||"";
+  var cap=CAPTURISTAS_CUSCO.find(function(c){return c.clave===clave&&c.pin===pin;});
+  if(!cap){showToast("Capturista o PIN incorrecto");return;}
+  setCapturistaActivo(cap);
+  aplicarCapturistaEnFormulario();
+  showToast("Sesión iniciada: "+cap.nombre);
+}
+function initCapturistaSession(){initCapturistas();aplicarCapturistaEnFormulario();}
+
+
+
+function volverInicio(){
+  try{
+    clearCapturistaActivo();
+
+    var pin=document.getElementById("login_capturista_pin");
+    if(pin)pin.value="";
+
+    var sel=document.getElementById("login_capturista_clave");
+    if(sel)sel.value="";
+
+    var aplicador=document.getElementById("aplicador");
+    if(aplicador){
+      aplicador.value="";
+      aplicador.readOnly=false;
+    }
+
+    var badge=document.getElementById("capturista-activo");
+    if(badge)badge.textContent="";
+
+    var btnAdmin=document.getElementById("btn-admin-capturistas");
+    if(btnAdmin)btnAdmin.style.display="none";
+
+    var btnInicio=document.getElementById("btn-inicio");
+    if(btnInicio)btnInicio.style.display="none";
+
+    var success=document.getElementById("success-screen");
+    if(success){
+      success.style.display="none";
+      success.classList.remove("active");
+    }
+
+    if(typeof currentStep!=="undefined")currentStep=0;
+    document.querySelectorAll(".form-card").forEach(function(card){
+      card.classList.remove("active");
+    });
+    var step0=document.getElementById("step-0");
+    if(step0)step0.classList.add("active");
+    if(typeof updateStepsBar==="function")updateStepsBar(0);
+
+    document.body.classList.add("body-login");
+    document.body.classList.remove("body-locked");
+
+    if(typeof initCapturistas==="function")initCapturistas();
+
+    window.scrollTo(0,0);
+    showToast("Regresaste al inicio");
+  }catch(e){
+    alert("No se pudo regresar al inicio: "+(e.message||e));
+  }
+}
+
+
+function abrirAdminCapturistas(){
+  var cap=getCapturistaActivo();
+  if(!cap || cap.perfil!=="Administrador"){showToast("Solo administradores pueden modificar capturistas");return;}
+  renderCapturistasAdmin();
+  var m=document.getElementById("admin-capturistas-modal");
+  if(m)m.style.display="block";
+}
+function cerrarAdminCapturistas(){
+  var m=document.getElementById("admin-capturistas-modal");
+  if(m)m.style.display="none";
+}
+function limpiarFormCapturistaAdmin(){
+  setv("admin_cap_clave","");setv("admin_cap_nombre","");setv("admin_cap_pin","");setv("admin_cap_perfil","Capturista");
+}
+function siguienteClaveCapturista(){
+  var max=0;
+  CAPTURISTAS_CUSCO.forEach(function(c){var n=parseInt(String(c.clave||"").replace(/\D/g,""),10);if(n>max)max=n;});
+  return "CAP"+String(max+1).padStart(3,"0");
+}
+function guardarCapturistaAdmin(){
+  var clave=(v("admin_cap_clave")||siguienteClaveCapturista()).trim().toUpperCase();
+  var nombre=v("admin_cap_nombre").trim();
+  var pin=v("admin_cap_pin").trim();
+  var perfil=v("admin_cap_perfil")||"Capturista";
+  if(!/^CAP\d{3}$/.test(clave)){showToast("La clave debe tener formato CAP007");return;}
+  if(!nombre){showToast("Captura el nombre del capturista");return;}
+  if(!/^\d{4}$/.test(pin)){showToast("El PIN debe ser de 4 dígitos");return;}
+  var idx=CAPTURISTAS_CUSCO.findIndex(function(c){return c.clave===clave;});
+  var item={clave:clave,nombre:nombre,pin:pin,perfil:perfil};
+  if(idx>=0)CAPTURISTAS_CUSCO[idx]=item; else CAPTURISTAS_CUSCO.push(item);
+  if(!guardarCatalogoCapturistas())return;
+  refrescarListasCapturistasSinCerrarSesion();
+  renderCapturistasAdmin();
+  limpiarFormCapturistaAdmin();
+  showToast("Capturista guardado: "+clave);
+}
+function editarCapturistaAdmin(clave){
+  var c=CAPTURISTAS_CUSCO.find(function(x){return x.clave===clave;});
+  if(!c)return;
+  setv("admin_cap_clave",c.clave);setv("admin_cap_nombre",c.nombre);setv("admin_cap_pin",c.pin);setv("admin_cap_perfil",c.perfil||"Capturista");
+}
+function eliminarCapturistaAdmin(clave){
+  if(!confirm("¿Eliminar "+clave+"?"))return;
+  CAPTURISTAS_CUSCO=CAPTURISTAS_CUSCO.filter(function(c){return c.clave!==clave;});
+  if(!guardarCatalogoCapturistas())return;
+  refrescarListasCapturistasSinCerrarSesion();renderCapturistasAdmin();showToast("Capturista eliminado");
+}
+function poblarSelectCambioPin(){
+  var sel=document.getElementById("admin_pin_clave");
+  if(!sel)return;
+  sel.innerHTML='<option value="">— Selecciona capturista —</option>'+CAPTURISTAS_CUSCO.map(function(c){return '<option value="'+c.clave+'">'+c.clave+' · '+c.nombre+'</option>';}).join("");
+}
+function cambiarPinCapturistaAdmin(){
+  var clave=(v("admin_pin_clave")||"").trim().toUpperCase();
+  var nuevo=(v("admin_pin_nuevo")||"").trim();
+  if(!clave){showToast("Selecciona capturista");return;}
+  if(!/^\d{4}$/.test(nuevo)){showToast("El nuevo PIN debe ser de 4 dígitos");return;}
+  var idx=CAPTURISTAS_CUSCO.findIndex(function(c){return c.clave===clave;});
+  if(idx<0){showToast("No se encontró el capturista");return;}
+  CAPTURISTAS_CUSCO[idx].pin=nuevo;
+  if(!guardarCatalogoCapturistas())return;
+  refrescarListasCapturistasSinCerrarSesion();
+  renderCapturistasAdmin();
+  setv("admin_pin_clave",clave);
+  setv("admin_pin_nuevo","");
+  showToast("PIN actualizado para "+clave);
+}
+function renderCapturistasAdmin(){
+  poblarSelectCambioPin();
+  var c=document.getElementById("admin-capturistas-lista");
+  if(!c)return;
+  var html='<table class="admin-table"><thead><tr><th>Clave</th><th>Nombre</th><th>PIN</th><th>Perfil</th><th></th></tr></thead><tbody>';
+  CAPTURISTAS_CUSCO.forEach(function(x){
+    html+='<tr><td>'+x.clave+'</td><td>'+x.nombre+'</td><td>'+x.pin+'</td><td>'+x.perfil+'</td><td><button class="btn-link" onclick="editarCapturistaAdmin(\''+x.clave+'\')">Editar</button> · <button class="btn-link" onclick="eliminarCapturistaAdmin(\''+x.clave+'\')">Eliminar</button></td></tr>';
+  });
+  html+='</tbody></table>';
+  c.innerHTML=html;
+}
+
+
+
+var currentStep=0,totalSteps=5,storageKey="CUSCO_2026_PENDIENTES";
+var PHQ9_QUESTIONS=[
+{n:19,t:"Dificultad para conciliar o mantener el sueño, o dormir demasiado."},
+{n:20,t:"Sentirse cansado o tener poca energía."},
+{n:21,t:"Mal apetito o comer en exceso."},
+{n:22,t:"Sentirse mal sobre sí mismo (que es un fracaso o se ha decepcionado a usted o a su familia)."},
+{n:23,t:"Dificultad para concentrarse en actividades, como leer algún libro o ver televisión."},
+{n:24,t:"Moverse o hablar tan despacio que otras personas pueden haberlo notado. O lo contrario, sentirse tan nervioso o inquieto que ha estado moviéndose más de lo usual."},
+{n:25,t:"Pensamientos de que estaría mejor muerto o de lastimarse usted mismo de alguna manera."}
+];
+document.addEventListener("DOMContentLoaded",function(){buildSteps();initDate();buildPHQ9();wireChoices();initLocalidades();initCapturistaSession();if(typeof instalarValidacionesEntrada==="function")instalarValidacionesEntrada();updateNetStatus();updatePendingText();window.addEventListener("online",function(){updateNetStatus();syncPending(true)});window.addEventListener("offline",updateNetStatus);document.getElementById("no_registro").value="CUSCO-LOCAL-"+Date.now();
+["domicilio_calle","domicilio_numero_exterior","domicilio_cp","domicilio_colonia"].forEach(function(id){
+  var el=document.getElementById(id);
+  if(el)el.addEventListener("input",actualizarDireccionCompleta);
+});
+});
+function buildSteps(){var labels=["Identificación","Salud física","Antropometría","Salud Mental","Revisión"];var html="";labels.forEach(function(l,i){html+='<div class="step-item '+(i===0?'active':'')+'" data-step="'+i+'"><div class="step-circle">'+(i+1)+'</div><div class="step-label">'+l+'</div></div>';if(i<labels.length-1)html+='<div class="step-connector" id="conn-'+i+'"></div>';});document.getElementById("steps-bar").innerHTML=html;}
+function initDate(){var h=new Date();document.getElementById("fecha").value=h.getFullYear()+"-"+String(h.getMonth()+1).padStart(2,"0")+"-"+String(h.getDate()).padStart(2,"0");}
+function wireChoices(){document.querySelectorAll(".choice-btn input").forEach(function(inp){inp.addEventListener("change",function(){if(this.type==="radio"){document.querySelectorAll("input[name='"+this.name+"']").forEach(function(x){x.closest(".choice-btn").classList.remove("selected")});this.closest(".choice-btn").classList.add("selected");}else{this.closest(".choice-btn").classList.toggle("selected",this.checked);}});});}
+
+
+function normalizarLlaveMunicipio(txt){
+  return (txt || "").toString().trim()
+    .normalize("NFD").replace(/[\u0300-\u036f]/g,"")
+    .toLowerCase();
+}
+
+function buscarLlaveMunicipio(municipio){
+  if (typeof LOCALIDADES_CUSCO === "undefined" || !municipio) return "";
+  if (LOCALIDADES_CUSCO[municipio]) return municipio;
+  var objetivo = normalizarLlaveMunicipio(municipio);
+  var keys = Object.keys(LOCALIDADES_CUSCO);
+  for (var i=0; i<keys.length; i++){
+    if (normalizarLlaveMunicipio(keys[i]) === objetivo) return keys[i];
+  }
+  return "";
+}
+
+function initLocalidades() {
+  var mun = document.getElementById("municipio");
+  var loc = document.getElementById("localidad");
+  if (!mun || !loc) return;
+
+  if (typeof LOCALIDADES_CUSCO === "undefined") {
+    loc.disabled = true;
+    loc.innerHTML = '<option value="">No cargó catalogo_localidades.js</option>';
+    showToast("No cargó el catálogo de localidades. Verifica que catalogo_localidades.js esté en la misma carpeta del index.");
+    return;
+  }
+
+  mun.addEventListener("change", function () {
+    cargarLocalidades(this.value);
+  });
+
+  loc.addEventListener("change", onLocalidadChange);
+  cargarLocalidades(mun.value);
+}
+
+function cargarLocalidades(municipio) {
+  var loc = document.getElementById("localidad");
+  if (!loc) return;
+
+  loc.innerHTML = "";
+  setv("cve_municipio", "");
+  setv("cve_localidad", "");
+  setv("latitud_localidad", "");
+  setv("longitud_localidad", "");
+  setv("altitud_localidad", "");
+  setv("cvegeo", "");
+  setv("jurisdiccion", "");
+
+  var llave = buscarLlaveMunicipio(municipio);
+
+  if (!llave) {
+    loc.disabled = true;
+    loc.innerHTML = '<option value="">— Primero selecciona municipio —</option>';
+    return;
+  }
+
+  loc.disabled = false;
+  loc.innerHTML = '<option value="">— Selecciona localidad —</option>';
+
+  LOCALIDADES_CUSCO[llave].forEach(function (item) {
+    var opt = document.createElement("option");
+    var cvegeo = item.cvegeo || "";
+
+    opt.value = item.nombre || "";
+    opt.textContent = (item.nombre || "") + (cvegeo ? " · " + cvegeo : "");
+    opt.dataset.nombre = item.nombre || "";
+    opt.dataset.cvegeo = cvegeo;
+    opt.dataset.cveMunicipio = cvegeo.length >= 5 ? cvegeo.substring(2,5) : "";
+    opt.dataset.cveLocalidad = cvegeo.length >= 9 ? cvegeo.substring(5,9) : "";
+    opt.dataset.jurisdiccion = item.jurisdiccion || "";
+
+    loc.appendChild(opt);
+  });
+}
+
+function onLocalidadChange() {
+  var loc = document.getElementById("localidad");
+  if (!loc) return;
+
+  var opt = loc.options[loc.selectedIndex];
+  var cvegeo = opt ? (opt.dataset.cvegeo || "") : "";
+
+  setv("cvegeo", cvegeo);
+  setv("cve_municipio", opt ? (opt.dataset.cveMunicipio || "") : "");
+  setv("cve_localidad", opt ? (opt.dataset.cveLocalidad || "") : "");
+  setv("jurisdiccion", opt ? (opt.dataset.jurisdiccion || "") : "");
+}
+
+function buildPHQ9(){var c=document.getElementById("phq9-questions");PHQ9_QUESTIONS.forEach(function(q){var id="phq9_p"+q.n;c.innerHTML+='<div class="phq-row"><div class="phq-question"><strong>'+q.n+'.</strong> '+q.t+'</div><div class="scale-group" id="'+id+'-group"><div class="scale-btn" onclick="setScale(\''+id+'\',0,this)"><span class="scale-num">0</span>Nunca</div><div class="scale-btn" onclick="setScale(\''+id+'\',1,this)"><span class="scale-num">1</span>Varios días</div><div class="scale-btn" onclick="setScale(\''+id+'\',2,this)"><span class="scale-num">2</span>Más de la mitad de los días</div><div class="scale-btn" onclick="setScale(\''+id+'\',3,this)"><span class="scale-num">3</span>Casi todos los días</div></div><input type="hidden" id="'+id+'"></div>';});}
+function goStep(t){if(!validateStep(currentStep))return;document.getElementById("step-"+currentStep).classList.remove("active");currentStep=t;updateStepsBar(t);document.getElementById("step-"+currentStep).classList.add("active");if(currentStep===4)buildReview();window.scrollTo({top:0,behavior:"smooth"});}
+function updateStepsBar(t){for(var i=0;i<totalSteps;i++){var s=document.querySelector("[data-step='"+i+"']");s.classList.remove("active","done");if(i<t)s.classList.add("done");if(i===t)s.classList.add("active");var conn=document.getElementById("conn-"+i);if(conn)conn.classList.toggle("done",i<t);}}
+function validateStep(step){if(step===0){if(!v("fecha")||!v("aplicador")||!v("nombres")||!v("primer_apellido")||!v("localidad")||!v("municipio")||!v("edad")||!r("sexo")){showToast("Completa los campos obligatorios de identificación");return false;}if(typeof validarCamposFormato==="function"&&!validarCamposFormato())return false;}return true;}
+function tallaMetros(){var raw=parseFloat(v("talla"));if(!raw||raw<=0)return null;return raw>3?raw/100:raw;}
+function tallaNormalizadaTexto(){var t=tallaMetros();return t?String(Number(t.toFixed(2))):"";}
+function normalizarTalla(){var t=tallaMetros();if(!t)return;setv("talla",String(Number(t.toFixed(2))));calcIMC();}
+function calcIMC(){var peso=parseFloat(v("peso")),talla=tallaMetros();if(!peso||!talla||talla<=0)return;var imc=peso/(talla*talla),imcStr=imc.toFixed(1),clasif="",badge="";if(imc<18.5){clasif="Bajo peso";badge="badge-bajo"}else if(imc<25){clasif="Normal";badge="badge-normal"}else if(imc<30){clasif="Sobrepeso";badge="badge-sobrepeso"}else if(imc<35){clasif="Obesidad I";badge="badge-obesidad"}else if(imc<40){clasif="Obesidad II";badge="badge-obesidad"}else{clasif="Obesidad III";badge="badge-obesidad"}setv("imc",imcStr);setv("clasificacion_imc",clasif);document.getElementById("imc-display").innerHTML=imcStr+' <span class="calc-badge '+badge+'">'+clasif+'</span>';document.getElementById("imc-clasif-display").innerHTML='<span class="calc-badge '+badge+'">'+clasif+'</span>';}
+function calcICC(){var cintura=parseFloat(v("cintura")),cadera=parseFloat(v("cadera"));if(!cintura||!cadera||cadera<=0)return;var icc=cintura/cadera,iccStr=icc.toFixed(2);var sexo=r("sexo")||"Mujer",h=sexo==="Hombre",clasif="",badge="";if(h){if(icc<0.90){clasif="Riesgo bajo";badge="badge-normal"}else if(icc<0.95){clasif="Riesgo moderado";badge="badge-riesgo"}else{clasif="Riesgo alto";badge="badge-obesidad"}}else{if(icc<0.80){clasif="Riesgo bajo";badge="badge-normal"}else if(icc<0.85){clasif="Riesgo moderado";badge="badge-riesgo"}else{clasif="Riesgo alto";badge="badge-obesidad"}}setv("icc",iccStr);setv("clasificacion_icc",clasif);document.getElementById("icc-display").innerHTML=iccStr+' <span class="calc-badge '+badge+'">'+clasif+'</span>';document.getElementById("icc-clasif-display").innerHTML='<span class="calc-badge '+badge+'">'+clasif+'</span>';}
+function setScale(id,val,el){document.querySelectorAll("#"+id+"-group .scale-btn").forEach(function(b){b.classList.remove("selected")});el.classList.add("selected");setv(id,val);if(id==="phq2_p17"||id==="phq2_p18")calcPHQ2();if(id.indexOf("phq9_")===0)calcPHQ9();}
+function calcPHQ2(){if(v("phq2_p17")===""||v("phq2_p18")==="")return;var score=parseInt(v("phq2_p17"))+parseInt(v("phq2_p18"));setv("puntaje_phq2",score);document.getElementById("phq2-score-display").textContent=score;document.getElementById("phq9-section").classList.toggle("show",score>=3);}
+function calcPHQ9(){var total=0,all=true;PHQ9_QUESTIONS.forEach(function(q){var val=v("phq9_p"+q.n);if(val==="")all=false;else total+=parseInt(val);});if(!all)return;setv("puntaje_phq9",total);document.getElementById("phq9-score-display").textContent=total;var c="";if(total<=4)c="Ninguno";else if(total<=9)c="Depresión leve";else if(total<=14)c="Depresión moderada";else if(total<=19)c="Depresión moderadamente grave";else c="Depresión grave";setv("clasificacion_phq9",c);document.getElementById("phq9-clasif-display").textContent="— "+c;if(parseInt(v("phq9_p25")||0)>0)showToast("Atención: respuesta positiva en pregunta 25. Requiere referencia o valoración inmediata según protocolo.");}
+
+function actualizarDireccionCompleta(){
+  var calle=(document.getElementById("domicilio_calle")||{}).value||"";
+  var numero=(document.getElementById("domicilio_numero_exterior")||{}).value||"";
+  var cp=(document.getElementById("domicilio_cp")||{}).value||"";
+  var colonia=(document.getElementById("domicilio_colonia")||{}).value||"";
+  var partes=[];
+  if(calle.trim())partes.push("Calle: "+calle.trim());
+  if(numero.trim())partes.push("Número exterior: "+numero.trim());
+  if(cp.trim())partes.push("C.P.: "+cp.trim());
+  if(colonia.trim())partes.push("Colonia: "+colonia.trim());
+  var dir=document.getElementById("direccion");
+  if(dir)dir.value=partes.join(" | ");
+}
+
+
+/* ===== VALIDACIONES DE ENTRADA CUSCO v1.0 ===== */
+function soloDigitos(valor,maxLen){
+  var txt=(valor||"").toString().replace(/\D/g,"");
+  return maxLen ? txt.slice(0,maxLen) : txt;
+}
+function soloAlfanumericoMayus(valor,maxLen){
+  var txt=(valor||"").toString().toUpperCase().replace(/[^A-Z0-9]/g,"");
+  return maxLen ? txt.slice(0,maxLen) : txt;
+}
+function numeroDecimalControlado(valor,maxLen){
+  var txt=(valor||"").toString().replace(",",".").replace(/[^0-9.]/g,"");
+  var partes=txt.split(".");
+  if(partes.length>2)txt=partes[0]+"."+partes.slice(1).join("");
+  return maxLen ? txt.slice(0,maxLen) : txt;
+}
+function instalarValidacionesEntrada(){
+  var curp=document.getElementById("id_encuestado");
+  if(curp){curp.addEventListener("input",function(){this.value=soloAlfanumericoMayus(this.value,18);});}
+
+  var tel=document.getElementById("telefono");
+  if(tel){tel.addEventListener("input",function(){this.value=soloDigitos(this.value,10);});}
+
+  var cp=document.getElementById("domicilio_cp");
+  if(cp){cp.addEventListener("input",function(){this.value=soloDigitos(this.value,5);actualizarDireccionCompleta();});}
+
+  var edad=document.getElementById("edad");
+  if(edad){edad.addEventListener("input",function(){this.value=soloDigitos(this.value,3);var n=parseInt(this.value,10);if(!isNaN(n)&&n>120)this.value="120";});}
+
+  ["peso","talla","cintura","cadera"].forEach(function(id){
+    var el=document.getElementById(id);
+    if(el){el.addEventListener("input",function(){this.value=numeroDecimalControlado(this.value,6);});}
+  });
+}
+function validarCamposFormato(){
+  var curp=v("id_encuestado").trim();
+  var tel=v("telefono").trim();
+  var cp=v("domicilio_cp").trim();
+  var edad=v("edad").trim();
+
+  if(curp && !/^[A-Z0-9]{1,18}$/.test(curp)){showToast("CURP / Identificador: usa solo letras y números, máximo 18 caracteres.");return false;}
+  if(tel && !/^\d{10}$/.test(tel)){showToast("El teléfono debe tener exactamente 10 dígitos.");return false;}
+  if(cp && !/^\d{5}$/.test(cp)){showToast("El C.P. debe tener exactamente 5 dígitos.");return false;}
+
+  if(edad){var n=parseInt(edad,10);if(isNaN(n)||n<0||n>120){showToast("La edad debe estar entre 0 y 120 años.");return false;}}
+
+  var peso=parseFloat(v("peso"));
+  if(v("peso")&&(isNaN(peso)||peso<1||peso>300)){showToast("El peso debe estar entre 1 y 300 kg.");return false;}
+
+  var talla=parseFloat(v("talla"));
+  if(v("talla")&&(isNaN(talla)||talla<0.5||talla>250)){showToast("La talla debe capturarse como metros o centímetros válidos.");return false;}
+
+  var cintura=parseFloat(v("cintura"));
+  if(v("cintura")&&(isNaN(cintura)||cintura<1||cintura>300)){showToast("La cintura debe estar entre 1 y 300 cm.");return false;}
+
+  var cadera=parseFloat(v("cadera"));
+  if(v("cadera")&&(isNaN(cadera)||cadera<1||cadera>300)){showToast("La cadera debe estar entre 1 y 300 cm.");return false;}
+
+  return true;
+}
+/* ===== FIN VALIDACIONES DE ENTRADA CUSCO v1.0 ===== */
+
+function v(id){var e=document.getElementById(id);return e?(e.value||""):""}function setv(id,val){var e=document.getElementById(id);if(e)e.value=val}function r(name){var e=document.querySelector("input[name='"+name+"']:checked");return e?e.value:""}function checks(name,otherId){var vals=[];document.querySelectorAll("input[name='"+name+"']:checked").forEach(function(e){vals.push(e.value)});var o=otherId?v(otherId).trim():"";if(o)vals.push("Otro: "+o);return vals.join(", ");}
+function limpiarTextoNombre(txt){return (txt||"").toString().trim().replace(/\s+/g," ");}
+function nombreCompletoCapturado(){return [limpiarTextoNombre(v("nombres")),limpiarTextoNombre(v("primer_apellido")),limpiarTextoNombre(v("segundo_apellido"))].filter(Boolean).join(" ");}
+function normText(x){return (x||"").toString().trim();}
+function normLower(x){return normText(x).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");}
+function codeFromMap(value,map){var k=normLower(value);return map.hasOwnProperty(k)?map[k]:"";}
+function selectedValues(name,otherId){var vals=[];document.querySelectorAll("input[name='"+name+"']:checked").forEach(function(e){vals.push(e.value)});var o=otherId?v(otherId).trim():"";if(o)vals.push("Otro: "+o);return vals;}
+function joinVals(arr){return arr.join(" | ");}
+function groupCodes(vals){var map={"indigena":1,"situacion de calle":2,"lgbt":3,"discapacidad":4,"migrante":5,"ninguno":6};return vals.map(function(x){return normLower(x).indexOf("otro:")===0?7:(map[normLower(x)]||"");}).filter(function(x){return x!==""}).join("|");}
+function seguridadCodes(vals){var map={"imss":1,"issste":2,"ssa":3,"bienestar":4,"imss bienestar":4,"semar":5,"pemex":6,"privado":7,"ninguno":8};return vals.map(function(x){return normLower(x).indexOf("otro:")===0?9:(map[normLower(x)]||"");}).filter(function(x){return x!==""}).join("|");}
+function codigoUnico(valor,mapa){
+  if(!valor)return "";
+  var k=String(valor).trim();
+  return mapa[k]!==undefined ? mapa[k] : "";
+}
+function codigoMultiple(texto,mapa){
+  if(!texto)return "";
+  return String(texto).split(",").map(function(x){return x.trim();}).filter(Boolean).map(function(x){
+    if(x.indexOf("Otro:")===0)return mapa["Otro"];
+    return mapa[x]!==undefined ? mapa[x] : "";
+  }).filter(function(x){return x!=="" && x!==undefined;}).join("|");
+}
+function normalizaFrecuencia(valor){
+  var mapa={"Nunca":0,"Rara vez":1,"Rara Vez":1,"Casi siempre":2,"Casi Siempre":2,"Siempre":3};
+  return codigoUnico(valor,mapa);
+}
+function normalizaEtiquetado(valor){
+  var mapa={
+    "Si, lo conozco y esto influye en mis decisiones de compra":0,
+    "Sí, lo conozco y esto influye en mis decisiones de compra":0,
+    "Si, lo conozco, pero no influye en mis decisiones de compra":1,
+    "Sí, lo conozco, pero no influye en mis decisiones de compra":1,
+    "Lo he visto, pero no sé qué significa.":2,
+    "No estoy seguro.":3,
+    "No, no lo conozco":4
+  };
+  return codigoUnico(valor,mapa);
+}
+function normalizaEstadoCivil(valor){
+  var mapa={"soltero":1,"Soltero":1,"casado":2,"Casado":2,"unión libre":3,"Unión libre":3,"divorciado":4,"Divorciado":4,"viudo":5,"Viudo":5,"separado":6,"Separado":6};
+  return codigoUnico(valor,mapa);
+}
+function normalizaSexo(valor){
+  var mapa={"Hombre":0,"Mujer":1};
+  return codigoUnico(valor,mapa);
+}
+function normalizaOcupacion(valor){
+  var mapa={
+    "agricultor":1,"Agricultor / trabajo en el campo":1,
+    "ganadero":2,"Ganadero":2,
+    "comerciante":3,"Comerciante":3,
+    "empleado formal":4,"Empleado (empresa, negocio, institución)":4,
+    "trabajador independiente":5,"Trabajador independiente / oficio (albañil, carpintero, mecánico)":5,
+    "empleado de gobierno":6,"Empleado de gobierno / SP":6,
+    "ama de casa":7,"Ama de casa":7,
+    "estudiante":8,"Estudiante":8,
+    "desempleado":9,"Desempleado":9,
+    "jubilado o pensionado":10,"Jubilado / pensionado":10,
+    "migrante":11,"Migrante":11,
+    "otro":12,"Otros":12
+  };
+  return codigoUnico(valor,mapa);
+}
+function normalizaGrupoCodigo(texto){
+  var mapa={"Indígena":1,"situación de calle":2,"LGBT":3,"discapacidad":4,"migrante":5,"ninguno":6,"Otro":7};
+  return codigoMultiple(texto,mapa);
+}
+function normalizaSegSocialCodigo(texto){
+  var mapa={"IMSS":1,"ISSSTE":2,"SSA":3,"BIENESTAR":4,"IMSS BIENESTAR":4,"SEMAR":5,"PEMEX":6,"privado":7,"Privado":7,"ninguno":8,"Ninguno":8,"Otro":9};
+  return codigoMultiple(texto,mapa);
+}
+function normalizaTallaDato(valor){var raw=parseFloat(valor);if(!raw||raw<=0)return "";var t=raw>3?raw/100:raw;return String(Number(t.toFixed(2)));}
+function payload(){
+  var cap=getCapturistaActivo();
+  var grupos=checks("grupo","grupo_otro");
+  var seg=checks("seguridad_social","seguridad_social_otro");
+  var estado=r("estado_civil");
+  var sexo=r("sexo");
+  var ocup=v("ocupacion");
+  var p8=r("p8_alimentos_no_caseros");
+  var p9=r("p9_bebidas_azucaradas");
+  var p10=r("p10_agua");
+  var p11=r("p11_actividad_fisica");
+  var p12=r("p12_etiquetado");
+  return {
+    "No.":v("no_registro"),
+    "ID":v("id_encuestado"),
+    "fecha":v("fecha"),
+    "Nombre_aplicador":v("aplicador"),
+    "Consecutivo_localidad":v("cvegeo"),
+    "Jurisdicción":v("jurisdiccion"),
+    "Localidad":v("localidad"),
+    "Municipio":v("municipio"),
+    "Nombre(s)":v("nombres"),
+    "Primer_apellido":v("primer_apellido"),
+    "Segundo_apellido":v("segundo_apellido"),
+    "Nombre":nombreCompletoCapturado(),
+    "Dirección":v("direccion"),
+    "Teléfono":v("telefono"),
+    "Edad_años":v("edad"),
+    "Estado_salud_actual":r("estado_salud_actual"),
+    "Sexo":normalizaSexo(sexo),
+    "Estado_civil":normalizaEstadoCivil(estado),
+    "Grupo_vulnerable":grupos,
+    "Grupo_vulnerable_codigo":normalizaGrupoCodigo(grupos),
+    "Seg_social":seg,
+    "Seg_social_codigo":normalizaSegSocialCodigo(seg),
+    "Ocupación":normalizaOcupacion(ocup),
+    "Años_estudio":v("anios_estudio"),
+    "Alimentos_chatarra":normalizaFrecuencia(p8),
+    "bebidas_azucaradas":normalizaFrecuencia(p9),
+    "agua_simple":normalizaFrecuencia(p10),
+    "actividad_física":normalizaFrecuencia(p11),
+    "etiquetado":normalizaEtiquetado(p12),
+    "peso":v("peso"),
+    "talla":tallaNormalizadaTexto(),
+    "IMC":v("imc"),
+    "cintura":v("cintura"),
+    "cadera":v("cadera"),
+    "ICC":v("icc"),
+    "PHQ_interes":v("phq2_p17"),
+    "PHQ_triste":v("phq2_p18"),
+    "PHQ2_Total":v("puntaje_phq2"),
+    "PHQ_dormir":v("phq9_p19"),
+    "PHQ_cansancio":v("phq9_p20"),
+    "PHQ_apetito":v("phq9_p21"),
+    "PHQ_sentirse_mal":v("phq9_p22"),
+    "PHQ_concentrarse":v("phq9_p23"),
+    "PHQ_movimiento_inquietud":v("phq9_p24"),
+    "PHQ_pensamientos_lastimarse":v("phq9_p25"),
+    "PHQ9_Total":v("puntaje_phq9"),
+    "PHQ_Clasificacion":v("clasificacion_phq9"),
+    "Observaciones_generales":v("observaciones"),
+    "capturista_clave":cap.clave||"",
+    "capturista_nombre":cap.nombre||"",
+    "capturista_perfil":cap.perfil||"",
+    "capturado_fecha_hora":new Date().toLocaleString("es-MX"),
+    "_texto_respaldo": {
+      "Sexo_texto": sexo,
+      "Estado_civil_texto": estado,
+      "Ocupacion_texto": ocup,
+      "Alimentos_chatarra_texto": p8,
+      "Bebidas_azucaradas_texto": p9,
+      "Agua_simple_texto": p10,
+      "Actividad_fisica_texto": p11,
+      "Etiquetado_texto": p12
+    }
+  };
+}
+function normalizeForSheets(p){
+  // Envío limpio a Google Sheets: solo manda campos planos que coinciden con encabezados.
+  // Esto evita que Apps Script falle por objetos internos (_texto_respaldo, _local_id, etc.).
+  p = p || {};
+  var nombreCompleto = p["Nombre"] || p.nombre || [p["Nombre(s)"], p["Primer_apellido"], p["Segundo_apellido"]].filter(Boolean).join(" ");
+  var grupos = p["Grupo_vulnerable"] || p.p4_grupos || "";
+  var seg = p["Seg_social"] || p.p5_seguridad_social || "";
+  return {
+    "No.":p["No."]||p.no_registro||"",
+    "ID":p["ID"]||p.id||"",
+    "fecha":p["fecha"]||"",
+    "Nombre_aplicador":p["Nombre_aplicador"]||p.aplicador||"",
+    "Consecutivo_localidad":p["Consecutivo_localidad"]||p.cvegeo||"",
+    "Jurisdicción":p["Jurisdicción"]||p.jurisdiccion||"",
+    "Localidad":p["Localidad"]||p.localidad||"",
+    "Municipio":p["Municipio"]||p.municipio||"",
+    "Nombre":nombreCompleto,
+    "Dirección":p["Dirección"]||p.direccion||"",
+    "Teléfono":p["Teléfono"]||p.contacto_telefono||p.telefono||"",
+    "Edad_años":p["Edad_años"]||p.p1_edad||"",
+    "Estado_salud_actual":p["Estado_salud_actual"]||p.estado_salud_actual||"",
+    "Sexo":p["Sexo"]!==undefined?p["Sexo"]:normalizaSexo(p.p2_sexo||""),
+    "Estado_civil":p["Estado_civil"]!==undefined?p["Estado_civil"]:normalizaEstadoCivil(p.p3_estado_civil||""),
+    "Grupo_vulnerable":grupos,
+    "Grupo_vulnerable_codigo":p["Grupo_vulnerable_codigo"]||normalizaGrupoCodigo(grupos),
+    "Seg_social":seg,
+    "Seg_social_codigo":p["Seg_social_codigo"]||normalizaSegSocialCodigo(seg),
+    "Ocupación":p["Ocupación"]!==undefined?p["Ocupación"]:normalizaOcupacion(p.p6_ocupacion||""),
+    "Años_estudio":p["Años_estudio"]||p.p7_anios_estudio||"",
+    "Alimentos_chatarra":p["Alimentos_chatarra"]!==undefined?p["Alimentos_chatarra"]:normalizaFrecuencia(p.p8_alimentos_no_caseros||""),
+    "bebidas_azucaradas":p["bebidas_azucaradas"]!==undefined?p["bebidas_azucaradas"]:normalizaFrecuencia(p.p9_bebidas_azucaradas||""),
+    "agua_simple":p["agua_simple"]!==undefined?p["agua_simple"]:normalizaFrecuencia(p.p10_agua||""),
+    "actividad_física":p["actividad_física"]!==undefined?p["actividad_física"]:normalizaFrecuencia(p.p11_actividad_fisica||""),
+    "etiquetado":p["etiquetado"]!==undefined?p["etiquetado"]:normalizaEtiquetado(p.p12_etiquetado||""),
+    "peso":p["peso"]||p.p13_peso||"",
+    "talla":p["talla"]||normalizaTallaDato(p.p14_talla||""),
+    "IMC":p["IMC"]||p.imc||"",
+    "cintura":p["cintura"]||p.p15_cintura||"",
+    "cadera":p["cadera"]||p.p16_cadera||"",
+    "ICC":p["ICC"]||p.icc||"",
+    "PHQ_interes":p["PHQ_interes"]||p.p17_phq2||"",
+    "PHQ_triste":p["PHQ_triste"]||p.p18_phq2||"",
+    "PHQ2_Total":p["PHQ2_Total"]||p.puntaje_phq2||"",
+    "PHQ_dormir":p["PHQ_dormir"]||p.p19_phq9||"",
+    "PHQ_cansancio":p["PHQ_cansancio"]||p.p20_phq9||"",
+    "PHQ_apetito":p["PHQ_apetito"]||p.p21_phq9||"",
+    "PHQ_sentirse_mal":p["PHQ_sentirse_mal"]||p.p22_phq9||"",
+    "PHQ_concentrarse":p["PHQ_concentrarse"]||p.p23_phq9||"",
+    "PHQ_movimiento_inquietud":p["PHQ_movimiento_inquietud"]||p.p24_phq9||"",
+    "PHQ_pensamientos_lastimarse":p["PHQ_pensamientos_lastimarse"]||p.p25_phq9||"",
+    "PHQ9_Total":p["PHQ9_Total"]||p.puntaje_phq9||"",
+    "PHQ_Clasificacion":p["PHQ_Clasificacion"]||p.clasificacion_phq9||"",
+    "Observaciones_generales":p["Observaciones_generales"]||p.observaciones||"",
+    "capturista_clave":p["capturista_clave"]||"",
+    "capturista_nombre":p["capturista_nombre"]||"",
+    "capturista_perfil":p["capturista_perfil"]||"",
+    "capturado_fecha_hora":p["capturado_fecha_hora"]||new Date().toLocaleString("es-MX")
+  };
+}
+function buildReview(){actualizarDireccionCompleta();var p=payload();var sections={"Identificación":[["Nombre(s)",p["Nombre(s)"]],["Primer apellido",p["Primer_apellido"]],["Segundo apellido",p["Segundo_apellido"]],["Nombre completo",p["Nombre"]],["Fecha",p["fecha"]],["ID",p["ID"]],["Aplicador",p["Nombre_aplicador"]],["Localidad",p["Localidad"]],["Municipio",p["Municipio"]],["Edad",p["Edad_años"]],["Estado de salud",p["Estado_salud_actual"]],["Sexo",p._texto_respaldo.Sexo_texto||p["Sexo"]]],"Datos generales":[["Estado civil",p._texto_respaldo.Estado_civil_texto||p["Estado_civil"]],["Grupos",p["Grupo_vulnerable"]],["Seguridad social",p["Seg_social"]],["Ocupación",p._texto_respaldo.Ocupacion_texto||p["Ocupación"]],["Años estudio",p["Años_estudio"]]],"Hábitos":[["P8",p._texto_respaldo.Alimentos_chatarra_texto||p["Alimentos_chatarra"]],["P9",p._texto_respaldo.Bebidas_azucaradas_texto||p["bebidas_azucaradas"]],["P10",p._texto_respaldo.Agua_simple_texto||p["agua_simple"]],["P11",p._texto_respaldo.Actividad_fisica_texto||p["actividad_física"]],["P12",p._texto_respaldo.Etiquetado_texto||p["etiquetado"]]],"Antropometría":[["Peso",p["peso"]],["Talla",p["talla"]],["IMC",(p["IMC"]||"")+" "+(v("clasificacion_imc")||"")],["Cintura",p["cintura"]],["Cadera",p["cadera"]],["ICC",(p["ICC"]||"")+" "+(v("clasificacion_icc")||"")]],"Salud Mental":[["PHQ-2",p["PHQ2_Total"]],["PHQ-9",p["PHQ9_Total"]? p["PHQ9_Total"]+" "+p["PHQ_Clasificacion"]:"No aplica"]]};var html='<div class="review-grid">';Object.keys(sections).forEach(function(k){html+='<div class="review-card"><h3>'+k+'</h3>';sections[k].forEach(function(row){html+='<div class="review-row"><span>'+row[0]+'</span><span>'+(row[1]||"—")+'</span></div>'});html+='</div>';});html+='</div>';document.getElementById("review-content").innerHTML=html;}
+function submitForm(){
+  if(!validateStep(0))return;
+  var p=payload();
+  setLoading(true);
+
+  // Con internet: intenta enviar directo a Google Sheets primero.
+  // Sin internet o si falla el envío: guarda local como pendiente.
+  if(navigator.onLine){
+    showToast("Enviando registro a Google Sheets...");
+    sendPayload(p).then(function(){
+      setLoading(false);
+      showSuccess("Enviado a Google Sheets", true);
+    }).catch(function(){
+      saveLocal(p);
+      setLoading(false);
+      showSuccess("Guardado como pendiente", false);
+      showToast("No se pudo enviar. Quedó pendiente para sincronizar.");
+    });
+  }else{
+    saveLocal(p);
+    setLoading(false);
+    showSuccess("Guardado como pendiente", false);
+    showToast("Sin internet. El registro quedó pendiente de sincronización.");
+  }
+}
+function sendPayload(p){
+  var limpio = normalizeForSheets(p);
+
+  // Envío simple para Apps Script. No se agregan headers especiales para evitar bloqueo CORS/preflight.
+  return fetch(APPS_SCRIPT_URL, {
+    method: "POST",
+    mode: "no-cors",
+    body: JSON.stringify(limpio)
+  }).then(function(){
+    return {ok:true, status:"sent"};
+  });
+}
+function getPending(){try{return JSON.parse(localStorage.getItem(storageKey)||"[]")}catch(e){return []}}
+function setPending(arr){localStorage.setItem(storageKey,JSON.stringify(arr));updatePendingText();}
+function saveLocal(p){
+  var arr=getPending();
+  if(!p._local_id)p._local_id="LOCAL-"+Date.now()+"-"+Math.floor(Math.random()*100000);
+  p._pendiente=true;
+
+  // Evita duplicar si el mismo objeto ya existe en pendientes.
+  var existe=arr.some(function(x){return x._local_id===p._local_id;});
+  if(!existe)arr.push(p);
+  setPending(arr);
+}
+function syncPending(silent){
+  var arr=getPending();
+  if(!arr.length){if(!silent)showToast("No hay registros pendientes");return;}
+  if(!navigator.onLine){showToast("Sin internet. Los registros siguen guardados localmente.");return;}
+
+  var done=[],fail=[];
+  Promise.all(arr.map(function(item){
+    return sendPayload(item).then(function(){done.push(item)}).catch(function(){fail.push(item)});
+  })).then(function(){
+    setPending(fail);
+    if(!silent || done.length>0)showToast("Sincronizados: "+done.length+". Pendientes: "+fail.length);
+  });
+}
+function updatePendingText(){document.getElementById("pending-text").textContent="Pendientes: "+getPending().length;}function updateNetStatus(){var s=document.getElementById("net-status");s.textContent=navigator.onLine?"Con internet":"Sin internet";s.className="status-badge "+(navigator.onLine?"online":"offline");}
+function setLoading(on){var b=document.getElementById("btn-submit");b.disabled=on;document.getElementById("btn-text").textContent=on?"Guardando...":"Guardar registro";document.getElementById("btn-spinner").style.display=on?"inline-block":"none";}
+function showSuccess(folio,online){document.getElementById("step-4").classList.remove("active");document.getElementById("steps-bar").style.display="none";document.getElementById("success-screen").style.display="block";document.getElementById("success-screen").classList.add("active");document.getElementById("success-folio").textContent=folio;document.getElementById("success-sub").textContent=online?"El registro fue enviado a Google Sheets.":"El registro quedó guardado en este equipo/celular. Revisa el aviso de sincronización para confirmar si llegó a Google Sheets.";updatePendingText();}
+function limpiarCapturaActual(conservarAplicador){
+  try{
+    currentStep=0;
+
+    var success=document.getElementById("success-screen");
+    if(success){
+      success.style.display="none";
+      success.classList.remove("active");
+    }
+
+    var steps=document.getElementById("steps-bar");
+    if(steps)steps.style.display="flex";
+
+    document.querySelectorAll(".form-card").forEach(function(card){
+      card.classList.remove("active");
+    });
+
+    var step0=document.getElementById("step-0");
+    if(step0)step0.classList.add("active");
+    updateStepsBar(0);
+
+    document.querySelectorAll("input, textarea, select").forEach(function(el){
+      if(!el.id)return;
+
+      if(el.id==="login_capturista_clave" || el.id==="login_capturista_pin")return;
+      if(el.id.indexOf("admin_")===0)return;
+      if(conservarAplicador && (el.id==="aplicador" || el.id==="fecha"))return;
+      if(el.id==="fecha")return;
+
+      if(el.id==="no_registro"){
+        el.value="CUSCO-LOCAL-"+Date.now();
+        return;
+      }
+
+      if(el.type==="checkbox" || el.type==="radio"){
+        el.checked=false;
+        return;
+      }
+
+      if(el.tagName==="SELECT"){
+        if(el.id==="localidad"){
+          el.innerHTML='<option value="">— Primero selecciona municipio —</option>';
+          el.disabled=true;
+        }else{
+          el.selectedIndex=0;
+        }
+        return;
+      }
+
+      el.value="";
+    });
+
+    document.querySelectorAll(".choice-btn.selected,.scale-btn.selected").forEach(function(el){
+      el.classList.remove("selected");
+    });
+
+    ["imc-display","imc-clasif-display","icc-display","icc-clasif-display","phq2-score-display","phq9-score-display","phq9-clasif-display"].forEach(function(id){
+      var e=document.getElementById(id);
+      if(e)e.innerHTML="—";
+    });
+
+    var phq9=document.getElementById("phq9-section");
+    if(phq9)phq9.classList.remove("show");
+
+    updatePendingText();
+  }catch(e){}
+}
+
+function mostrarPantallaLoginOffline(){
+  clearCapturistaActivo();
+  limpiarCapturaActual(false);
+
+  var s=document.getElementById("session-closed");
+  if(s)s.style.display="none";
+
+  var login=document.getElementById("login-capturista");
+  if(login)login.style.display="block";
+
+  var pin=document.getElementById("login_capturista_pin");
+  if(pin)pin.value="";
+
+  document.body.classList.remove("body-locked");
+  document.body.classList.add("body-login");
+
+  initCapturistas();
+
+  window.scrollTo(0,0);
+  showToast("Listo. Inicia sesión para nueva captura.");
+}
+
+function cerrarCaptura(){showToast("Usa + Capturar nuevo registro para continuar capturando.");}
+
+function iniciarNuevaSesion(){
+  mostrarPantallaLoginOffline();
+}
+
+function limpiarFormularioParaNuevaCaptura(){
+  limpiarCapturaActual(true);
+  var cap=getCapturistaActivo();
+  if(cap && cap.clave){
+    var aplicador=document.getElementById("aplicador");
+    if(aplicador){
+      aplicador.value=cap.clave+" - "+cap.nombre;
+      aplicador.readOnly=true;
+    }
+  }
+  document.body.classList.remove("body-locked");
+  document.body.classList.remove("body-login");
+  window.scrollTo(0,0);
+  showToast("Lista para nueva captura");
+}
+
+function resetForm(){
+  limpiarFormularioParaNuevaCaptura();
+}
+function showToast(msg){var t=document.getElementById("toast");t.textContent=msg;t.style.display="block";setTimeout(function(){t.style.display="none"},5000);}
+
+</script>
 </body>
 </html>
