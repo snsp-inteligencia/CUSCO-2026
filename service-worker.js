@@ -1,4 +1,4 @@
-const CACHE_NAME = "cusco-2026-v1-0-0";
+const CACHE_NAME = "cusco-2026-v1-0-5";
 const ASSETS = ["./","./index.html","./catalogo_localidades.js","./capturistas.js","./logo_piscis.png","./manifest.json"];
 self.addEventListener("install", event => {event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(ASSETS)));self.skipWaiting();});
 self.addEventListener("activate", event => {event.waitUntil(caches.keys().then(keys => Promise.all(keys.map(k => k !== CACHE_NAME ? caches.delete(k) : null))));self.clients.claim();});
