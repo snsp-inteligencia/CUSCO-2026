@@ -1,9 +1,9 @@
 {
   "name": "CUSCO 2026",
   "short_name": "CUSCO",
-  "description": "Captura digital del cuestionario de salud comunitario CUSCO 2026.",
+  "description": "Captura digital CUSCO 2026 con guardado local rápido y sincronización posterior.",
   "id": "/CUSCO-2026/",
-  "start_url": "/CUSCO-2026/?v=110",
+  "start_url": "/CUSCO-2026/?v=120",
   "scope": "/CUSCO-2026/",
   "display": "standalone",
   "background_color": "#f8f5ec",

@@ -1,8 +1,8 @@
-/* CUSCO 2026 Service Worker v1.1.0 */
-const CACHE_NAME = "cusco-2026-v1-1-0";
+/* CUSCO 2026 Service Worker v1.2.0 */
+const CACHE_NAME = "cusco-2026-v1-2-0";
 const APP_SHELL = [
   "./",
-  "./?v=110",
+  "./?v=120",
   "./index.html",
   "./catalogo_localidades.js",
   "./capturistas.js",
