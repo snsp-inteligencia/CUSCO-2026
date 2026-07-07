@@ -1,9 +1,9 @@
-/* CUSCO 2026 Service Worker v1.2.1 */
-const CACHE_NAME = "cusco-2026-v1-2-1";
+/* CUSCO 2026 Service Worker v1.2.2 */
+const CACHE_NAME = "cusco-2026-v1-2-2";
 
 const APP_SHELL = [
   "./",
-  "./?v=121",
+  "./?v=122",
   "./index.html",
   "./catalogo_localidades.js",
   "./capturistas.js",
@@ -55,8 +55,6 @@ self.addEventListener("fetch", event => {
     return;
   }
 
-  // Navegación real: entregar index.html offline.
-  // Sólo para navegación, no para archivos .js/.json/.png.
   if (req.mode === "navigate") {
     event.respondWith(
       fetch(req)
@@ -70,7 +68,6 @@ self.addEventListener("fetch", event => {
     return;
   }
 
-  // Archivos estáticos: entregar el archivo solicitado.
   event.respondWith(
     caches.match(req).then(cached => {
       if (cached) return cached;
@@ -86,7 +83,6 @@ self.addEventListener("fetch", event => {
           return caches.match("./logo_piscis.png");
         }
 
-        // Para JS/JSON/CSS no regresar index.html.
         return new Response("", {
           status: 504,
           statusText: "Offline resource unavailable",
