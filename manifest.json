@@ -1,21 +1,26 @@
 {
   "name": "CUSCO 2026",
   "short_name": "CUSCO",
-  "start_url": "/CUSCO-2026/?v=106",
+  "description": "Captura digital del cuestionario de salud comunitario CUSCO 2026.",
+  "id": "/CUSCO-2026/",
+  "start_url": "/CUSCO-2026/?v=110",
   "scope": "/CUSCO-2026/",
   "display": "standalone",
   "background_color": "#f8f5ec",
   "theme_color": "#002f2a",
+  "orientation": "portrait-primary",
   "icons": [
     {
       "src": "icons/icon-192.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
     },
     {
       "src": "icons/icon-512.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
     }
   ]
 }
