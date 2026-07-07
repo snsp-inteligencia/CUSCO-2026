@@ -1,8 +1,9 @@
-/* CUSCO 2026 Service Worker v1.2.0 */
-const CACHE_NAME = "cusco-2026-v1-2-0";
+/* CUSCO 2026 Service Worker v1.2.1 */
+const CACHE_NAME = "cusco-2026-v1-2-1";
+
 const APP_SHELL = [
   "./",
-  "./?v=120",
+  "./?v=121",
   "./index.html",
   "./catalogo_localidades.js",
   "./capturistas.js",
@@ -22,7 +23,7 @@ self.addEventListener("message", event => {
 self.addEventListener("install", event => {
   event.waitUntil(
     caches.open(CACHE_NAME).then(cache => {
-      return cache.addAll(APP_SHELL.map(url => new Request(url, {cache: "reload"})));
+      return cache.addAll(APP_SHELL.map(url => new Request(url, { cache: "reload" })));
     }).catch(err => {
       console.error("CUSCO install cache error", err);
     })
@@ -32,9 +33,11 @@ self.addEventListener("install", event => {
 
 self.addEventListener("activate", event => {
   event.waitUntil(
-    caches.keys().then(keys => Promise.all(
-      keys.map(key => key !== CACHE_NAME ? caches.delete(key) : Promise.resolve())
-    )).then(() => self.clients.claim())
+    caches.keys()
+      .then(keys => Promise.all(
+        keys.map(key => key !== CACHE_NAME ? caches.delete(key) : Promise.resolve())
+      ))
+      .then(() => self.clients.claim())
   );
 });
 
@@ -52,23 +55,26 @@ self.addEventListener("fetch", event => {
     return;
   }
 
-  if (req.mode === "navigate" || (req.headers.get("accept") || "").includes("text/html")) {
+  // Navegación real: entregar index.html offline.
+  // Sólo para navegación, no para archivos .js/.json/.png.
+  if (req.mode === "navigate") {
     event.respondWith(
-      caches.match("./index.html").then(cachedIndex => {
-        if (cachedIndex) return cachedIndex;
-        return fetch(req).then(response => {
+      fetch(req)
+        .then(response => {
           const copy = response.clone();
           caches.open(CACHE_NAME).then(cache => cache.put("./index.html", copy));
           return response;
-        }).catch(() => caches.match("./"));
-      })
+        })
+        .catch(() => caches.match("./index.html").then(cached => cached || caches.match("./")))
     );
     return;
   }
 
+  // Archivos estáticos: entregar el archivo solicitado.
   event.respondWith(
     caches.match(req).then(cached => {
       if (cached) return cached;
+
       return fetch(req).then(response => {
         if (response && response.status === 200) {
           const copy = response.clone();
@@ -76,8 +82,16 @@ self.addEventListener("fetch", event => {
         }
         return response;
       }).catch(() => {
-        if (url.pathname.endsWith("/index.html")) return caches.match("./index.html");
-        return caches.match("./index.html");
+        if (url.pathname.endsWith(".png") || url.pathname.endsWith(".jpg") || url.pathname.endsWith(".jpeg")) {
+          return caches.match("./logo_piscis.png");
+        }
+
+        // Para JS/JSON/CSS no regresar index.html.
+        return new Response("", {
+          status: 504,
+          statusText: "Offline resource unavailable",
+          headers: { "Content-Type": "text/plain" }
+        });
       });
     })
   );
