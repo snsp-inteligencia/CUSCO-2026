@@ -18,4 +18,4 @@ var DEFAULT_CAPTURISTAS_CUSCO=[
   {clave:"CAP011",nombre:"Sheryla Porras Vargas",pin:"6478",perfil:"Capturista"},
   {clave:"CAP012",nombre:"Evelia Yuritzi Hernández Ramírez",pin:"0958",perfil:"Capturista"},
   {clave:"CAP012",nombre:"Mariana Tenorio López",pin:"5020",perfil:"Capturista"} 
-]; TE DEJO LAS CLAVES QUE DEJÉ ´POR SI TE LAS PIDEN AHORA QUE NO ESTE
+]; 
