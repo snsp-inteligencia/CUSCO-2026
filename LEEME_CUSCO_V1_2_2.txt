@@ -1,0 +1,20 @@
+CUSCO 2026 v1.2.2 - Fix iPhone + sincronización
+
+Correcciones:
+- Evita doble/triple sincronización del mismo registro pendiente.
+- Agrega candado de sincronización mientras se envía un lote.
+- Corrige botón final Guardar registro en iPhone/Safari.
+- Mantiene modo offline, catálogo de localidades y guardado local rápido.
+
+Subir a la raíz del repositorio:
+- index.html
+- capturistas.js
+- catalogo_localidades.js
+- logo_piscis.png
+- manifest.json
+- service-worker.js
+
+No es necesario volver a subir icons si ya está en GitHub.
+
+Liga para pruebas:
+https://snsp-inteligencia.github.io/CUSCO-2026/?v=122
