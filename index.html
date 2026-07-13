@@ -239,6 +239,37 @@ img[src*="logo_piscis"]{
 }
 
 
+/* ===== IDENTIDAD INSTITUCIONAL v1.2.3 ===== */
+.institutional-logos{
+  width:100%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:20px;
+  margin:14px auto 16px;
+  padding:0 16px;
+}
+.institutional-logo{
+  display:block;
+  object-fit:contain;
+  background:transparent;
+}
+.institutional-logo-piscis{width:86px;height:86px;}
+.institutional-logo-snsp{width:112px;height:86px;}
+.institutional-divider{
+  width:1px;
+  height:58px;
+  background:var(--dorado);
+  opacity:.75;
+}
+@media(max-width:650px){
+  .institutional-logos{gap:14px;margin:10px auto 14px;}
+  .institutional-logo-piscis{width:72px;height:72px;}
+  .institutional-logo-snsp{width:94px;height:72px;}
+  .institutional-divider{height:48px;}
+}
+/* ===== FIN IDENTIDAD INSTITUCIONAL v1.2.3 ===== */
+
 /* ===== FIX iPHONE v1.2.2: botón Guardar visible ===== */
 #btn-submit,
 .form-card .btn-submit{
@@ -273,64 +304,6 @@ img[src*="logo_piscis"]{
   }
 }
 /* ===== FIN FIX iPHONE v1.2.2 ===== */
-
-
-/* ===== IDENTIDAD INSTITUCIONAL v1.2.3 ===== */
-.institutional-logos{
-  width:100%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:24px;
-  margin:4px auto 16px;
-  min-height:118px;
-}
-.institutional-logo{
-  display:block;
-  object-fit:contain;
-  max-width:100%;
-}
-.institutional-logo-piscis{
-  width:118px;
-  height:118px;
-}
-.institutional-logo-snsp{
-  width:290px;
-  height:auto;
-  max-height:112px;
-}
-.institutional-divider{
-  width:1px;
-  height:94px;
-  background:var(--dorado);
-  opacity:.8;
-  flex:0 0 1px;
-}
-@media(max-width:650px){
-  .institutional-logos{
-    gap:12px;
-    margin:2px auto 12px;
-    min-height:82px;
-  }
-  .institutional-logo-piscis{
-    width:78px;
-    height:78px;
-  }
-  .institutional-logo-snsp{
-    width:min(205px,58vw);
-    max-height:78px;
-  }
-  .institutional-divider{
-    height:64px;
-  }
-}
-@media(max-width:390px){
-  .institutional-logos{gap:9px;}
-  .institutional-logo-piscis{width:68px;height:68px;}
-  .institutional-logo-snsp{width:min(180px,56vw);max-height:68px;}
-  .institutional-divider{height:56px;}
-}
-/* ===== FIN IDENTIDAD INSTITUCIONAL v1.2.3 ===== */
 
 </style>
 
@@ -400,13 +373,13 @@ img[src*="logo_piscis"]{
 
 
 <div class="page-wrap">
-<div class="institutional-logos" aria-label="Identidad institucional">
-  <img src="logo_piscis.png" class="institutional-logo institutional-logo-piscis" alt="Programa Integral de Salud Comunitaria e Interacción Social (PISCIS)">
-  <span class="institutional-divider" aria-hidden="true"></span>
-  <img src="logo_snsp.png" class="institutional-logo institutional-logo-snsp" alt="Servicio Nacional de Salud Pública (SNSP)">
-</div>
 <div class="page-title"><h1>Cuestionario de Salud Comunitario (CUSCO) 2026</h1><p>Captura con o sin internet. Los registros pendientes se sincronizan cuando haya conexión.</p></div>
 <div class="status-panel"><div><span id="net-status" class="status-badge">Verificando conexión...</span> <span class="pending" id="pending-text">Pendientes: 0</span></div><button class="btn btn-sync btn-small" onclick="syncPending()">Sincronizar pendientes</button></div>
+<div class="institutional-logos" aria-label="Identidad institucional">
+  <img src="logo_piscis.png" class="institutional-logo institutional-logo-piscis" alt="PISCIS">
+  <span class="institutional-divider" aria-hidden="true"></span>
+  <img src="logo_snsp.png" class="institutional-logo institutional-logo-snsp" alt="Servicio Nacional de Salud Pública">
+</div>
 <div class="steps-bar" id="steps-bar"></div>
 
 <div class="form-card active" id="step-0"><div class="card-header"><div class="card-header-num">1</div><div><div class="card-header-title">Datos de Identificación</div><div class="card-header-sub">Información general del cuestionario</div></div></div><div class="card-body"><div class="field-grid">
