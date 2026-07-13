@@ -1,9 +1,9 @@
 {
   "name": "CUSCO 2026",
   "short_name": "CUSCO",
-  "description": "Captura digital CUSCO 2026 con guardado local rápido, catálogo offline, sincronización protegida y ajustes iPhone.",
+  "description": "Captura digital CUSCO 2026 con guardado local rápido, catálogo offline, sincronización protegida y ajustes iPhone e identidad institucional actualizada.",
   "id": "/CUSCO-2026/",
-  "start_url": "/CUSCO-2026/?v=122",
+  "start_url": "/CUSCO-2026/?v=123",
   "scope": "/CUSCO-2026/",
   "display": "standalone",
   "background_color": "#f8f5ec",

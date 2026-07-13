@@ -1,13 +1,14 @@
-/* CUSCO 2026 Service Worker v1.2.2 */
-const CACHE_NAME = "cusco-2026-v1-2-2";
+/* CUSCO 2026 Service Worker v1.2.3 */
+const CACHE_NAME = "cusco-2026-v1-2-3";
 
 const APP_SHELL = [
   "./",
-  "./?v=122",
+  "./?v=123",
   "./index.html",
   "./catalogo_localidades.js",
   "./capturistas.js",
   "./logo_piscis.png",
+  "./logo_snsp.png",
   "./manifest.json",
   "./service-worker.js",
   "./icons/icon-192.png",
