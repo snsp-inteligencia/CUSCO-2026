@@ -1,5 +1,5 @@
 /* CUSCO 2026 Service Worker v1.2.3 */
-const CACHE_NAME = "cusco-2026-v1-2-3";
+const CACHE_NAME = "cusco-2026-v1-2-3-final-centered";
 
 const APP_SHELL = [
   "./",

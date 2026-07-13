@@ -17,3 +17,5 @@ sincronización ni envío a Google Sheets.
 Subir todo el contenido a la raíz del repositorio, incluida la carpeta icons.
 Liga de revisión:
 https://snsp-inteligencia.github.io/CUSCO-2026/?v=123
+
+Ajuste final: centrado óptico y responsivo del bloque de logotipos PISCIS + SNSP.

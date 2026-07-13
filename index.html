@@ -242,10 +242,11 @@ img[src*="logo_piscis"]{
 /* ===== IDENTIDAD INSTITUCIONAL v1.2.3 ===== */
 .institutional-logos{
   width:100%;
+  max-width:460px;
   display:flex;
   justify-content:center;
   align-items:center;
-  gap:20px;
+  gap:30px;
   margin:14px auto 16px;
   padding:0 16px;
 }
@@ -253,20 +254,35 @@ img[src*="logo_piscis"]{
   display:block;
   object-fit:contain;
   background:transparent;
+  
 }
-.institutional-logo-piscis{width:86px;height:86px;}
-.institutional-logo-snsp{width:112px;height:86px;}
+.institutional-logo-piscis{width:86px;height:86px;margin-left:10px;}
+.institutional-logo-snsp{width:auto;height:78px;}
 .institutional-divider{
   width:1px;
   height:58px;
   background:var(--dorado);
   opacity:.75;
+  
 }
 @media(max-width:650px){
-  .institutional-logos{gap:14px;margin:10px auto 14px;}
+  .institutional-logos{
+    gap:18px;
+    margin:10px auto 14px;
+    padding:0 8px;
+  }
   .institutional-logo-piscis{width:72px;height:72px;}
-  .institutional-logo-snsp{width:94px;height:72px;}
+  .institutional-logo-snsp{width:auto;height:64px;}
   .institutional-divider{height:48px;}
+}
+@media(max-width:390px){
+  .institutional-logos{
+    max-width:290px;
+    grid-template-columns:96px 1px 96px;
+    column-gap:10px;
+  }
+  .institutional-logo-piscis{width:66px;height:66px;}
+  .institutional-logo-snsp{width:88px;height:66px;}
 }
 /* ===== FIN IDENTIDAD INSTITUCIONAL v1.2.3 ===== */
 
