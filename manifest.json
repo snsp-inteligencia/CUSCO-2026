@@ -1,9 +1,9 @@
 {
   "name": "CUSCO 2026",
   "short_name": "CUSCO",
-  "description": "Captura digital CUSCO 2026 con funcionamiento offline, sincronización protegida e identidad institucional SNSP Querétaro.",
+  "description": "Captura digital CUSCO 2026 con funcionamiento offline, autenticación segura, funcionamiento offline e identidad institucional SNSP Querétaro.",
   "id": "/CUSCO-2026/",
-  "start_url": "/CUSCO-2026/?v=123",
+  "start_url": "/CUSCO-2026/?v=130",
   "scope": "/CUSCO-2026/",
   "display": "standalone",
   "background_color": "#f8f5ec",

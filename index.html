@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CUSCO 2026 v1.2.3</title>
+<title>CUSCO 2026 v1.3.0 Seguridad</title>
 <style>
 :root{--vino:#611232;--vino-dark:#4a0d25;--verde:#002f2a;--verde-med:#004a42;--dorado:#a57f2c;--beige:#e6d194;--beige-light:#f8f5ec;--gris:#4d4d4d;--gris-light:#f0ece0;--border:#d8d4c4;--white:#fff;--radius:8px;--shadow:0 2px 12px rgba(0,47,42,.10)}
 *{box-sizing:border-box;margin:0;padding:0}body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--beige-light);color:var(--gris);min-height:100vh}.site-header{background:var(--verde);padding:0 24px;min-height:62px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 8px rgba(0,0,0,.2);position:sticky;top:0;z-index:100;gap:12px}.header-brand{display:flex;align-items:center;gap:12px}.brand-box{width:38px;height:38px;background:var(--vino);border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;color:var(--beige)}.brand-name{color:var(--beige);font-size:16px;font-weight:700}.brand-sub{color:var(--dorado);font-size:10px;letter-spacing:2px;text-transform:uppercase}.header-badge{background:rgba(165,127,44,.15);border:1px solid rgba(165,127,44,.4);color:var(--beige);font-size:11px;font-weight:600;padding:4px 12px;border-radius:20px}.header-actions{display:flex;align-items:center;gap:8px}.btn-close-capture{background:var(--vino);color:white;border:1px solid rgba(230,209,148,.45);border-radius:20px;padding:7px 13px;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit;white-space:nowrap}.btn-close-capture:hover{background:var(--vino-dark)}.session-closed{display:none;max-width:560px;margin:64px auto;padding:0 16px}.session-card{background:white;border:1px solid #e0dbc8;border-radius:14px;box-shadow:var(--shadow);padding:34px 24px;text-align:center}.session-icon{width:64px;height:64px;border-radius:50%;background:var(--verde);color:white;display:flex;align-items:center;justify-content:center;margin:0 auto 18px;font-size:30px;font-weight:800}.session-title{font-size:24px;color:var(--verde);font-weight:800;margin-bottom:8px}.session-text{font-size:14px;color:#666;line-height:1.5;margin-bottom:22px}.body-locked .page-wrap{display:none}.body-locked .btn-close-capture{display:none}.page-wrap{max-width:900px;margin:24px auto;padding:0 16px 60px}.page-title{text-align:center;margin-bottom:20px}.page-title h1{font-size:24px;color:var(--verde);font-weight:800;margin-bottom:6px}.page-title p{font-size:14px;color:#777}.status-panel{background:#fff;border:1px solid #e0dbc8;border-radius:10px;box-shadow:var(--shadow);padding:12px 16px;margin-bottom:18px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.status-badge{font-size:12px;font-weight:800;padding:5px 10px;border-radius:20px}.online{background:#d4edda;color:#155724}.offline{background:#fff3cd;color:#856404}.pending{font-size:13px;color:#666}.steps-bar{display:flex;align-items:center;justify-content:center;margin-bottom:24px;gap:0;overflow-x:auto;padding:4px 0}.step-item{display:flex;flex-direction:column;align-items:center;gap:6px;flex-shrink:0}.step-circle{width:34px;height:34px;border-radius:50%;border:2px solid var(--border);background:white;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#aaa}.step-label{font-size:10px;color:#aaa;white-space:nowrap;font-weight:500}.step-item.active .step-circle{background:var(--vino);border-color:var(--vino);color:white}.step-item.active .step-label{color:var(--vino)}.step-item.done .step-circle{background:var(--verde);border-color:var(--verde);color:white}.step-item.done .step-label{color:var(--verde)}.step-connector{width:34px;height:2px;background:var(--border);flex-shrink:0;margin-bottom:22px}.step-connector.done{background:var(--verde)}.form-card{background:white;border-radius:12px;border:1px solid #e0dbc8;box-shadow:var(--shadow);overflow:hidden;display:none}.form-card.active{display:block}.card-header{background:var(--verde);padding:16px 24px;display:flex;align-items:center;gap:14px}.card-header-num{width:30px;height:30px;border-radius:50%;background:var(--vino);color:white;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex-shrink:0}.card-header-title{color:white;font-size:15px;font-weight:700}.card-header-sub{color:var(--beige);font-size:12px;opacity:.9}.card-body{padding:24px}.field-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.field-full{grid-column:1/-1}.field{display:flex;flex-direction:column;gap:5px}.field label{font-size:12px;font-weight:700;color:var(--verde);text-transform:uppercase;letter-spacing:.4px;line-height:1.4}.req{color:var(--vino)}.field input,.field select,.field textarea{padding:10px 13px;border:1.5px solid var(--border);border-radius:var(--radius);font-size:14px;color:var(--gris);background:white;font-family:inherit;outline:none}.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--vino);box-shadow:0 0 0 3px rgba(97,18,50,.08)}.field input[readonly]{background:var(--beige-light);color:var(--verde);font-weight:700}.field textarea{resize:vertical;min-height:80px}.section-divider{grid-column:1/-1;font-size:11px;font-weight:800;color:var(--dorado);text-transform:uppercase;letter-spacing:1px;padding:14px 0 6px;border-bottom:1.5px solid var(--beige);margin-bottom:4px}.radio-group,.check-group{display:flex;flex-wrap:wrap;gap:8px;margin-top:2px}.choice-btn{display:flex;align-items:center;gap:6px;padding:8px 12px;border:1.5px solid var(--border);border-radius:6px;cursor:pointer;font-size:13px;transition:.15s;user-select:none;line-height:1.35}.choice-btn input{display:none}.choice-btn:hover{border-color:var(--vino);background:#fdf8f9}.choice-btn.selected{border-color:var(--vino);background:var(--vino);color:white}.question-block{grid-column:1/-1;padding:16px;border:1px solid #ece8d8;background:#fffdf8;border-radius:10px}.question-title{font-size:14px;line-height:1.45;color:var(--gris);margin-bottom:10px}.question-num{font-weight:800;color:var(--vino)}.calc-result{padding:10px 13px;background:var(--beige-light);border:1.5px solid var(--beige);border-radius:var(--radius);font-size:14px;font-weight:700;color:var(--verde);min-height:40px}.calc-badge{display:inline-block;padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-left:8px}.badge-normal{background:#d4edda;color:#155724}.badge-sobrepeso,.badge-riesgo{background:#fff3cd;color:#856404}.badge-obesidad,.badge-alto{background:#f8d7da;color:#721c24}.badge-bajo{background:#cce5ff;color:#004085}.scale-group{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:4px}.scale-btn{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 6px;border:1.5px solid var(--border);border-radius:6px;cursor:pointer;font-size:11px;text-align:center;transition:.15s;line-height:1.3}.scale-btn:hover{border-color:var(--vino)}.scale-btn.selected{border-color:var(--vino);background:var(--vino);color:white}.scale-num{font-size:16px;font-weight:800}.phq9-section{display:none;margin-top:20px;padding:18px;background:#fff8f0;border:1.5px solid #ffd5a0;border-radius:10px}.phq9-section.show{display:block}.phq9-alert{padding:10px 14px;background:#fff3cd;border-radius:6px;font-size:13px;font-weight:600;color:#856404;margin-bottom:16px}.phq-row{margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid #f0ece0}.phq-question{font-size:13px;color:var(--gris);margin-bottom:8px;line-height:1.4}.nav-btns{display:flex;justify-content:space-between;align-items:center;margin-top:28px;padding-top:20px;border-top:1px solid var(--gris-light);gap:10px}.btn{display:inline-flex;align-items:center;gap:7px;padding:11px 20px;border-radius:var(--radius);font-size:14px;font-weight:700;cursor:pointer;border:none;transition:.15s;font-family:inherit;text-decoration:none}.btn-prev{background:transparent;border:1.5px solid var(--border);color:var(--gris)}.btn-next{background:var(--verde);color:white}.btn-submit,.btn-sync{background:var(--vino);color:white}.btn-small{padding:8px 12px;font-size:12px}.btn:disabled{opacity:.6;cursor:not-allowed}#success-screen{display:none;text-align:center}.success-icon{width:70px;height:70px;background:var(--verde);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:34px;color:white}.success-title{font-size:23px;font-weight:800;color:var(--verde);margin-bottom:8px}.success-folio{display:inline-block;padding:8px 20px;background:var(--beige-light);border:1.5px solid var(--beige);border-radius:6px;font-size:16px;font-weight:800;color:var(--vino);margin:14px 0}.success-sub{font-size:14px;color:#777;margin-bottom:24px}#toast{position:fixed;bottom:24px;right:24px;background:var(--vino);color:white;padding:12px 20px;border-radius:8px;font-size:14px;font-weight:600;box-shadow:0 4px 16px rgba(0,0,0,.2);display:none;z-index:999;max-width:360px}.review-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.review-card{background:var(--beige-light);border-radius:8px;padding:14px;border:1px solid #e0dbc8}.review-card h3{font-size:11px;font-weight:800;color:var(--dorado);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}.review-row{display:flex;justify-content:space-between;gap:8px;padding:4px 0;border-bottom:1px solid #ece8d8;font-size:12px}.review-row span:first-child{color:#888}.review-row span:last-child{font-weight:600;text-align:right}.spinner{width:18px;height:18px;border:2px solid rgba(255,255,255,.4);border-top-color:white;border-radius:50%;animation:spin .7s linear infinite;display:none}@keyframes spin{to{transform:rotate(360deg)}}@media(max-width:650px){.field-grid,.review-grid{grid-template-columns:1fr}.field-full{grid-column:1}.scale-group{grid-template-columns:repeat(2,1fr)}.card-body{padding:18px}.steps-bar{justify-content:flex-start}.site-header{padding:8px 14px}.header-badge{display:none}.nav-btns{flex-direction:column}.btn{width:100%;justify-content:center}}
@@ -332,12 +332,12 @@ img[src*="logo_piscis"]{
 <link rel="apple-touch-icon" href="icons/icon-192.png">
 </head>
 <body class="body-login">
-<header class="site-header"><div class="header-left"><button type="button" id="btn-inicio" class="btn-header-inicio" onclick="volverInicio()" style="display:none">← Inicio</button><div class="header-brand"><div class="brand-box">SC</div><div><div class="brand-name">SierraConecta</div><div class="brand-sub">SNSP · QUERÉTARO · 2026</div></div></div></div><div class="header-actions"><span class="header-badge">Modo Offline</span><span id="capturista-activo" class="capturista-active"></span><button type="button" id="btn-admin-capturistas" class="btn-admin-capturistas" onclick="abrirAdminCapturistas()" style="display:none">Capturistas</button></div></header>
+<header class="site-header"><div class="header-left"><button type="button" id="btn-inicio" class="btn-header-inicio" onclick="volverInicio()" style="display:none">← Inicio</button><div class="header-brand"><div class="brand-box">SC</div><div><div class="brand-name">SierraConecta</div><div class="brand-sub">SNSP · QUERÉTARO · 2026</div></div></div></div><div class="header-actions"><span class="header-badge">Modo Offline</span><span id="capturista-activo" class="capturista-active"></span><button type="button" id="btn-cerrar-sesion" class="btn-admin-capturistas" onclick="cerrarSesionCapturista()" style="display:none">Cerrar sesión</button></div></header>
 
 <div id="login-capturista" class="login-screen">
   <div class="login-card">
     <div class="login-title">Ingreso de capturista</div>
-    <div class="login-text">Ingresa tu clave de capturista y PIN. Este dato se guardará en cada registro para seguimiento y reportes.</div>
+    <div class="login-text">Ingresa tu clave de capturista y PIN. La validación se realiza de forma segura y el PIN no se guarda en este dispositivo.</div>
     <div class="field-grid">
       <div class="field field-full">
         <label>Clave de capturista <span class="req">*</span></label>
@@ -351,43 +351,9 @@ img[src*="logo_piscis"]{
     <div class="nav-btns" style="border-top:none;margin-top:18px;padding-top:0">
       <button type="button" class="btn btn-submit" onclick="loginCapturista()">Iniciar captura</button>
     </div>
-    <div class="login-note">Cada vez que se abre CUSCO se solicita ingreso de capturista para evitar capturas con una sesión anterior.</div>
+    <div class="login-note">La primera validación requiere internet. Después, este dispositivo quedará autorizado hasta el 31 de diciembre de 2026 y podrá trabajar sin conexión.</div>
   </div>
 </div>
-
-<div id="admin-capturistas-modal" class="admin-modal">
-  <div class="admin-card">
-    <div class="admin-head">
-      <div class="admin-title">Administrar capturistas</div>
-      <button type="button" class="btn-close-capture" onclick="cerrarAdminCapturistas()">Cerrar</button>
-    </div>
-    <div class="admin-body">
-      <div class="login-note" style="text-align:left;margin:0 0 14px">El catálogo oficial de capturistas se administra en el archivo capturistas.js. Los cambios hechos aquí son locales de este dispositivo y sirven solo como apoyo temporal.</div>
-      <div class="field-grid">
-        <div class="field"><label>Clave</label><input type="text" id="admin_cap_clave" placeholder="CAP007"></div>
-        <div class="field"><label>PIN</label><input type="text" id="admin_cap_pin" inputmode="numeric" placeholder="4 dígitos"></div>
-        <div class="field field-full"><label>Nombre</label><input type="text" id="admin_cap_nombre" placeholder="Nombre completo"></div>
-        <div class="field"><label>Perfil</label><select id="admin_cap_perfil"><option>Capturista</option><option>Administrador</option></select></div>
-      </div>
-      <div class="nav-btns" style="margin-top:14px;padding-top:14px">
-        <button type="button" class="btn btn-submit" onclick="guardarCapturistaAdmin()">Guardar capturista</button>
-        <button type="button" class="btn btn-prev" onclick="limpiarFormCapturistaAdmin()">Limpiar</button>
-      </div>
-
-      <div class="section-divider" style="margin-top:18px">Cambio rápido de PIN</div>
-      <div class="field-grid">
-        <div class="field"><label>Capturista</label><select id="admin_pin_clave"></select></div>
-        <div class="field"><label>Nuevo PIN</label><input type="text" id="admin_pin_nuevo" inputmode="numeric" maxlength="4" placeholder="4 dígitos"></div>
-      </div>
-      <div class="nav-btns" style="margin-top:14px;padding-top:14px">
-        <button type="button" class="btn btn-submit" onclick="cambiarPinCapturistaAdmin()">Cambiar PIN</button>
-      </div>
-
-      <div id="admin-capturistas-lista"></div>
-    </div>
-  </div>
-</div>
-
 
 <div class="page-wrap">
 <div class="page-title"><h1>Cuestionario de Salud Comunitario (CUSCO) 2026</h1><p>Captura con o sin internet. Los registros pendientes se sincronizan cuando haya conexión.</p></div>
@@ -451,71 +417,79 @@ img[src*="logo_piscis"]{
 </div><div id="toast"></div>
 
 <script src="./catalogo_localidades.js?v=20260629"></script>
-<script src="./capturistas.js?v=20260702"></script>
 <script>
-var CUSCO_VERSION="1.2.2";
+var CUSCO_VERSION="1.3.0";
 var syncInProgress=false;
 var APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyvLRYGnelN_x3AK_4RdbtjoUUVrGBXOg_KwggfRr0N7-Z7qogk6S3xhbEd6-YY5FVQ/exec";
-var CAPTURISTAS_ADMIN_KEY="cusco_capturistas_admin";
-function cargarCatalogoCapturistas(){
-  try{
-    var guardados=JSON.parse(localStorage.getItem(CAPTURISTAS_ADMIN_KEY)||"[]");
-    if(Array.isArray(guardados)&&guardados.length)return guardados;
-  }catch(e){}
-  if(typeof DEFAULT_CAPTURISTAS_CUSCO!=="undefined" && Array.isArray(DEFAULT_CAPTURISTAS_CUSCO)){
-    return DEFAULT_CAPTURISTAS_CUSCO.slice();
-  }
-  return [];
-}
-var CAPTURISTAS_CUSCO=cargarCatalogoCapturistas();
-function guardarCatalogoCapturistas(){
-  try{
-    localStorage.setItem(CAPTURISTAS_ADMIN_KEY,JSON.stringify(CAPTURISTAS_CUSCO));
-    return true;
-  }catch(e){
-    showToast("No se pudo guardar en este dispositivo. Revisa almacenamiento de Safari.");
-    return false;
-  }
-}
-var CAPTURISTA_STORAGE_KEY="cusco_capturista_activo";
+var CAPTURISTA_STORAGE_KEY="cusco_dispositivo_autorizado_v130";
+var DEVICE_ID_KEY="cusco_device_id_v130";
+var AUTH_EXPIRES_AT="2026-12-31T23:59:59-06:00";
 var CAPTURISTA_MEM=null;
-function getCapturistaActivo(){
-  if(CAPTURISTA_MEM&&CAPTURISTA_MEM.clave)return CAPTURISTA_MEM;
+
+function getDeviceId(){
   try{
-    var raw=sessionStorage.getItem(CAPTURISTA_STORAGE_KEY);
-    if(raw){
-      CAPTURISTA_MEM=JSON.parse(raw)||{};
-      return CAPTURISTA_MEM;
-    }
-  }catch(e){}
-  return {};
-}
-function setCapturistaActivo(c){
-  CAPTURISTA_MEM={clave:c.clave,nombre:c.nombre,perfil:c.perfil,login_at:new Date().toISOString()};
-  try{sessionStorage.setItem(CAPTURISTA_STORAGE_KEY,JSON.stringify(CAPTURISTA_MEM));}catch(e){}
-}
-function clearCapturistaActivo(){
-  CAPTURISTA_MEM=null;
-  try{sessionStorage.removeItem(CAPTURISTA_STORAGE_KEY);}catch(e){}
-  try{localStorage.removeItem(CAPTURISTA_STORAGE_KEY);}catch(e){}
+    var existing=localStorage.getItem(DEVICE_ID_KEY);
+    if(existing)return existing;
+    var id=(window.crypto&&crypto.randomUUID)?crypto.randomUUID():("DEV-"+Date.now()+"-"+Math.random().toString(36).slice(2));
+    localStorage.setItem(DEVICE_ID_KEY,id);
+    return id;
+  }catch(e){
+    return "DEV-"+Date.now()+"-"+Math.random().toString(36).slice(2);
+  }
 }
 
-function refrescarListasCapturistasSinCerrarSesion(){
-  poblarSelectCambioPin();
+function autorizacionVigente(c){
+  if(!c||!c.clave||!c.expires_at)return false;
+  var vence=new Date(c.expires_at).getTime();
+  return Number.isFinite(vence)&&Date.now()<vence;
+}
+
+function getCapturistaActivo(){
+  if(autorizacionVigente(CAPTURISTA_MEM))return CAPTURISTA_MEM;
+  try{
+    var raw=localStorage.getItem(CAPTURISTA_STORAGE_KEY);
+    if(raw){
+      var parsed=JSON.parse(raw)||{};
+      if(autorizacionVigente(parsed)){
+        CAPTURISTA_MEM=parsed;
+        return parsed;
+      }
+      localStorage.removeItem(CAPTURISTA_STORAGE_KEY);
+    }
+  }catch(e){}
+  CAPTURISTA_MEM=null;
+  return {};
+}
+
+function setCapturistaActivo(c){
+  CAPTURISTA_MEM={
+    clave:String(c.clave||"").toUpperCase(),
+    nombre:String(c.nombre||""),
+    perfil:String(c.perfil||"Capturista"),
+    device_id:getDeviceId(),
+    authorized_at:new Date().toISOString(),
+    expires_at:c.expires_at||AUTH_EXPIRES_AT
+  };
+  try{localStorage.setItem(CAPTURISTA_STORAGE_KEY,JSON.stringify(CAPTURISTA_MEM));}catch(e){
+    showToast("No fue posible guardar la autorización en este dispositivo.");
+  }
+}
+
+function clearCapturistaActivo(){
+  CAPTURISTA_MEM=null;
+  try{localStorage.removeItem(CAPTURISTA_STORAGE_KEY);}catch(e){}
+  try{sessionStorage.removeItem("cusco_capturista_activo");}catch(e){}
 }
 
 function initCapturistas(){
-  clearCapturistaActivo();
   var claveInput=document.getElementById("login_capturista_clave");
   if(claveInput){
     claveInput.addEventListener("input",function(){
       this.value=(this.value||"").toUpperCase().replace(/[^A-Z0-9]/g,"").slice(0,6);
     });
   }
-  if(!Array.isArray(CAPTURISTAS_CUSCO) || !CAPTURISTAS_CUSCO.length){
-    showToast("No cargó capturistas.js. Verifica que esté en la misma carpeta del index.");
-  }
 }
+
 function aplicarCapturistaEnFormulario(){
   var cap=getCapturistaActivo();
   var has=!!cap.clave;
@@ -523,157 +497,82 @@ function aplicarCapturistaEnFormulario(){
   var badge=document.getElementById("capturista-activo");
   if(badge)badge.textContent=has?(cap.clave+" · "+cap.nombre):"";
   var aplicador=document.getElementById("aplicador");
-  if(aplicador&&has){aplicador.value=cap.clave+" - "+cap.nombre;aplicador.readOnly=true;}
-  var btnAdmin=document.getElementById("btn-admin-capturistas");
-  if(btnAdmin)btnAdmin.style.display=(has&&cap.perfil==="Administrador")?"inline-flex":"none";
+  if(aplicador){
+    aplicador.value=has?(cap.clave+" - "+cap.nombre):"";
+    aplicador.readOnly=has;
+  }
+  var btnCerrar=document.getElementById("btn-cerrar-sesion");
+  if(btnCerrar)btnCerrar.style.display=has?"inline-flex":"none";
   var btnInicio=document.getElementById("btn-inicio");
   if(btnInicio)btnInicio.style.display=has?"inline-flex":"none";
 }
-function loginCapturista(){
+
+async function loginCapturista(){
   var clave=((document.getElementById("login_capturista_clave")||{}).value||"").toUpperCase().trim();
   var pin=(document.getElementById("login_capturista_pin")||{}).value||"";
-  var cap=CAPTURISTAS_CUSCO.find(function(c){return c.clave===clave&&c.pin===pin;});
-  if(!cap){showToast("Capturista o PIN incorrecto");return;}
-  setCapturistaActivo(cap);
-  aplicarCapturistaEnFormulario();
-  showToast("Sesión iniciada: "+cap.nombre);
-}
-function initCapturistaSession(){initCapturistas();aplicarCapturistaEnFormulario();}
+  if(!/^CAP\d{3}$/.test(clave)){showToast("Captura una clave válida, por ejemplo CAP002");return;}
+  if(!/^\d{4}$/.test(pin)){showToast("El PIN debe tener 4 dígitos");return;}
+  if(!navigator.onLine){showToast("La primera validación requiere internet.");return;}
 
-
-
-function volverInicio(){
+  var btn=document.querySelector("#login-capturista .btn-submit");
+  if(btn)btn.disabled=true;
   try{
-    clearCapturistaActivo();
+    var body=new URLSearchParams();
+    body.append("action","login");
+    body.append("clave",clave);
+    body.append("pin",pin);
+    body.append("device_id",getDeviceId());
 
-    var pin=document.getElementById("login_capturista_pin");
-    if(pin)pin.value="";
+    var response=await fetch(APPS_SCRIPT_URL,{method:"POST",body:body});
+    if(!response.ok)throw new Error("HTTP "+response.status);
+    var result=await response.json();
+    if(!result||!result.ok){showToast((result&&result.message)||"Capturista o PIN incorrecto");return;}
 
-    var sel=document.getElementById("login_capturista_clave");
-    if(sel)sel.value="";
-
-    var aplicador=document.getElementById("aplicador");
-    if(aplicador){
-      aplicador.value="";
-      aplicador.readOnly=false;
-    }
-
-    var badge=document.getElementById("capturista-activo");
-    if(badge)badge.textContent="";
-
-    var btnAdmin=document.getElementById("btn-admin-capturistas");
-    if(btnAdmin)btnAdmin.style.display="none";
-
-    var btnInicio=document.getElementById("btn-inicio");
-    if(btnInicio)btnInicio.style.display="none";
-
-    var success=document.getElementById("success-screen");
-    if(success){
-      success.style.display="none";
-      success.classList.remove("active");
-    }
-
-    if(typeof currentStep!=="undefined")currentStep=0;
-    document.querySelectorAll(".form-card").forEach(function(card){
-      card.classList.remove("active");
+    setCapturistaActivo({
+      clave:result.clave,
+      nombre:result.nombre,
+      perfil:result.perfil,
+      expires_at:result.expires_at||AUTH_EXPIRES_AT
     });
-    var step0=document.getElementById("step-0");
-    if(step0)step0.classList.add("active");
-    if(typeof updateStepsBar==="function")updateStepsBar(0);
-
-    document.body.classList.add("body-login");
-    document.body.classList.remove("body-locked");
-
-    if(typeof initCapturistas==="function")initCapturistas();
-
-    window.scrollTo(0,0);
-    showToast("Regresaste al inicio");
+    var pinInput=document.getElementById("login_capturista_pin");
+    if(pinInput)pinInput.value="";
+    aplicarCapturistaEnFormulario();
+    showToast("Dispositivo autorizado: "+result.nombre);
   }catch(e){
-    alert("No se pudo regresar al inicio: "+(e.message||e));
+    showToast("No se pudo validar el acceso. Revisa internet e implementación de Apps Script.");
+  }finally{
+    if(btn)btn.disabled=false;
   }
 }
 
+function initCapturistaSession(){
+  initCapturistas();
+  aplicarCapturistaEnFormulario();
+}
 
-function abrirAdminCapturistas(){
+function volverInicio(){
   var cap=getCapturistaActivo();
-  if(!cap || cap.perfil!=="Administrador"){showToast("Solo administradores pueden modificar capturistas");return;}
-  renderCapturistasAdmin();
-  var m=document.getElementById("admin-capturistas-modal");
-  if(m)m.style.display="block";
-}
-function cerrarAdminCapturistas(){
-  var m=document.getElementById("admin-capturistas-modal");
-  if(m)m.style.display="none";
-}
-function limpiarFormCapturistaAdmin(){
-  setv("admin_cap_clave","");setv("admin_cap_nombre","");setv("admin_cap_pin","");setv("admin_cap_perfil","Capturista");
-}
-function siguienteClaveCapturista(){
-  var max=0;
-  CAPTURISTAS_CUSCO.forEach(function(c){var n=parseInt(String(c.clave||"").replace(/\D/g,""),10);if(n>max)max=n;});
-  return "CAP"+String(max+1).padStart(3,"0");
-}
-function guardarCapturistaAdmin(){
-  var clave=(v("admin_cap_clave")||siguienteClaveCapturista()).trim().toUpperCase();
-  var nombre=v("admin_cap_nombre").trim();
-  var pin=v("admin_cap_pin").trim();
-  var perfil=v("admin_cap_perfil")||"Capturista";
-  if(!/^CAP\d{3}$/.test(clave)){showToast("La clave debe tener formato CAP007");return;}
-  if(!nombre){showToast("Captura el nombre del capturista");return;}
-  if(!/^\d{4}$/.test(pin)){showToast("El PIN debe ser de 4 dígitos");return;}
-  var idx=CAPTURISTAS_CUSCO.findIndex(function(c){return c.clave===clave;});
-  var item={clave:clave,nombre:nombre,pin:pin,perfil:perfil};
-  if(idx>=0)CAPTURISTAS_CUSCO[idx]=item; else CAPTURISTAS_CUSCO.push(item);
-  if(!guardarCatalogoCapturistas())return;
-  refrescarListasCapturistasSinCerrarSesion();
-  renderCapturistasAdmin();
-  limpiarFormCapturistaAdmin();
-  showToast("Capturista guardado: "+clave);
-}
-function editarCapturistaAdmin(clave){
-  var c=CAPTURISTAS_CUSCO.find(function(x){return x.clave===clave;});
-  if(!c)return;
-  setv("admin_cap_clave",c.clave);setv("admin_cap_nombre",c.nombre);setv("admin_cap_pin",c.pin);setv("admin_cap_perfil",c.perfil||"Capturista");
-}
-function eliminarCapturistaAdmin(clave){
-  if(!confirm("¿Eliminar "+clave+"?"))return;
-  CAPTURISTAS_CUSCO=CAPTURISTAS_CUSCO.filter(function(c){return c.clave!==clave;});
-  if(!guardarCatalogoCapturistas())return;
-  refrescarListasCapturistasSinCerrarSesion();renderCapturistasAdmin();showToast("Capturista eliminado");
-}
-function poblarSelectCambioPin(){
-  var sel=document.getElementById("admin_pin_clave");
-  if(!sel)return;
-  sel.innerHTML='<option value="">— Selecciona capturista —</option>'+CAPTURISTAS_CUSCO.map(function(c){return '<option value="'+c.clave+'">'+c.clave+' · '+c.nombre+'</option>';}).join("");
-}
-function cambiarPinCapturistaAdmin(){
-  var clave=(v("admin_pin_clave")||"").trim().toUpperCase();
-  var nuevo=(v("admin_pin_nuevo")||"").trim();
-  if(!clave){showToast("Selecciona capturista");return;}
-  if(!/^\d{4}$/.test(nuevo)){showToast("El nuevo PIN debe ser de 4 dígitos");return;}
-  var idx=CAPTURISTAS_CUSCO.findIndex(function(c){return c.clave===clave;});
-  if(idx<0){showToast("No se encontró el capturista");return;}
-  CAPTURISTAS_CUSCO[idx].pin=nuevo;
-  if(!guardarCatalogoCapturistas())return;
-  refrescarListasCapturistasSinCerrarSesion();
-  renderCapturistasAdmin();
-  setv("admin_pin_clave",clave);
-  setv("admin_pin_nuevo","");
-  showToast("PIN actualizado para "+clave);
-}
-function renderCapturistasAdmin(){
-  poblarSelectCambioPin();
-  var c=document.getElementById("admin-capturistas-lista");
-  if(!c)return;
-  var html='<table class="admin-table"><thead><tr><th>Clave</th><th>Nombre</th><th>PIN</th><th>Perfil</th><th></th></tr></thead><tbody>';
-  CAPTURISTAS_CUSCO.forEach(function(x){
-    html+='<tr><td>'+x.clave+'</td><td>'+x.nombre+'</td><td>'+x.pin+'</td><td>'+x.perfil+'</td><td><button class="btn-link" onclick="editarCapturistaAdmin(\''+x.clave+'\')">Editar</button> · <button class="btn-link" onclick="eliminarCapturistaAdmin(\''+x.clave+'\')">Eliminar</button></td></tr>';
-  });
-  html+='</tbody></table>';
-  c.innerHTML=html;
+  if(!cap.clave){
+    aplicarCapturistaEnFormulario();
+    return;
+  }
+  limpiarFormularioParaNuevaCaptura();
+  aplicarCapturistaEnFormulario();
+  showToast("Inicio");
 }
 
-
+function cerrarSesionCapturista(){
+  if(!confirm("¿Cerrar la sesión de este dispositivo? Para autorizarlo nuevamente necesitarás internet."))return;
+  clearCapturistaActivo();
+  limpiarCapturaActual(false);
+  var clave=document.getElementById("login_capturista_clave");
+  var pin=document.getElementById("login_capturista_pin");
+  if(clave)clave.value="";
+  if(pin)pin.value="";
+  aplicarCapturistaEnFormulario();
+  window.scrollTo(0,0);
+  showToast("Sesión cerrada");
+}
 
 var currentStep=0,totalSteps=5,storageKey="CUSCO_2026_PENDIENTES";
 var PHQ9_QUESTIONS=[
@@ -1167,6 +1066,7 @@ function submitForm(){
 }
 function sendPayload(p){
   var limpio = normalizeForSheets(p);
+  limpio.action = "registro";
 
   // Envío simple para Apps Script. No se agregan headers especiales para evitar bloqueo CORS/preflight.
   return fetch(APPS_SCRIPT_URL, {
@@ -1330,25 +1230,7 @@ function limpiarCapturaActual(conservarAplicador){
 }
 
 function mostrarPantallaLoginOffline(){
-  clearCapturistaActivo();
-  limpiarCapturaActual(false);
-
-  var s=document.getElementById("session-closed");
-  if(s)s.style.display="none";
-
-  var login=document.getElementById("login-capturista");
-  if(login)login.style.display="block";
-
-  var pin=document.getElementById("login_capturista_pin");
-  if(pin)pin.value="";
-
-  document.body.classList.remove("body-locked");
-  document.body.classList.add("body-login");
-
-  initCapturistas();
-
-  window.scrollTo(0,0);
-  showToast("Listo. Inicia sesión para nueva captura.");
+  cerrarSesionCapturista();
 }
 
 function cerrarCaptura(){showToast("Usa + Capturar nuevo registro para continuar capturando.");}

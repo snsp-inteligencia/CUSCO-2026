@@ -1,33 +1,27 @@
-/* CUSCO 2026 Service Worker v1.2.3 */
-const CACHE_NAME = "cusco-2026-v1-2-3-final-centered";
+/* CUSCO 2026 Service Worker v1.3.0 Seguridad */
+const CACHE_NAME = "cusco-2026-v1-3-0-seguridad";
 
 const APP_SHELL = [
   "./",
-  "./?v=123",
+  "./?v=130",
   "./index.html",
   "./catalogo_localidades.js",
-  "./capturistas.js",
+  "./logos institucionales.png",
   "./logo_piscis.png",
   "./logo_snsp.png",
   "./manifest.json",
-  "./service-worker.js",
   "./icons/icon-192.png",
   "./icons/icon-512.png"
 ];
 
 self.addEventListener("message", event => {
-  if (event.data && event.data.type === "SKIP_WAITING") {
-    self.skipWaiting();
-  }
+  if (event.data && event.data.type === "SKIP_WAITING") self.skipWaiting();
 });
 
 self.addEventListener("install", event => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => {
-      return cache.addAll(APP_SHELL.map(url => new Request(url, { cache: "reload" })));
-    }).catch(err => {
-      console.error("CUSCO install cache error", err);
-    })
+    caches.open(CACHE_NAME)
+      .then(cache => cache.addAll(APP_SHELL.map(url => new Request(url, {cache:"reload"}))))
   );
   self.skipWaiting();
 });
@@ -35,9 +29,7 @@ self.addEventListener("install", event => {
 self.addEventListener("activate", event => {
   event.waitUntil(
     caches.keys()
-      .then(keys => Promise.all(
-        keys.map(key => key !== CACHE_NAME ? caches.delete(key) : Promise.resolve())
-      ))
+      .then(keys => Promise.all(keys.map(key => key !== CACHE_NAME ? caches.delete(key) : Promise.resolve())))
       .then(() => self.clients.claim())
   );
 });
@@ -45,23 +37,15 @@ self.addEventListener("activate", event => {
 self.addEventListener("fetch", event => {
   const req = event.request;
   const url = new URL(req.url);
-
   if (req.method !== "GET") return;
-
-  if (
-    url.hostname.includes("script.google.com") ||
-    url.hostname.includes("googleusercontent.com") ||
-    url.hostname.includes("google.com")
-  ) {
-    return;
-  }
+  if (url.hostname.includes("script.google.com") || url.hostname.includes("googleusercontent.com") || url.hostname.includes("google.com")) return;
 
   if (req.mode === "navigate") {
     event.respondWith(
       fetch(req)
         .then(response => {
-          const copy = response.clone();
-          caches.open(CACHE_NAME).then(cache => cache.put("./index.html", copy));
+          const copy=response.clone();
+          caches.open(CACHE_NAME).then(cache => cache.put("./index.html",copy));
           return response;
         })
         .catch(() => caches.match("./index.html").then(cached => cached || caches.match("./")))
@@ -70,26 +54,12 @@ self.addEventListener("fetch", event => {
   }
 
   event.respondWith(
-    caches.match(req).then(cached => {
-      if (cached) return cached;
-
-      return fetch(req).then(response => {
-        if (response && response.status === 200) {
-          const copy = response.clone();
-          caches.open(CACHE_NAME).then(cache => cache.put(req, copy));
-        }
-        return response;
-      }).catch(() => {
-        if (url.pathname.endsWith(".png") || url.pathname.endsWith(".jpg") || url.pathname.endsWith(".jpeg")) {
-          return caches.match("./logo_piscis.png");
-        }
-
-        return new Response("", {
-          status: 504,
-          statusText: "Offline resource unavailable",
-          headers: { "Content-Type": "text/plain" }
-        });
-      });
-    })
+    caches.match(req).then(cached => cached || fetch(req).then(response => {
+      if(response && response.status===200){
+        const copy=response.clone();
+        caches.open(CACHE_NAME).then(cache => cache.put(req,copy));
+      }
+      return response;
+    }))
   );
 });
