@@ -1,12 +1,12 @@
 /* CUSCO 2026 Service Worker v1.3.0 Seguridad */
-const CACHE_NAME = "cusco-2026-v1-3-0-seguridad";
+const CACHE_NAME = "cusco-2026-v1-3-1-logos-offline";
 
 const APP_SHELL = [
   "./",
-  "./?v=130",
+ "./?v=131",
   "./index.html",
   "./catalogo_localidades.js",
-  "./logos institucionales.png",
+  "./logos_institucionales.png",
   "./logo_piscis.png",
   "./logo_snsp.png",
   "./manifest.json",
