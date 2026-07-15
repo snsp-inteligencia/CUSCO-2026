@@ -359,7 +359,7 @@ img[src*="logo_piscis"]{
 <div class="page-title"><h1>Cuestionario de Salud Comunitario (CUSCO) 2026</h1><p>Captura con o sin internet. Los registros pendientes se sincronizan cuando haya conexión.</p></div>
 <div class="status-panel"><div><span id="net-status" class="status-badge">Verificando conexión...</span> <span class="pending" id="pending-text">Pendientes: 0</span></div><button class="btn btn-sync btn-small" onclick="syncPending()">Sincronizar pendientes</button></div>
 <div class="institutional-logos" aria-label="Identidad institucional">
-  <img src="./logos_institucionales.png"
+  <img src="/CUSCO-2026/logos_institucionales.png?v=133"
      class="institutional-logo institutional-logo-combined"
      alt="Logotipos institucionales">
 </div>
@@ -420,7 +420,7 @@ img[src*="logo_piscis"]{
 
 <script src="./catalogo_localidades.js?v=20260629"></script>
 <script>
-var CUSCO_VERSION="1.3.0";
+var CUSCO_VERSION="1.3.3";
 var syncInProgress=false;
 var APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyvLRYGnelN_x3AK_4RdbtjoUUVrGBXOg_KwggfRr0N7-Z7qogk6S3xhbEd6-YY5FVQ/exec";
 var CAPTURISTA_STORAGE_KEY="cusco_dispositivo_autorizado_v130";
@@ -1265,7 +1265,7 @@ function showToast(msg){var t=document.getElementById("toast");t.textContent=msg
 </script>
 
 <script>
-/* Registro Service Worker CUSCO v1.1.0 */
+/* Registro Service Worker CUSCO v1.3.3 */
 (function(){
   if ("serviceWorker" in navigator) {
     window.addEventListener("load", function(){
