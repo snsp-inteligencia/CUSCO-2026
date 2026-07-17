@@ -546,23 +546,33 @@ function initCapturistas(){
 function aplicarCapturistaEnFormulario(){
   var cap=getCapturistaActivo();
   var has=!!cap.clave;
+  var esAdmin=has && String(cap.perfil||"").trim().toLowerCase()==="administrador";
+
   document.body.classList.toggle("body-login",!has);
+
   var badge=document.getElementById("capturista-activo");
   if(badge)badge.textContent=has?(cap.clave+" · "+cap.nombre):"";
+
   var aplicador=document.getElementById("aplicador");
   if(aplicador){
     aplicador.value=has?(cap.clave+" - "+cap.nombre):"";
     aplicador.readOnly=has;
   }
+
+  /* Solo los Administradores pueden cerrar sesión o cambiar de capturista. */
   var btnCerrar=document.getElementById("btn-cerrar-sesion");
-  if(btnCerrar)btnCerrar.style.display=has?"inline-flex":"none";
+  if(btnCerrar)btnCerrar.style.display=esAdmin?"inline-flex":"none";
+
   var btnInicio=document.getElementById("btn-inicio");
   if(btnInicio)btnInicio.style.display=has?"inline-flex":"none";
+
   var btnMenu=document.getElementById("btn-menu-capturista");
-  if(btnMenu)btnMenu.classList.toggle("session-active",has);
+  if(btnMenu)btnMenu.classList.toggle("session-active",esAdmin);
+
   var mobileNombre=document.getElementById("mobile-capturista-nombre");
   if(mobileNombre)mobileNombre.textContent=has?(cap.clave+" · "+cap.nombre):"";
-  if(!has)cerrarMenuCapturista();
+
+  if(!esAdmin)cerrarMenuCapturista();
 }
 
 async function loginCapturista(){
@@ -639,6 +649,12 @@ function cerrarMenuCapturista(){
 
 function cambiarCapturista(){
   cerrarMenuCapturista();
+  var cap=getCapturistaActivo();
+  var esAdmin=!!cap.clave && String(cap.perfil||"").trim().toLowerCase()==="administrador";
+  if(!esAdmin){
+    showToast("Esta opción está disponible únicamente para Administradores.");
+    return;
+  }
   if(!confirm("¿Cambiar de capturista? Para ingresar con otra cuenta se requiere internet."))return;
   clearCapturistaActivo();
   limpiarCapturaActual(false);
@@ -661,6 +677,12 @@ window.addEventListener("resize",function(){
 
 function cerrarSesionCapturista(){
   cerrarMenuCapturista();
+  var cap=getCapturistaActivo();
+  var esAdmin=!!cap.clave && String(cap.perfil||"").trim().toLowerCase()==="administrador";
+  if(!esAdmin){
+    showToast("Esta opción está disponible únicamente para Administradores.");
+    return;
+  }
   if(!confirm("¿Cerrar la sesión de este dispositivo? Para autorizarlo nuevamente necesitarás internet."))return;
   clearCapturistaActivo();
   limpiarCapturaActual(false);
