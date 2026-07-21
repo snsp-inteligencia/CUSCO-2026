@@ -1,0 +1,23 @@
+CUSCO 2026 v1.3.7 COMPACTA
+
+Archivos para GitHub Pages:
+- index.html
+- manifest.json
+- service-worker.js
+
+Apps Script:
+- CODE_APPS_SCRIPT_V1_3_7.gs
+
+Cambios:
+- Tarjeta compacta de Cusky adaptable a teléfono, iPad y computadora.
+- Personas registradas con contador de Google Sheets.
+- Pendientes locales.
+- Estado de conexión.
+- Mensajes breves según conexión, pendientes y sincronización.
+- Sin cambios en formulario, folios, login ni almacenamiento offline.
+
+IMPORTANTE:
+1. En GitHub, reemplazar solo index.html, manifest.json y service-worker.js.
+2. Conservar en el repositorio catalogo_localidades.js, logos, iconos y demás archivos existentes.
+3. Si se reemplaza Apps Script, crear una nueva implementación y después actualizar la URL en index.html únicamente si Google genera una URL distinta.
+4. El aviso de acceso a la red aparece solo al ejecutar la vista previa dentro de ChatGPT. En GitHub Pages no aparece ese aviso de ChatGPT.
