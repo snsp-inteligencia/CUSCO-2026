@@ -1,15 +1,16 @@
-/* CUSCO 2026 Service Worker v1.3.3 */
-const CACHE_NAME = "cusco-2026-v1-3-3";
+/* CUSCO 2026 Service Worker v1.3.4 */
+const CACHE_NAME = "cusco-2026-v1-3-4";
+const BASE_PATH = "/CUSCO-2026/";
+const INDEX_URL = BASE_PATH + "index.html";
 
 const APP_SHELL = [
-  "/CUSCO-2026/",
-  "/CUSCO-2026/?v=133",
-  "/CUSCO-2026/index.html",
-  "/CUSCO-2026/catalogo_localidades.js",
-  "/CUSCO-2026/logos_institucionales.png?v=133",
-  "/CUSCO-2026/manifest.json",
-  "/CUSCO-2026/icons/icon-192.png",
-  "/CUSCO-2026/icons/icon-512.png"
+  BASE_PATH,
+  INDEX_URL,
+  BASE_PATH + "catalogo_localidades.js?v=20260629",
+  BASE_PATH + "logos_institucionales.png?v=134",
+  BASE_PATH + "manifest.json",
+  BASE_PATH + "icons/icon-192.png",
+  BASE_PATH + "icons/icon-512.png"
 ];
 
 self.addEventListener("message", event => {
@@ -19,40 +20,99 @@ self.addEventListener("message", event => {
 });
 
 self.addEventListener("install", event => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then(async cache => {
-      for (const url of APP_SHELL) {
-        try {
-          const response = await fetch(url, { cache: "reload" });
-          if (response.ok) {
-            await cache.put(url, response.clone());
-          } else {
-            console.warn("CUSCO: recurso no disponible", url, response.status);
-          }
-        } catch (error) {
-          console.warn("CUSCO: no se pudo precargar", url, error);
+  event.waitUntil((async () => {
+    const cache = await caches.open(CACHE_NAME);
+
+    for (const url of APP_SHELL) {
+      try {
+        const request = new Request(url, { cache: "reload" });
+        const response = await fetch(request);
+        if (response && response.ok) {
+          await cache.put(request, response.clone());
         }
+      } catch (error) {
+        console.warn("CUSCO: no se pudo precargar", url, error);
       }
-    })
-  );
+    }
+  })());
+
   self.skipWaiting();
 });
 
 self.addEventListener("activate", event => {
-  event.waitUntil(
-    caches.keys()
-      .then(keys => Promise.all(
-        keys.map(key => key !== CACHE_NAME ? caches.delete(key) : Promise.resolve())
-      ))
-      .then(() => self.clients.claim())
-  );
+  event.waitUntil((async () => {
+    const keys = await caches.keys();
+    await Promise.all(
+      keys
+        .filter(key => key.startsWith("cusco-2026-") && key !== CACHE_NAME)
+        .map(key => caches.delete(key))
+    );
+    await self.clients.claim();
+  })());
 });
 
-self.addEventListener("fetch", event => {
-  const req = event.request;
-  const url = new URL(req.url);
+function fetchWithTimeout(request, timeoutMs) {
+  return Promise.race([
+    fetch(request, { cache: "no-store" }),
+    new Promise((_, reject) =>
+      setTimeout(() => reject(new Error("Tiempo de espera agotado")), timeoutMs)
+    )
+  ]);
+}
 
-  if (req.method !== "GET") return;
+async function navigationResponse(request) {
+  const cache = await caches.open(CACHE_NAME);
+
+  try {
+    const response = await fetchWithTimeout(request, 5000);
+
+    if (response && response.ok) {
+      await cache.put(INDEX_URL, response.clone());
+      return response;
+    }
+  } catch (error) {
+    console.warn("CUSCO: navegación sin respuesta de red; usando caché", error);
+  }
+
+  return (
+    await cache.match(INDEX_URL) ||
+    await cache.match(BASE_PATH) ||
+    new Response(
+      "<!doctype html><html lang='es'><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><title>CUSCO 2026</title><body style='font-family:system-ui;padding:24px'><h2>CUSCO 2026</h2><p>No fue posible cargar la aplicación. Conéctate a internet una vez y vuelve a abrirla.</p></body></html>",
+      { headers: { "Content-Type": "text/html; charset=utf-8" } }
+    )
+  );
+}
+
+async function assetResponse(request) {
+  const cache = await caches.open(CACHE_NAME);
+  const cached = await cache.match(request);
+
+  const networkPromise = fetch(request)
+    .then(async response => {
+      if (response && response.ok && response.type !== "opaque") {
+        await cache.put(request, response.clone());
+      }
+      return response;
+    })
+    .catch(() => null);
+
+  // Recursos ya disponibles: respuesta inmediata y actualización en segundo plano.
+  if (cached) {
+    networkPromise;
+    return cached;
+  }
+
+  // Recurso no almacenado: esperar la red.
+  const network = await networkPromise;
+  return network || Response.error();
+}
+
+self.addEventListener("fetch", event => {
+  const request = event.request;
+  const url = new URL(request.url);
+
+  if (request.method !== "GET") return;
 
   if (
     url.hostname.includes("script.google.com") ||
@@ -62,38 +122,12 @@ self.addEventListener("fetch", event => {
     return;
   }
 
-  if (req.mode === "navigate") {
-    event.respondWith(
-      fetch(req)
-        .then(response => {
-          if (response && response.ok) {
-            const copy = response.clone();
-            caches.open(CACHE_NAME).then(cache => cache.put("/CUSCO-2026/index.html", copy));
-          }
-          return response;
-        })
-        .catch(async () => {
-          return (
-            await caches.match("/CUSCO-2026/index.html") ||
-            await caches.match("/CUSCO-2026/") ||
-            Response.error()
-          );
-        })
-    );
+  if (request.mode === "navigate") {
+    event.respondWith(navigationResponse(request));
     return;
   }
 
-  event.respondWith(
-    caches.match(req).then(cached => {
-      if (cached) return cached;
-
-      return fetch(req).then(response => {
-        if (response && response.status === 200 && response.type !== "opaque") {
-          const copy = response.clone();
-          caches.open(CACHE_NAME).then(cache => cache.put(req, copy));
-        }
-        return response;
-      });
-    })
-  );
+  if (url.origin === self.location.origin && url.pathname.startsWith(BASE_PATH)) {
+    event.respondWith(assetResponse(request));
+  }
 });
