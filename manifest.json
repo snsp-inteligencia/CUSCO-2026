@@ -1,7 +1,7 @@
 {
   "name": "CUSCO 2026",
   "short_name": "CUSCO",
-  "description": "Captura digital CUSCO 2026 con autenticación segura, funcionamiento offline e identidad institucional SNSP Querétaro.",
+  "description": "Captura digital CUSCO 2026 v1.3.6 con folio institucional, contador de encuestas, autenticación segura y funcionamiento offline.",
   "id": "/CUSCO-2026/",
   "start_url": "/CUSCO-2026/",
   "scope": "/CUSCO-2026/",

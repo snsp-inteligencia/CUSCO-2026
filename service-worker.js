@@ -1,5 +1,5 @@
-/* CUSCO 2026 Service Worker v1.3.4 */
-const CACHE_NAME = "cusco-2026-v1-3-4";
+/* CUSCO 2026 Service Worker v1.3.6 */
+const CACHE_NAME = "cusco-2026-v1-3-6";
 const BASE_PATH = "/CUSCO-2026/";
 const INDEX_URL = BASE_PATH + "index.html";
 
@@ -7,7 +7,7 @@ const APP_SHELL = [
   BASE_PATH,
   INDEX_URL,
   BASE_PATH + "catalogo_localidades.js?v=20260629",
-  BASE_PATH + "logos_institucionales.png?v=134",
+  BASE_PATH + "logos_institucionales.png?v=135",
   BASE_PATH + "manifest.json",
   BASE_PATH + "icons/icon-192.png",
   BASE_PATH + "icons/icon-512.png"
