@@ -1,5 +1,5 @@
-/* CUSCO 2026 Service Worker v1.3.7 */
-const CACHE_NAME = "cusco-2026-v1-3-7";
+/* CUSCO 2026 Service Worker v1.3.9 */
+const CACHE_NAME = "cusco-2026-v1-3-9";
 const BASE_PATH = "/CUSCO-2026/";
 const INDEX_URL = BASE_PATH + "index.html";
 
