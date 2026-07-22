@@ -495,7 +495,7 @@ img[src*="logo_piscis"]{
 <div class="field"><label>Segundo apellido</label><input type="text" id="segundo_apellido" placeholder="Ej. Torres" autocomplete="off" spellcheck="false"></div>
 <div class="field"><label>Municipio <span class="req">*</span></label><select id="municipio" required><option value="">— Selecciona municipio —</option><option>Amealco de Bonfil</option><option>Arroyo Seco</option><option>Cadereyta de Montes</option><option>Colón</option><option>Corregidora</option><option>El Marqués</option><option>Ezequiel Montes</option><option>Huimilpan</option><option>Jalpan de Serra</option><option>Landa de Matamoros</option><option>Pedro Escobedo</option><option>Peñamiller</option><option>Pinal de Amoles</option><option>Querétaro</option><option>San Joaquín</option><option>San Juan del Río</option><option>Tequisquiapan</option><option>Tolimán</option></select></div>
 <div class="field"><label>Localidad <span class="req">*</span></label><select id="localidad" required disabled><option value="">— Primero selecciona municipio —</option></select><input type="hidden" id="cve_municipio"><input type="hidden" id="cve_localidad"><input type="hidden" id="latitud_localidad"><input type="hidden" id="longitud_localidad"><input type="hidden" id="altitud_localidad"><input type="hidden" id="cvegeo"><input type="hidden" id="jurisdiccion"></div>
-<div class="field"><label>Contacto (teléfono)</label><input type="tel" id="telefono" placeholder="10 dígitos" inputmode="numeric" maxlength="10" pattern="[0-9]{10}" autocomplete="off" spellcheck="false"><small id="hint_telefono" class="validation-hint">Teléfono: faltan 10 dígitos</small></div>
+<div class="field"><label>Contacto (teléfono) <span class="req">*</span></label><input type="tel" id="telefono" placeholder="Capture al menos 1 dígito (idealmente 10)" inputmode="numeric" maxlength="10" pattern="[0-9]{1,10}" required autocomplete="off" spellcheck="false"><small id="hint_telefono" class="validation-hint">Mínimo 1 dígito. Idealmente capture los 10.</small></div>
 <div class="section-divider">Domicilio</div>
 <div class="field"><label>Calle</label><input type="text" id="domicilio_calle" placeholder="Ej. Av. Principal" autocomplete="off" spellcheck="false"></div>
 <div class="field"><label>Número exterior</label><input type="text" id="domicilio_numero_exterior" placeholder="Ej. 123, S/N"></div>
@@ -936,9 +936,9 @@ function actualizarHintsValidacion(){
   }
 
   if(tel.length===0){
-    setHint("hint_telefono","Teléfono: faltan 10 dígitos",false);
+    setHint("hint_telefono","Mínimo 1 dígito. Idealmente capture los 10.",false);
   }else if(tel.length<10){
-    setHint("hint_telefono","Teléfono: faltan "+(10-tel.length)+" dígitos",false);
+    setHint("hint_telefono","Teléfono incompleto ("+tel.length+"/10)",false);
   }else{
     setHint("hint_telefono","Teléfono completo",true);
   }
@@ -995,6 +995,11 @@ function validarCamposFormato(){
   var tel=v("telefono").trim();
   var cp=v("domicilio_cp").trim();
   var edad=v("edad").trim();
+
+  if(tel.length===0){
+    showToast("Capture al menos un dígito del teléfono.");
+    return false;
+  }
 
   if(edad){var n=parseInt(edad,10);if(isNaN(n)||n<0||n>120){showToast("La edad debe estar entre 0 y 120 años.");return false;}}
 
