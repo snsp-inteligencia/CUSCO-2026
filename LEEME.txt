@@ -1,12 +1,13 @@
-CUSCO 2026 v1.3.9 - MENSAJES CORREGIDOS
+CUSCO 2026 v1.4.0 – CUSKY TE ACOMPAÑA
 
-Reemplaza en GitHub exactamente:
+Archivos para GitHub:
 - index.html
 - manifest.json
 - service-worker.js
+- cusky_saludo.png
+- cusky_revision.png
+- cusky_exito.png
 
-No es necesario modificar Apps Script.
-
-Validación: debajo del título debe aparecer v1.3.9. Si no aparece, sigue cargada la versión anterior.
-
-El mensaje de Cusky ahora cambia de forma secuencial cada vez que recargas o vuelves a abrir la aplicación, evitando que el azar repita el mismo texto.
+No es necesario cambiar Apps Script para esta actualización visual.
+Después de subir los archivos, espera 1–2 minutos y recarga con Ctrl+F5.
+En teléfono/iPad, cierra por completo la app y vuelve a abrirla.

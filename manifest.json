@@ -1,7 +1,7 @@
 {
   "name": "CUSCO 2026",
   "short_name": "CUSCO",
-  "description": "Captura digital CUSCO 2026 v1.3.9 con folio institucional, mensajes dinámicos de acompañamiento, contador de personas, autenticación segura y funcionamiento offline.",
+  "description": "Captura digital CUSCO 2026 v1.4.0 con folio institucional, Cusky dinámico de acompañamiento, contador de personas, autenticación segura y funcionamiento offline.",
   "id": "/CUSCO-2026/",
   "start_url": "/CUSCO-2026/",
   "scope": "/CUSCO-2026/",
