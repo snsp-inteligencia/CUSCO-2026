@@ -1,7 +1,7 @@
 {
   "name": "CUSCO 2026",
-  "short_name": "CUSCO",
-  "description": "Captura digital CUSCO 2026 v1.4.3 con corrección de capturas consecutivas, reinicio completo de controles, limpieza de PHQ-9, IMC e ICC, autenticación segura y funcionamiento offline.",
+  "short_name": "CUSCO 2026",
+  "description": "CUSCO 2026 v2.0.0: captura offline, sincronización, administración de registros y folios únicos protegidos mediante LockService.",
   "id": "/CUSCO-2026/",
   "start_url": "/CUSCO-2026/",
   "scope": "/CUSCO-2026/",
