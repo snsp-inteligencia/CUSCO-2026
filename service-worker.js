@@ -1,5 +1,5 @@
 /* CUSCO 2026 Service Worker v2.0.0 */
-const CACHE_NAME = "cusco-2026-v2-0-0";
+const CACHE_NAME = "cusco-2026-v2-0-0-release-20261016";
 const BASE_PATH = "/CUSCO-2026/";
 const INDEX_URL = BASE_PATH + "index.html";
 
@@ -47,7 +47,7 @@ self.addEventListener("activate", event => {
     const keys = await caches.keys();
     await Promise.all(
       keys
-        .filter(key => key.startsWith("cusco-2026-") && key !== CACHE_NAME)
+        .filter(key => (key.startsWith("cusco-") || key.startsWith("cusco_")) && key !== CACHE_NAME)
         .map(key => caches.delete(key))
     );
     await self.clients.claim();
